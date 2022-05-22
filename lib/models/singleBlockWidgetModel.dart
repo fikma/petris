@@ -1,0 +1,13 @@
+import 'dart:math';
+
+import 'package:flutter/material.dart';
+
+class SingleBlockWidgetModel {
+  final Point position;
+
+  late final Function update;
+  final double size = 30.0;
+  Color color = Colors.redAccent;
+
+  SingleBlockWidgetModel({required this.position});
+}
