@@ -17,14 +17,20 @@ class _SingleBlockWidgetState extends State<SingleBlockWidget> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    BoardWidgetLogic().setSingleBlockCallback(
-      context,
-      widget.model.position.x as int,
-      widget.model.position.y as int,
-      updateCallback,
-    );
+  void didChangeDependencies() {
+    // TODO: implement didChangeDependencies
+    super.didChangeDependencies();
 
+    BoardWidgetLogic().setSingleBlockCallback(
+      widget.model.position.x.toInt(),
+      widget.model.position.y.toInt(),
+      updateCallback,
+      GamePageInheritedWidget.of(context)?.getBoardWidgetModel.boardList,
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Container(
       width: widget.model.size,
       height: widget.model.size,

@@ -49,16 +49,22 @@ class BoardWidgetLogic {
   }
 
   void setSingleBlockCallback(
-    BuildContext context,
     int x,
     int y,
     VoidCallback callback,
+    List<List<SingleBlockWidgetModel>>? data,
   ) {
-    if (context != null) {
-      var model = GamePageInheritedWidget.of(context)
-          ?.getBoardWidgetModel
-          .boardList[x as int][y as int];
-      model?.update = callback;
+    // if (context != null) {
+    //   var model = GamePageInheritedWidget.of(context)
+    //       ?.getBoardWidgetModel
+    //       .boardList[x as int][y as int];
+    //   model?.update = callback;
+    // }
+    var model = data![x][y];
+    if (model != null) {
+      model.updateCallback = callback;
+
+      data[x][y] = model;
     }
   }
 }
