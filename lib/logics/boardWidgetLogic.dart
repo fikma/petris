@@ -1,40 +1,64 @@
 import 'dart:math';
 
 import 'package:flutter/widgets.dart';
-import 'package:petris/models/boardWidgetModel.dart';
 import 'package:petris/models/singleBlockWidgetModel.dart';
+import 'package:petris/pages/widget/gamePageInheritedWidget.dart';
 import 'package:petris/pages/widget/singleBlockWidget.dart';
 
 class BoardWidgetLogic {
-  final BoardWidgetModel model;
-
-  BoardWidgetLogic(this.model);
-
-  // column yang berisi children kumpulan row
-  Column generateBoard() {
-    List<Row> rowList = []; // digunakan untuk children column
-
-    for (int baris = 0; baris < 20; baris++) {
-      List<SingleBlockWidget> barisTetrisData = [];
-
-      for (int kolom = 0; kolom < 10; kolom++) {
-        var blockModel = SingleBlockWidgetModel(
+  List<List<SingleBlockWidgetModel>> initializedBoardListModel() {
+    List<List<SingleBlockWidgetModel>> data = [];
+    for (var baris = 0; baris < 20; baris++) {
+      List<SingleBlockWidgetModel> temp = [];
+      for (var kolom = 0; kolom < 10; kolom++) {
+        var model = SingleBlockWidgetModel(
           position: Point(baris, kolom),
         );
-        barisTetrisData.add(SingleBlockWidget(model: blockModel));
-        model.boardList.add(blockModel);
+        temp.add(model);
       }
-
-      Row barisTetrisWidget = Row(
-        children: barisTetrisData,
-      );
-
-      rowList.add(barisTetrisWidget);
+      data.add(temp);
     }
-    var column = Column(
-      children: rowList,
+
+    return data;
+  }
+
+  // column yang berisi children kumpulan row
+  Column generateBoard(BuildContext? context) {
+    List<Row> rowTetrisWidgetCollections = [];
+
+    var modelCollection =
+        GamePageInheritedWidget.of(context!)?.getBoardWidgetModel.boardList;
+    if (modelCollection != null) {
+      modelCollection.forEach((rowModel) {
+        List<SingleBlockWidget> temp = [];
+        rowModel.forEach((columnModel) {
+          temp.add(SingleBlockWidget(model: columnModel));
+        });
+        Row barisWidget = Row(
+          children: temp,
+        );
+        rowTetrisWidgetCollections.add(barisWidget);
+      });
+    }
+
+    Column column = Column(
+      children: rowTetrisWidgetCollections,
     );
 
     return column;
+  }
+
+  void setSingleBlockCallback(
+    BuildContext context,
+    int x,
+    int y,
+    VoidCallback callback,
+  ) {
+    if (context != null) {
+      var model = GamePageInheritedWidget.of(context)
+          ?.getBoardWidgetModel
+          .boardList[x as int][y as int];
+      model?.update = callback;
+    }
   }
 }

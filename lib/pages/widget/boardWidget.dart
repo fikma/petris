@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:petris/logics/boardWidgetLogic.dart';
 import 'package:petris/pages/widget/gamePageInheritedWidget.dart';
 
 class BoardWidget extends StatelessWidget {
@@ -6,8 +7,9 @@ class BoardWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GamePageInheritedWidget.of(context)!
-        .getBoardWidgetLogic
-        .generateBoard();
+    var model = GamePageInheritedWidget.of(context)?.getBoardWidgetModel;
+    model?.boardList = BoardWidgetLogic().initializedBoardListModel();
+
+    return BoardWidgetLogic().generateBoard(context);
   }
 }

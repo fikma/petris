@@ -1,18 +1,16 @@
 import 'package:flutter/widgets.dart';
-import 'package:petris/logics/boardWidgetLogic.dart';
 import 'package:petris/models/boardWidgetModel.dart';
+import 'package:petris/models/tetrisBlockModel.dart';
 
 // ioc container untuk gamePage only
 class GamePageInheritedWidget extends InheritedWidget {
   final BoardWidgetModel _boardWidgetModel = BoardWidgetModel();
+  final TetrisBlockModel _tetrisBlockModel = TetrisBlockModel();
 
-  final BoardWidgetLogic _boardWidgetLogic =
-      new BoardWidgetLogic(BoardWidgetModel());
-
-  GamePageInheritedWidget({required super.child});
+  GamePageInheritedWidget({Key? key, required super.child}) : super(key: key);
 
   BoardWidgetModel get getBoardWidgetModel => _boardWidgetModel;
-  BoardWidgetLogic get getBoardWidgetLogic => _boardWidgetLogic;
+  TetrisBlockModel get getTetrisBlockModel => _tetrisBlockModel;
 
   static GamePageInheritedWidget? of(BuildContext context) {
     return context
