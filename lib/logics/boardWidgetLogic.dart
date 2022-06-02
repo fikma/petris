@@ -29,6 +29,7 @@ class BoardWidgetLogic {
     var modelCollection =
         GamePageInheritedWidget.of(context!)?.getBoardWidgetModel.boardList;
     if (modelCollection != null) {
+      // ignore: avoid_function_literals_in_foreach_calls
       modelCollection.forEach((rowModel) {
         List<SingleBlockWidget> temp = [];
         rowModel.forEach((columnModel) {

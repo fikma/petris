@@ -35,11 +35,13 @@ class _SingleBlockWidgetState extends State<SingleBlockWidget> {
       width: widget.model.size,
       height: widget.model.size,
       color: widget.model.color,
-      child: Text(
-        '${widget.model.position.x}:${widget.model.position.y}',
-        style: TextStyle(
-          fontSize: 10.0,
-          color: Colors.redAccent[50],
+      child: Center(
+        child: Text(
+          '${widget.model.position.x}:${widget.model.position.y}',
+          style: TextStyle(
+            fontSize: 8.0,
+            color: Colors.redAccent[50],
+          ),
         ),
       ),
     );

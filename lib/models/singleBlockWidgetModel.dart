@@ -7,7 +7,7 @@ class SingleBlockWidgetModel {
 
   late final Function updateCallback;
   final double size = 30.0;
-  Color color = Colors.redAccent;
+  Color color = Colors.black;
 
   SingleBlockWidgetModel({required this.position});
 }
