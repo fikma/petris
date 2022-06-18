@@ -21,7 +21,7 @@ class _SingleBlockWidgetState extends State<SingleBlockWidget> {
     // TODO: implement didChangeDependencies
     super.didChangeDependencies();
 
-    BoardWidgetLogic().setSingleBlockCallback(
+    BoardWidgetLogic.setSingleBlockCallback(
       widget.model.position.x.toInt(),
       widget.model.position.y.toInt(),
       updateCallback,
@@ -40,7 +40,7 @@ class _SingleBlockWidgetState extends State<SingleBlockWidget> {
           '${widget.model.position.x}:${widget.model.position.y}',
           style: TextStyle(
             fontSize: 8.0,
-            color: Colors.redAccent[50],
+            color: Colors.red,
           ),
         ),
       ),

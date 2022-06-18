@@ -1,22 +1,38 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:petris/logics/boardWidgetLogic.dart';
 import 'package:petris/logics/tetrisBlockLogic.dart';
-import 'package:petris/models/tetrisBlockModel.dart';
+import 'package:petris/models/boardWidgetModel.dart';
 import 'package:petris/pages/widget/gamePageInheritedWidget.dart';
 
-class BoardWidget extends StatelessWidget {
+class BoardWidget extends StatefulWidget {
   const BoardWidget({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    var model = GamePageInheritedWidget.of(context)?.getBoardWidgetModel;
-    model?.boardList = BoardWidgetLogic().initializedBoardListModel();
+  State<BoardWidget> createState() => _BoardWidgetState();
+}
 
-    TetrisBlockLogic().setTetrisBlockToBoard(
-      tetrisBlockModel: TetrisBlockModel(),
-      boards: model?.boardList,
+class _BoardWidgetState extends State<BoardWidget> {
+  late final BoardWidgetModel model;
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    model = GamePageInheritedWidget.of(context)!.getBoardWidgetModel;
+    model.boardList = BoardWidgetLogic.initBoardListModel();
+    var tetrisBlock = GamePageInheritedWidget.of(context)!.getTetrisBlockModel;
+
+    TetrisBlockLogic.moveTo(
+        direction: const Point(1, 1), tetrisBlockModel: tetrisBlock);
+    TetrisBlockLogic.setTetrisBlockToBoard(
+      tetrisBlockModel: tetrisBlock,
+      boards: model.boardList,
     );
+  }
 
-    return BoardWidgetLogic().generateBoard(context);
+  @override
+  Widget build(BuildContext context) {
+    return BoardWidgetLogic.generateBoard(model.boardList);
   }
 }

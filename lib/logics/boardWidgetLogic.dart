@@ -6,13 +6,13 @@ import 'package:petris/pages/widget/gamePageInheritedWidget.dart';
 import 'package:petris/pages/widget/singleBlockWidget.dart';
 
 class BoardWidgetLogic {
-  List<List<SingleBlockWidgetModel>> initializedBoardListModel() {
+  static List<List<SingleBlockWidgetModel>> initBoardListModel() {
     List<List<SingleBlockWidgetModel>> data = [];
-    for (var baris = 0; baris < 20; baris++) {
+    for (var xCount = 0; xCount < 10; xCount++) {
       List<SingleBlockWidgetModel> temp = [];
-      for (var kolom = 0; kolom < 10; kolom++) {
+      for (var yCount = 0; yCount < 20; yCount++) {
         var model = SingleBlockWidgetModel(
-          position: Point(baris, kolom),
+          position: Point(xCount, yCount),
         );
         temp.add(model);
       }
@@ -23,44 +23,36 @@ class BoardWidgetLogic {
   }
 
   // column yang berisi children kumpulan row
-  Column generateBoard(BuildContext? context) {
-    List<Row> rowTetrisWidgetCollections = [];
+  static Row generateBoard(List<List<SingleBlockWidgetModel>> boardList) {
+    List<Column> rowTetrisWidgetCollections = [];
 
-    var modelCollection =
-        GamePageInheritedWidget.of(context!)?.getBoardWidgetModel.boardList;
-    if (modelCollection != null) {
-      // ignore: avoid_function_literals_in_foreach_calls
-      modelCollection.forEach((rowModel) {
-        List<SingleBlockWidget> temp = [];
-        rowModel.forEach((columnModel) {
-          temp.add(SingleBlockWidget(model: columnModel));
-        });
-        Row barisWidget = Row(
-          children: temp,
-        );
-        rowTetrisWidgetCollections.add(barisWidget);
+    boardList.forEach((y) {
+      List<SingleBlockWidget> singleBlockWidgetList = [];
+
+      y.forEach((x) {
+        singleBlockWidgetList.add(SingleBlockWidget(
+          model: x,
+        ));
       });
-    }
 
-    Column column = Column(
+      rowTetrisWidgetCollections.add(Column(
+        children: singleBlockWidgetList,
+      ));
+    });
+
+    Row baris = Row(
       children: rowTetrisWidgetCollections,
     );
 
-    return column;
+    return baris;
   }
 
-  void setSingleBlockCallback(
+  static void setSingleBlockCallback(
     int x,
     int y,
     VoidCallback callback,
     List<List<SingleBlockWidgetModel>>? data,
   ) {
-    // if (context != null) {
-    //   var model = GamePageInheritedWidget.of(context)
-    //       ?.getBoardWidgetModel
-    //       .boardList[x as int][y as int];
-    //   model?.update = callback;
-    // }
     var model = data![x][y];
     if (model != null) {
       model.updateCallback = callback;
