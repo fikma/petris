@@ -24,7 +24,8 @@ class _BoardWidgetState extends State<BoardWidget> {
     var tetrisBlock = GamePageInheritedWidget.of(context)!.getTetrisBlockModel;
 
     TetrisBlockLogic.moveTo(
-        direction: const Point(1, 1), tetrisBlockModel: tetrisBlock);
+        direction: const Point(4, 4), tetrisBlockModel: tetrisBlock);
+    TetrisBlockLogic.rotate(tetrisBlockModel: tetrisBlock);
     TetrisBlockLogic.setTetrisBlockToBoard(
       tetrisBlockModel: tetrisBlock,
       boards: model.boardList,
