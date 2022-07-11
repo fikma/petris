@@ -13,12 +13,12 @@ class TetrisBlockLogic {
     bool rotateClockwise = true,
     int rotationOriginIndex = 0,
   }) {
-    rotationOriginIndex = (rotationOriginIndex < tetrisBlockModel.blocks.length)
-        ? 0
-        : rotationOriginIndex;
     rotationOriginIndex = (rotationOriginIndex > tetrisBlockModel.blocks.length)
         ? tetrisBlockModel.blocks.length - 1
         : rotationOriginIndex;
+    rotationOriginIndex = (rotationOriginIndex < tetrisBlockModel.blocks.length)
+        ? rotationOriginIndex
+        : 0;
     Point rotationOrigin =
         tetrisBlockModel.blocks[rotationOriginIndex].position;
 
