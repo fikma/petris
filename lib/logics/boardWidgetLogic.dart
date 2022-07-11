@@ -1,7 +1,6 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:petris/models/singleBlockWidgetModel.dart';
 import 'package:petris/pages/widget/singleBlockWidget.dart';
 
@@ -26,19 +25,19 @@ class BoardWidgetLogic {
   static Center generateBoard(List<List<SingleBlockWidgetModel>> boardList) {
     List<Column> rowTetrisWidgetCollections = [];
 
-    boardList.forEach((y) {
+    for (var y in boardList) {
       List<SingleBlockWidget> singleBlockWidgetList = [];
 
-      y.forEach((x) {
+      for (var x in y) {
         singleBlockWidgetList.add(SingleBlockWidget(
           model: x,
         ));
-      });
+      }
 
       rowTetrisWidgetCollections.add(Column(
         children: singleBlockWidgetList,
       ));
-    });
+    }
 
     Row baris = Row(
       children: rowTetrisWidgetCollections,
