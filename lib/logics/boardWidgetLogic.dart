@@ -2,7 +2,6 @@ import 'dart:math';
 
 import 'package:flutter/widgets.dart';
 import 'package:petris/models/singleBlockWidgetModel.dart';
-import 'package:petris/pages/widget/gamePageInheritedWidget.dart';
 import 'package:petris/pages/widget/singleBlockWidget.dart';
 
 class BoardWidgetLogic {
