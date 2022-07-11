@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:petris/models/singleBlockWidgetModel.dart';
 import 'package:petris/pages/widget/singleBlockWidget.dart';
@@ -22,7 +23,7 @@ class BoardWidgetLogic {
   }
 
   // column yang berisi children kumpulan row
-  static Row generateBoard(List<List<SingleBlockWidgetModel>> boardList) {
+  static Center generateBoard(List<List<SingleBlockWidgetModel>> boardList) {
     List<Column> rowTetrisWidgetCollections = [];
 
     boardList.forEach((y) {
@@ -43,7 +44,14 @@ class BoardWidgetLogic {
       children: rowTetrisWidgetCollections,
     );
 
-    return baris;
+    return Center(
+      child: Container(
+        width: boardList[0][0].size * 10,
+        height: boardList[0][0].size * 20,
+        color: Colors.blue,
+        child: baris,
+      ),
+    );
   }
 
   static void setSingleBlockCallback(
