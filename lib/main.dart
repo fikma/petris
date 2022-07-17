@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:petris/pages/gamePage.dart';
+import 'package:petris/pages/widget/gamePageInheritedWidget.dart';
 
 void main() {
   runApp(const MyApp());
@@ -14,7 +15,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const GamePage(),
+      home: GamePageInheritedWidget(child: const GamePage()),
     );
   }
 }

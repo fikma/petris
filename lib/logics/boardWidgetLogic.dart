@@ -11,8 +11,7 @@ class BoardWidgetLogic {
       List<SingleBlockWidgetModel> temp = [];
       for (var yCount = 0; yCount < 20; yCount++) {
         var model = SingleBlockWidgetModel(
-          position: Point(xCount, yCount),
-        );
+            position: Point(xCount, yCount), color: Colors.black);
         temp.add(model);
       }
       data.add(temp);
@@ -56,7 +55,7 @@ class BoardWidgetLogic {
   static void setSingleBlockCallback(
     int x,
     int y,
-    VoidCallback callback,
+    Function(String) callback,
     List<List<SingleBlockWidgetModel>>? data,
   ) {
     var model = data![x][y];

@@ -12,10 +12,6 @@ class SingleBlockWidget extends StatefulWidget {
 }
 
 class _SingleBlockWidgetState extends State<SingleBlockWidget> {
-  void updateCallback() {
-    print("test");
-  }
-
   @override
   void didChangeDependencies() {
     // TODO: implement didChangeDependencies
@@ -24,8 +20,10 @@ class _SingleBlockWidgetState extends State<SingleBlockWidget> {
     BoardWidgetLogic.setSingleBlockCallback(
       widget.model.position.x.toInt(),
       widget.model.position.y.toInt(),
-      updateCallback,
-      GamePageInheritedWidget.of(context)?.getBoardWidgetModel.boardList,
+      (String hello) {
+        setState(() {});
+      },
+      GamePageInheritedWidget.of(context)!.getBoardWidgetModel.boardList,
     );
   }
 

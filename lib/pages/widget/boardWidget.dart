@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:petris/components/boardWidgetComponent.dart';
 import 'package:petris/logics/boardWidgetLogic.dart';
 import 'package:petris/logics/tetrisBlockLogic.dart';
 import 'package:petris/models/boardWidgetModel.dart';
@@ -19,16 +20,20 @@ class _BoardWidgetState extends State<BoardWidget> {
   void didChangeDependencies() {
     super.didChangeDependencies();
 
+    var gamePageModel = GamePageInheritedWidget.of(context)!.getGamePageModel;
+
     model = GamePageInheritedWidget.of(context)!.getBoardWidgetModel;
     model.boardList = BoardWidgetLogic.initBoardListModel();
+
     var tetrisBlock = GamePageInheritedWidget.of(context)!.getTetrisBlockModel;
 
     TetrisBlockLogic.moveTo(
         direction: const Point(4, 4), tetrisBlockModel: tetrisBlock);
-    TetrisBlockLogic.rotate(tetrisBlockModel: tetrisBlock);
-    TetrisBlockLogic.setTetrisBlockToBoard(
-      tetrisBlockModel: tetrisBlock,
-      boards: model.boardList,
+
+    BoardWidgetComponent(
+      gamePageModel: gamePageModel,
+      state: tetrisBlock,
+      boardWidgetModel: model,
     );
   }
 

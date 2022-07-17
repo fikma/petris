@@ -1,6 +1,5 @@
 import 'dart:math';
 
-import 'package:flutter/material.dart';
 import 'package:petris/models/tetrisBlockModel.dart';
 
 import '../models/singleBlockWidgetModel.dart';
@@ -50,11 +49,23 @@ class TetrisBlockLogic {
     required TetrisBlockModel tetrisBlockModel,
     required List<List<SingleBlockWidgetModel>> boards,
   }) {
-    tetrisBlockModel.blocks.forEach((item) {
-      var blockModel = item;
-      blockModel.color = Colors.white;
-      boards[blockModel.position.x.toInt()][blockModel.position.y.toInt()] =
-          blockModel;
-    });
+    for (var item in tetrisBlockModel.blocks) {
+      boards[item.position.x.toInt()][item.position.y.toInt()].color =
+          item.color;
+      boards[item.position.x.toInt()][item.position.y.toInt()]
+          .updateCallback("updated!!!!!");
+    }
+  }
+
+  static void clear({
+    required TetrisBlockModel tetrisBlockModel,
+    required List<List<SingleBlockWidgetModel>> boards,
+  }) {
+    for (var item in tetrisBlockModel.blocks) {
+      int x = item.position.x.toInt();
+      int y = item.position.y.toInt();
+      boards[x][y].color = boards[0][0].color;
+      boards[x][y].updateCallback("updated!!!!!");
+    }
   }
 }
