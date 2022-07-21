@@ -1,17 +1,21 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:petris/configs/boardConfig.dart';
 import 'package:petris/models/singleBlockWidgetModel.dart';
 import 'package:petris/pages/widget/singleBlockWidget.dart';
 
 class BoardWidgetLogic {
   static List<List<SingleBlockWidgetModel>> initBoardListModel() {
     List<List<SingleBlockWidgetModel>> data = [];
-    for (var xCount = 0; xCount < 10; xCount++) {
+    for (var xCount = 0; xCount < BoardConfig.xSize; xCount++) {
       List<SingleBlockWidgetModel> temp = [];
-      for (var yCount = 0; yCount < 20; yCount++) {
+      for (var yCount = 0; yCount < BoardConfig.ySize; yCount++) {
         var model = SingleBlockWidgetModel(
-            position: Point(xCount, yCount), color: Colors.black);
+          position: Point(xCount, yCount),
+          color: Colors.black,
+          size: BoardConfig.blockSize,
+        );
         temp.add(model);
       }
       data.add(temp);
@@ -44,8 +48,8 @@ class BoardWidgetLogic {
 
     return Center(
       child: Container(
-        width: boardList[0][0].size * 10,
-        height: boardList[0][0].size * 20,
+        width: BoardConfig.blockSize * BoardConfig.xSize,
+        height: BoardConfig.blockSize * BoardConfig.ySize,
         color: Colors.blue,
         child: baris,
       ),
