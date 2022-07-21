@@ -1,9 +1,8 @@
 import 'dart:math';
 
+import 'package:petris/configs/boardConfig.dart';
 import 'package:petris/models/boardWidgetModel.dart';
 import 'package:petris/models/tetrisBlockModel.dart';
-
-import '../models/singleBlockWidgetModel.dart';
 
 class TetrisBlockLogic {
   void resetTetrisBlock() {}
@@ -71,5 +70,16 @@ class TetrisBlockLogic {
           boardWidgetModel.boardList[0][0].color;
       boardWidgetModel.boardList[x][y].updateCallback("updated!!!!!");
     }
+  }
+
+  static bool isBlockOutsideBoard(TetrisBlockModel tetrisBlockModel) {
+    for (var block in tetrisBlockModel.blocks) {
+      bool outSideLeft = block.position.x < BoardConfig.xSize;
+      bool outSideRight = block.position.x > BoardConfig.xSize - 1;
+      if (outSideLeft || outSideRight) {
+        return true;
+      }
+    }
+    return false;
   }
 }
