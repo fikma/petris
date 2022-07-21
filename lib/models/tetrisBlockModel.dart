@@ -5,6 +5,8 @@ import 'package:petris/configs/boardConfig.dart';
 import 'package:petris/models/singleBlockWidgetModel.dart';
 
 class TetrisBlockModel {
+  Point gravity = const Point(0, -1);
+
   List<SingleBlockWidgetModel> blocks = [
     SingleBlockWidgetModel(
       position: Point(0, 0),

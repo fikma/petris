@@ -32,7 +32,7 @@ class _BoardWidgetState extends State<BoardWidget> {
 
     BoardWidgetComponent(
       gamePageModel: gamePageModel,
-      state: tetrisBlock,
+      tetrisBlockModel: tetrisBlock,
       boardWidgetModel: boardWidgetModel,
     );
   }

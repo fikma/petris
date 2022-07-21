@@ -6,13 +6,13 @@ import 'package:petris/models/tetrisBlockModel.dart';
 import '../logics/tetrisBlockLogic.dart';
 
 class BoardWidgetComponent implements BaseComponent {
-  late TetrisBlockModel state;
+  late TetrisBlockModel tetrisBlockModel;
   late BoardWidgetModel boardWidgetModel;
   late GamePageModel gamePageModel;
 
   BoardWidgetComponent({
     required this.gamePageModel,
-    required this.state,
+    required this.tetrisBlockModel,
     required this.boardWidgetModel,
   }) {
     gamePageModel.components.add(this);
@@ -20,14 +20,14 @@ class BoardWidgetComponent implements BaseComponent {
   @override
   void update() {
     TetrisBlockLogic.clear(
-      tetrisBlockModel: state,
+      tetrisBlockModel: tetrisBlockModel,
       boardWidgetModel: boardWidgetModel,
     );
 
-    TetrisBlockLogic.rotate(tetrisBlockModel: state);
+    TetrisBlockLogic.rotate(tetrisBlockModel: tetrisBlockModel);
 
     TetrisBlockLogic.setTetrisBlockToBoard(
-      tetrisBlockModel: state,
+      tetrisBlockModel: tetrisBlockModel,
       boardWidgetModel: boardWidgetModel,
     );
   }
