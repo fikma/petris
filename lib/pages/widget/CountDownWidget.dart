@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:petris/configs/boardConfig.dart';
 import 'package:petris/models/countDownWidgetModel.dart';
 import 'package:petris/models/gamePageModel.dart';
 import 'package:petris/pages/widget/gamePageInheritedWidget.dart';
@@ -34,7 +35,7 @@ class _CountDownWidgetState extends State<CountDownWidget> {
   }
 
   void CountDownCallback() {
-    model.timer = Timer.periodic(model.countDownDuration, (timer) {
+    model.timer = Timer.periodic(BoardConfig.loopDuration, (timer) {
       setState(() {
         model.text = model.counter.toString();
         model.countStarted = true;

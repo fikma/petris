@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:petris/components/baseComponent.dart';
+import 'package:petris/configs/boardConfig.dart';
 import 'package:petris/models/gamePageModel.dart';
 
 class GamePageComponent implements BaseComponent {
@@ -10,7 +11,7 @@ class GamePageComponent implements BaseComponent {
 
   @override
   void update() {
-    pageState.loop = Timer.periodic(const Duration(milliseconds: 500), (timer) {
+    pageState.loop = Timer.periodic(BoardConfig.loopDuration, (timer) {
       if (!pageState.paused) {
         for (var element in pageState.components) {
           element.update();
