@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:petris/configs/boardConfig.dart';
+import 'package:petris/models/boardWidgetModel.dart';
 import 'package:petris/models/singleBlockWidgetModel.dart';
 import 'package:petris/pages/widget/singleBlockWidget.dart';
 
@@ -25,10 +26,12 @@ class BoardWidgetLogic {
   }
 
   // column yang berisi children kumpulan row
-  static Center generateBoard(List<List<SingleBlockWidgetModel>> boardList) {
+  static Center generateBoard(
+    BoardWidgetModel boardWidgetModel,
+  ) {
     List<Column> rowTetrisWidgetCollections = [];
 
-    for (var y in boardList) {
+    for (var y in boardWidgetModel.boardList) {
       List<SingleBlockWidget> singleBlockWidgetList = [];
 
       for (var x in y) {
@@ -60,13 +63,13 @@ class BoardWidgetLogic {
     int x,
     int y,
     Function(String) callback,
-    List<List<SingleBlockWidgetModel>>? data,
+    BoardWidgetModel boardWidgetModel,
   ) {
-    var model = data![x][y];
+    var model = boardWidgetModel.boardList[x][y];
     if (model != null) {
       model.updateCallback = callback;
 
-      data[x][y] = model;
+      boardWidgetModel.boardList[x][y] = model;
     }
   }
 }

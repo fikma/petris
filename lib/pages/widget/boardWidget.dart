@@ -15,15 +15,15 @@ class BoardWidget extends StatefulWidget {
 }
 
 class _BoardWidgetState extends State<BoardWidget> {
-  late final BoardWidgetModel model;
+  late final BoardWidgetModel boardWidgetModel;
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
 
     var gamePageModel = GamePageInheritedWidget.of(context)!.getGamePageModel;
 
-    model = GamePageInheritedWidget.of(context)!.getBoardWidgetModel;
-    model.boardList = BoardWidgetLogic.initBoardListModel();
+    boardWidgetModel = GamePageInheritedWidget.of(context)!.getBoardWidgetModel;
+    boardWidgetModel.boardList = BoardWidgetLogic.initBoardListModel();
 
     var tetrisBlock = GamePageInheritedWidget.of(context)!.getTetrisBlockModel;
 
@@ -33,12 +33,12 @@ class _BoardWidgetState extends State<BoardWidget> {
     BoardWidgetComponent(
       gamePageModel: gamePageModel,
       state: tetrisBlock,
-      boardWidgetModel: model,
+      boardWidgetModel: boardWidgetModel,
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    return BoardWidgetLogic.generateBoard(model.boardList);
+    return BoardWidgetLogic.generateBoard(boardWidgetModel);
   }
 }

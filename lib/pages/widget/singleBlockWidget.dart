@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:petris/logics/boardWidgetLogic.dart';
+import 'package:petris/models/boardWidgetModel.dart';
 import 'package:petris/models/singleBlockWidgetModel.dart';
 import 'package:petris/pages/widget/gamePageInheritedWidget.dart';
 
@@ -12,10 +13,13 @@ class SingleBlockWidget extends StatefulWidget {
 }
 
 class _SingleBlockWidgetState extends State<SingleBlockWidget> {
+  late final BoardWidgetModel boardWidgetModel;
   @override
   void didChangeDependencies() {
     // TODO: implement didChangeDependencies
     super.didChangeDependencies();
+
+    boardWidgetModel = GamePageInheritedWidget.of(context)!.getBoardWidgetModel;
 
     BoardWidgetLogic.setSingleBlockCallback(
       widget.model.position.x.toInt(),
@@ -23,7 +27,7 @@ class _SingleBlockWidgetState extends State<SingleBlockWidget> {
       (String hello) {
         setState(() {});
       },
-      GamePageInheritedWidget.of(context)!.getBoardWidgetModel.boardList,
+      boardWidgetModel,
     );
   }
 
@@ -37,7 +41,7 @@ class _SingleBlockWidgetState extends State<SingleBlockWidget> {
         child: Text(
           '${widget.model.position.x}:${widget.model.position.y}',
           style: TextStyle(
-            fontSize: 8.0,
+            fontSize: 10.0,
             color: Colors.red,
           ),
         ),

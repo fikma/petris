@@ -21,14 +21,14 @@ class BoardWidgetComponent implements BaseComponent {
   void update() {
     TetrisBlockLogic.clear(
       tetrisBlockModel: state,
-      boards: boardWidgetModel.boardList,
+      boardWidgetModel: boardWidgetModel,
     );
 
     TetrisBlockLogic.rotate(tetrisBlockModel: state);
 
     TetrisBlockLogic.setTetrisBlockToBoard(
       tetrisBlockModel: state,
-      boards: boardWidgetModel.boardList,
+      boardWidgetModel: boardWidgetModel,
     );
   }
 }

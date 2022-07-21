@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:petris/models/boardWidgetModel.dart';
 import 'package:petris/models/tetrisBlockModel.dart';
 
 import '../models/singleBlockWidgetModel.dart';
@@ -47,25 +48,28 @@ class TetrisBlockLogic {
 
   static void setTetrisBlockToBoard({
     required TetrisBlockModel tetrisBlockModel,
-    required List<List<SingleBlockWidgetModel>> boards,
+    required BoardWidgetModel boardWidgetModel,
   }) {
     for (var item in tetrisBlockModel.blocks) {
-      boards[item.position.x.toInt()][item.position.y.toInt()].color =
-          item.color;
-      boards[item.position.x.toInt()][item.position.y.toInt()]
+      boardWidgetModel
+          .boardList[item.position.x.toInt()][item.position.y.toInt()]
+          .color = item.color;
+      boardWidgetModel.boardList[item.position.x.toInt()]
+              [item.position.y.toInt()]
           .updateCallback("updated!!!!!");
     }
   }
 
   static void clear({
     required TetrisBlockModel tetrisBlockModel,
-    required List<List<SingleBlockWidgetModel>> boards,
+    required BoardWidgetModel boardWidgetModel,
   }) {
     for (var item in tetrisBlockModel.blocks) {
       int x = item.position.x.toInt();
       int y = item.position.y.toInt();
-      boards[x][y].color = boards[0][0].color;
-      boards[x][y].updateCallback("updated!!!!!");
+      boardWidgetModel.boardList[x][y].color =
+          boardWidgetModel.boardList[0][0].color;
+      boardWidgetModel.boardList[x][y].updateCallback("updated!!!!!");
     }
   }
 }
