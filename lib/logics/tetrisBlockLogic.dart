@@ -74,9 +74,10 @@ class TetrisBlockLogic {
 
   static bool isBlockOutsideBoard(TetrisBlockModel tetrisBlockModel) {
     for (var block in tetrisBlockModel.blocks) {
-      bool outSideLeft = block.position.x < BoardConfig.xSize;
+      bool outSideLeft = block.position.x < 0;
       bool outSideRight = block.position.x > BoardConfig.xSize - 1;
-      if (outSideLeft || outSideRight) {
+      bool outSideBottom = block.position.y > BoardConfig.ySize - 1;
+      if (outSideLeft || outSideRight || outSideBottom) {
         return true;
       }
     }

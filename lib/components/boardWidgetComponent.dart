@@ -1,3 +1,4 @@
+import 'package:petris/commands/moveComponentCommand.dart';
 import 'package:petris/components/baseComponent.dart';
 import 'package:petris/models/boardWidgetModel.dart';
 import 'package:petris/models/gamePageModel.dart';
@@ -24,7 +25,10 @@ class BoardWidgetComponent implements BaseComponent {
       boardWidgetModel: boardWidgetModel,
     );
 
-    TetrisBlockLogic.rotate(tetrisBlockModel: tetrisBlockModel);
+    MoveComponentCommand().execute(this);
+    if (TetrisBlockLogic.isBlockOutsideBoard(tetrisBlockModel)) {
+      MoveComponentCommand().undo(this);
+    }
 
     TetrisBlockLogic.setTetrisBlockToBoard(
       tetrisBlockModel: tetrisBlockModel,
