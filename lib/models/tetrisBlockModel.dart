@@ -4,6 +4,15 @@ import 'package:flutter/material.dart';
 import 'package:petris/configs/boardConfig.dart';
 import 'package:petris/models/singleBlockWidgetModel.dart';
 
+enum TetrisType {
+  board,
+  tetromino,
+  crossBom,
+  xBom,
+  yBom,
+  randomizeTetrominosType
+}
+
 class TetrisBlockModel {
   Point gravity = const Point(0, 1);
 
