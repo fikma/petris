@@ -8,14 +8,14 @@ class SingleBlockWidgetModel {
 
   late final Function(String) updateCallback;
   final double size;
-  Color color = Colors.black;
+  Color color;
 
   TetrisType type;
 
   SingleBlockWidgetModel({
     required this.position,
-    required this.color,
     required this.size,
+    this.color = Colors.black,
     this.type = TetrisType.board,
   });
 }
