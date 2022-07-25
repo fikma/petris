@@ -15,7 +15,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: GamePageInheritedWidget(child: const GamePage()),
+      home: GamePageInheritedWidget(child: GamePage()),
     );
   }
 }

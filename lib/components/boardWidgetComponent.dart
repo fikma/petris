@@ -7,32 +7,39 @@ import 'package:petris/models/tetrisBlockModel.dart';
 import '../logics/tetrisBlockLogic.dart';
 
 class BoardWidgetComponent implements BaseComponent {
-  late TetrisBlockModel tetrisBlockModel;
-  late BoardWidgetModel boardWidgetModel;
-  late GamePageModel gamePageModel;
+  TetrisBlockModel tetrisBlockModel;
+  BoardWidgetModel boardWidgetModel;
+  GamePageModel gamePageModel;
+
+  TetrisBlockLogic tetrisBlockLogic = TetrisBlockLogic();
 
   BoardWidgetComponent({
     required this.gamePageModel,
-    required this.tetrisBlockModel,
     required this.boardWidgetModel,
+    required this.tetrisBlockModel,
   }) {
     gamePageModel.components.add(this);
   }
   @override
   void update() {
-    TetrisBlockLogic.clear(
-      tetrisBlockModel: tetrisBlockModel,
+    tetrisBlockLogic.clear(
       boardWidgetModel: boardWidgetModel,
+      tetrisBlockModel: tetrisBlockModel,
     );
 
-    MoveComponentCommand().execute(this);
-    if (TetrisBlockLogic.isBlockOutsideBoard(tetrisBlockModel)) {
-      MoveComponentCommand().undo(this);
+    MoveComponentCommand(tetrisBlockLogic, tetrisBlockModel).execute(this);
+    if (tetrisBlockLogic.isBlockOutsideBoard(
+      tetrisBlockModel: tetrisBlockModel,
+      boardWidgetModel: boardWidgetModel,
+    )) {
+      tetrisBlockModel = tetrisBlockLogic.reset(tetrisBlockModel);
     }
 
-    TetrisBlockLogic.setTetrisBlockToBoard(
-      tetrisBlockModel: tetrisBlockModel,
+    tetrisBlockLogic.setTetrisBlockToBoard(
       boardWidgetModel: boardWidgetModel,
+      tetrisBlockModel: tetrisBlockModel,
     );
+
+    tetrisBlockModel.display();
   }
 }

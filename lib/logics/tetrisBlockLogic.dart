@@ -1,13 +1,16 @@
 import 'dart:math';
 
+import 'package:flutter/material.dart';
+import 'package:petris/commands/moveComponentCommand.dart';
 import 'package:petris/configs/boardConfig.dart';
+import 'package:petris/configs/vector.dart';
 import 'package:petris/models/boardWidgetModel.dart';
 import 'package:petris/models/tetrisBlockModel.dart';
 
-class TetrisBlockLogic {
-  void resetTetrisBlock() {}
+import '../models/singleBlockWidgetModel.dart';
 
-  static void rotate({
+class TetrisBlockLogic {
+  void rotate({
     required TetrisBlockModel tetrisBlockModel,
     bool rotateClockwise = true,
     int rotationOriginIndex = 0,
@@ -18,34 +21,35 @@ class TetrisBlockLogic {
     rotationOriginIndex = (rotationOriginIndex < tetrisBlockModel.blocks.length)
         ? rotationOriginIndex
         : 0;
-    Point rotationOrigin =
+    Vector rotationOrigin =
         tetrisBlockModel.blocks[rotationOriginIndex].position;
 
     tetrisBlockModel.blocks.asMap().forEach((index, block) {
       int x = (block.position.y - rotationOrigin.y).toInt();
       int y = (block.position.x - rotationOrigin.x).toInt();
 
-      num newX = rotationOrigin.x - x;
-      num newY = rotationOrigin.y + y;
+      int newX = rotationOrigin.x - x;
+      int newY = rotationOrigin.y + y;
 
       var model = tetrisBlockModel.blocks[index];
 
-      model.position = Point(newX, newY);
+      model.position = Vector(newX, newY);
 
       tetrisBlockModel.blocks[index] = model;
     });
   }
 
-  static void moveTo({
+  void moveTo({
     required TetrisBlockModel tetrisBlockModel,
-    required Point direction,
+    required Vector direction,
   }) {
-    for (var i = 0; i < tetrisBlockModel.blocks.length; i++) {
-      tetrisBlockModel.blocks[i].position += direction;
+    for (var i in tetrisBlockModel.blocks) {
+      i.position.x += direction.x;
+      i.position.y += direction.y;
     }
   }
 
-  static void setTetrisBlockToBoard({
+  void setTetrisBlockToBoard({
     required TetrisBlockModel tetrisBlockModel,
     required BoardWidgetModel boardWidgetModel,
   }) {
@@ -59,20 +63,22 @@ class TetrisBlockLogic {
     }
   }
 
-  static void clear({
+  void clear({
     required TetrisBlockModel tetrisBlockModel,
     required BoardWidgetModel boardWidgetModel,
   }) {
     for (var item in tetrisBlockModel.blocks) {
       int x = item.position.x.toInt();
       int y = item.position.y.toInt();
-      boardWidgetModel.boardList[x][y].color =
-          boardWidgetModel.boardList[0][0].color;
+      boardWidgetModel.boardList[x][y].color = BoardConfig.boardColor;
       boardWidgetModel.boardList[x][y].updateCallback("updated!!!!!");
     }
   }
 
-  static bool isBlockOutsideBoard(TetrisBlockModel tetrisBlockModel) {
+  bool isBlockOutsideBoard({
+    required TetrisBlockModel tetrisBlockModel,
+    required BoardWidgetModel boardWidgetModel,
+  }) {
     for (var block in tetrisBlockModel.blocks) {
       bool outSideLeft = block.position.x < 0;
       bool outSideRight = block.position.x > BoardConfig.xSize - 1;
@@ -82,5 +88,50 @@ class TetrisBlockLogic {
       }
     }
     return false;
+  }
+
+  TetrisBlockModel reset(TetrisBlockModel tetrisBlockModel) {
+    var random = Random();
+    tetrisBlockModel.blocks = buildTetrominoes(
+      random: random,
+      tetrisShape: tetrisShape,
+    );
+
+    int xPosition = 0;
+    for (var block in tetrisBlockModel.blocks) {
+      if (block.position.x > xPosition) {
+        xPosition = block.position.x;
+      }
+    }
+
+    int xMoveTo = random.nextInt(BoardConfig.xSize);
+    xMoveTo = (xMoveTo >= (BoardConfig.xSize)) ? xMoveTo - xPosition : xMoveTo;
+    moveTo(
+      tetrisBlockModel: tetrisBlockModel,
+      direction: Vector(xMoveTo, 0),
+    );
+
+    var color = Colors.primaries[random.nextInt(Colors.primaries.length)];
+    for (var x = 0; x < tetrisBlockModel.blocks.length; x++) {
+      tetrisBlockModel.blocks[x].color = color;
+    }
+
+    return tetrisBlockModel;
+  }
+
+  List<SingleBlockWidgetModel> buildTetrominoes(
+      {required Random random, required List<List<List<int>>> tetrisShape}) {
+    List<SingleBlockWidgetModel> result = <SingleBlockWidgetModel>[];
+
+    var positionBlueprint = tetrisShape[random.nextInt(tetrisShape.length)];
+    for (var position in positionBlueprint) {
+      result.add(
+        SingleBlockWidgetModel(
+          position: Vector(position[0], position[1]),
+          size: BoardConfig.blockSize,
+        ),
+      );
+    }
+    return result;
   }
 }

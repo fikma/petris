@@ -5,7 +5,7 @@ import 'package:petris/configs/boardConfig.dart';
 import 'package:petris/models/gamePageModel.dart';
 
 class GamePageComponent implements BaseComponent {
-  final GamePageModel pageState;
+  GamePageModel pageState;
 
   GamePageComponent({required this.pageState});
 
@@ -16,6 +16,7 @@ class GamePageComponent implements BaseComponent {
         for (var element in pageState.components) {
           element.update();
         }
+        print("game running");
       } else {
         print("paused");
       }

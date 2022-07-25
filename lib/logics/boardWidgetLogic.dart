@@ -1,19 +1,21 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:petris/configs/boardConfig.dart';
+import 'package:petris/configs/vector.dart';
 import 'package:petris/models/boardWidgetModel.dart';
 import 'package:petris/models/singleBlockWidgetModel.dart';
 import 'package:petris/pages/widget/singleBlockWidget.dart';
 
 class BoardWidgetLogic {
-  static List<List<SingleBlockWidgetModel>> initBoardListModel() {
+  BoardWidgetModel boardWidgetModel;
+  BoardWidgetLogic(this.boardWidgetModel);
+
+  List<List<SingleBlockWidgetModel>> initBoardListModel() {
     List<List<SingleBlockWidgetModel>> data = [];
     for (var xCount = 0; xCount < BoardConfig.xSize; xCount++) {
       List<SingleBlockWidgetModel> temp = [];
       for (var yCount = 0; yCount < BoardConfig.ySize; yCount++) {
         var model = SingleBlockWidgetModel(
-          position: Point(xCount, yCount),
+          position: Vector(xCount, yCount),
           color: Colors.black,
           size: BoardConfig.blockSize,
         );
@@ -26,7 +28,7 @@ class BoardWidgetLogic {
   }
 
   // column yang berisi children kumpulan row
-  static Center generateBoard(
+  Center generateBoard(
     BoardWidgetModel boardWidgetModel,
   ) {
     List<Column> rowTetrisWidgetCollections = [];
@@ -37,6 +39,8 @@ class BoardWidgetLogic {
       for (var x in y) {
         singleBlockWidgetList.add(SingleBlockWidget(
           model: x,
+          boardWidgetModel: boardWidgetModel,
+          boardWidgetLogic: this,
         ));
       }
 
@@ -59,11 +63,10 @@ class BoardWidgetLogic {
     );
   }
 
-  static void setSingleBlockCallback(
+  void setSingleBlockCallback(
     int x,
     int y,
     Function(String) callback,
-    BoardWidgetModel boardWidgetModel,
   ) {
     var model = boardWidgetModel.boardList[x][y];
     if (model != null) {

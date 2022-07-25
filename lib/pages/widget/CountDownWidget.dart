@@ -7,27 +7,29 @@ import 'package:petris/models/gamePageModel.dart';
 import 'package:petris/pages/widget/gamePageInheritedWidget.dart';
 
 class CountDownWidget extends StatefulWidget {
+  CountDownWidgetModel countDownWidgetModel;
+  GamePageModel gamePageModel;
+
+  CountDownWidget({
+    required this.gamePageModel,
+    required this.countDownWidgetModel,
+  });
+
   @override
   State<CountDownWidget> createState() => _CountDownWidgetState();
 }
 
 class _CountDownWidgetState extends State<CountDownWidget> {
-  late CountDownWidgetModel model;
-  late GamePageModel gamePageModel;
-
   @override
   Widget build(BuildContext context) {
-    model = GamePageInheritedWidget.of(context)!.getCountDownWidgetModel;
-    gamePageModel = GamePageInheritedWidget.of(context)!.getGamePageModel;
-
-    var mainWidget = (model.countStarted)
-        ? Text(model.text)
+    var mainWidget = (widget.countDownWidgetModel.countStarted)
+        ? Text(widget.countDownWidgetModel.text)
         : ElevatedButton(
             onPressed: CountDownCallback,
-            child: Text(model.text),
+            child: Text(widget.countDownWidgetModel.text),
           );
     return Visibility(
-      visible: model.hidden,
+      visible: widget.countDownWidgetModel.hidden,
       child: Center(
         child: mainWidget,
       ),
@@ -35,21 +37,23 @@ class _CountDownWidgetState extends State<CountDownWidget> {
   }
 
   void CountDownCallback() {
-    model.timer = Timer.periodic(BoardConfig.loopDuration, (timer) {
+    widget.countDownWidgetModel.timer =
+        Timer.periodic(BoardConfig.loopDuration, (timer) {
       setState(() {
-        model.text = model.counter.toString();
-        model.countStarted = true;
+        widget.countDownWidgetModel.text =
+            widget.countDownWidgetModel.counter.toString();
+        widget.countDownWidgetModel.countStarted = true;
       });
 
-      if (model.counter < 0) {
-        model.timer.cancel();
+      if (widget.countDownWidgetModel.counter < 0) {
+        widget.countDownWidgetModel.timer.cancel();
         setState(() {
-          model.hidden = false;
+          widget.countDownWidgetModel.hidden = false;
         });
 
-        gamePageModel.paused = false;
+        widget.gamePageModel.paused = false;
       }
-      model.counter--;
+      widget.countDownWidgetModel.counter--;
     });
   }
 }

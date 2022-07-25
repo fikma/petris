@@ -1,17 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:petris/components/gamePageComponent.dart';
+import 'package:petris/logics/boardWidgetLogic.dart';
+import 'package:petris/models/boardWidgetModel.dart';
+import 'package:petris/models/countDownWidgetModel.dart';
 import 'package:petris/models/gamePageModel.dart';
+import 'package:petris/models/tetrisBlockModel.dart';
 import 'package:petris/pages/widget/CountDownWidget.dart';
 import 'package:petris/pages/widget/boardWidget.dart';
-import 'package:petris/pages/widget/gamePageInheritedWidget.dart';
 
 class GamePage extends StatelessWidget {
-  const GamePage({Key? key}) : super(key: key);
+  GamePage({Key? key}) : super(key: key) {
+    boardWidgetLogic = BoardWidgetLogic(boardWidgetModel);
+  }
+
+  TetrisBlockModel tetrisBlockModel = TetrisBlockModel();
+  GamePageModel gamePageModel = GamePageModel();
+  BoardWidgetModel boardWidgetModel = BoardWidgetModel();
+  CountDownWidgetModel countDownWidgetModel = CountDownWidgetModel();
+
+  late BoardWidgetLogic boardWidgetLogic;
 
   @override
   Widget build(BuildContext context) {
-    var state = GamePageInheritedWidget.of(context)!.getGamePageModel;
-    var logic = GamePageComponent(pageState: state);
+    var logic = GamePageComponent(pageState: gamePageModel);
 
     logic.update();
 
@@ -19,13 +30,21 @@ class GamePage extends StatelessWidget {
       children: [
         Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: const [
+          children: [
             Text("helo"),
-            BoardWidget(),
+            BoardWidget(
+              boardWidgetModel: boardWidgetModel,
+              gamePageModel: gamePageModel,
+              tetrisBlockModel: tetrisBlockModel,
+              boardWidgetLogic: boardWidgetLogic,
+            ),
             Text("helo"),
           ],
         ),
-        CountDownWidget(),
+        CountDownWidget(
+          gamePageModel: gamePageModel,
+          countDownWidgetModel: countDownWidgetModel,
+        ),
       ],
     );
   }

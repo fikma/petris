@@ -1,7 +1,5 @@
-import 'dart:math';
-
-import 'package:flutter/material.dart';
-import 'package:petris/configs/boardConfig.dart';
+import 'package:flutter/foundation.dart';
+import 'package:petris/configs/vector.dart';
 import 'package:petris/models/singleBlockWidgetModel.dart';
 
 enum TetrisType {
@@ -13,83 +11,49 @@ enum TetrisType {
   randomizeTetrominosType
 }
 
-List<List<SingleBlockWidgetModel>> tetrisShape = [
+List<List<List<int>>> tetrisShape = [
   [
-    SingleBlockWidgetModel(
-      position: Point(0, 0),
-      size: BoardConfig.blockSize,
-    ),
-    SingleBlockWidgetModel(
-      position: Point(0, 1),
-      size: BoardConfig.blockSize,
-    ),
-    SingleBlockWidgetModel(
-      position: Point(0, 2),
-      size: BoardConfig.blockSize,
-    ),
-    SingleBlockWidgetModel(
-      position: Point(0, 3),
-      size: BoardConfig.blockSize,
-    ),
-  ], // I shape
+    [0, 0],
+    [0, 1],
+    [0, 2],
+    [0, 3],
+  ], // I
   [
-    SingleBlockWidgetModel(
-      position: Point(0, 0),
-      size: BoardConfig.blockSize,
-    ),
-    SingleBlockWidgetModel(
-      position: Point(0, 1),
-      size: BoardConfig.blockSize,
-    ),
-    SingleBlockWidgetModel(
-      position: Point(1, 1),
-      size: BoardConfig.blockSize,
-    ),
-    SingleBlockWidgetModel(
-      position: Point(1, 2),
-      size: BoardConfig.blockSize,
-    ),
-  ], // n shape
+    [0, 0],
+    [0, 1],
+    [1, 1],
+    [1, 2],
+  ], // N
   [
-    SingleBlockWidgetModel(
-      position: Point(0, 0),
-      size: BoardConfig.blockSize,
-    ),
-    SingleBlockWidgetModel(
-      position: Point(0, 1),
-      size: BoardConfig.blockSize,
-    ),
-    SingleBlockWidgetModel(
-      position: Point(0, 2),
-      size: BoardConfig.blockSize,
-    ),
-    SingleBlockWidgetModel(
-      position: Point(1, 2),
-      size: BoardConfig.blockSize,
-    ),
-  ], // L shape
+    [0, 0],
+    [0, 1],
+    [0, 2],
+    [1, 2],
+  ], // L
   [
-    SingleBlockWidgetModel(
-      position: Point(0, 0),
-      size: BoardConfig.blockSize,
-    ),
-    SingleBlockWidgetModel(
-      position: Point(1, 0),
-      size: BoardConfig.blockSize,
-    ),
-    SingleBlockWidgetModel(
-      position: Point(2, 0),
-      size: BoardConfig.blockSize,
-    ),
-    SingleBlockWidgetModel(
-      position: Point(1, 1),
-      size: BoardConfig.blockSize,
-    ),
-  ], // T shape
+    [0, 0],
+    [1, 0],
+    [2, 0],
+    [1, 1],
+  ], // T
+  [
+    [0, 0],
+    [1, 0],
+    [0, 1],
+    [1, 1],
+  ], // o
 ];
 
 class TetrisBlockModel {
-  Point gravity = const Point(0, 1);
+  Vector gravity = Vector(0, 1);
 
-  List<SingleBlockWidgetModel> blocks = tetrisShape[0];
+  late List<SingleBlockWidgetModel> blocks;
+
+  void display() {
+    if (kDebugMode) {
+      for (var x in blocks) {
+        print('${x.position.x}:${x.position.y}');
+      }
+    }
+  }
 }
