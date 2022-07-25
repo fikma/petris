@@ -1,7 +1,6 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:petris/commands/moveComponentCommand.dart';
 import 'package:petris/configs/boardConfig.dart';
 import 'package:petris/configs/vector.dart';
 import 'package:petris/models/boardWidgetModel.dart';
@@ -97,6 +96,35 @@ class TetrisBlockLogic {
       tetrisShape: tetrisShape,
     );
 
+    tetrisBlockModel = randomizeXPosition(
+      tetrisBlockModel: tetrisBlockModel,
+      random: random,
+    );
+
+    tetrisBlockModel = randomizeColor(
+      tetrisBlockModel: tetrisBlockModel,
+      random: random,
+    );
+
+    return tetrisBlockModel;
+  }
+
+  TetrisBlockModel randomizeColor({
+    required TetrisBlockModel tetrisBlockModel,
+    required Random random,
+  }) {
+    var color = Colors.primaries[random.nextInt(Colors.primaries.length)];
+    for (var x = 0; x < tetrisBlockModel.blocks.length; x++) {
+      tetrisBlockModel.blocks[x].color = color;
+    }
+
+    return tetrisBlockModel;
+  }
+
+  TetrisBlockModel randomizeXPosition({
+    required TetrisBlockModel tetrisBlockModel,
+    required Random random,
+  }) {
     int xPosition = 0;
     for (var block in tetrisBlockModel.blocks) {
       if (block.position.x > xPosition) {
@@ -104,18 +132,11 @@ class TetrisBlockLogic {
       }
     }
 
-    int xMoveTo = random.nextInt(BoardConfig.xSize);
-    xMoveTo = (xMoveTo >= (BoardConfig.xSize)) ? xMoveTo - xPosition : xMoveTo;
+    int xMoveTo = random.nextInt(BoardConfig.xSize - xPosition);
     moveTo(
       tetrisBlockModel: tetrisBlockModel,
       direction: Vector(xMoveTo, 0),
     );
-
-    var color = Colors.primaries[random.nextInt(Colors.primaries.length)];
-    for (var x = 0; x < tetrisBlockModel.blocks.length; x++) {
-      tetrisBlockModel.blocks[x].color = color;
-    }
-
     return tetrisBlockModel;
   }
 
