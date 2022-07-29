@@ -6,7 +6,7 @@ import 'package:petris/models/tetrisBlockModel.dart';
 
 import '../logics/tetrisBlockLogic.dart';
 
-class BoardWidgetComponent implements BaseComponent {
+class BoardWidgetComponent extends BaseComponent {
   TetrisBlockModel tetrisBlockModel;
   BoardWidgetModel boardWidgetModel;
   GamePageModel gamePageModel;
@@ -27,7 +27,7 @@ class BoardWidgetComponent implements BaseComponent {
       tetrisBlockModel: tetrisBlockModel,
     );
 
-    MoveComponentCommand(tetrisBlockLogic, tetrisBlockModel).execute(this);
+    MoveComponentCommand(tetrisBlockModel).execute(tetrisBlockModel.gravity);
     if (tetrisBlockLogic.isBlockOutsideBoard(
       tetrisBlockModel: tetrisBlockModel,
       boardWidgetModel: boardWidgetModel,

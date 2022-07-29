@@ -1,32 +1,27 @@
-import 'package:petris/commands/baseCommand.dart';
-import 'package:petris/components/baseComponent.dart';
-import 'package:petris/components/boardWidgetComponent.dart';
+import 'package:petris/configs/vector.dart';
 import 'package:petris/models/tetrisBlockModel.dart';
 
 import '../logics/tetrisBlockLogic.dart';
 
-class MoveComponentCommand implements BaseCommand {
-  TetrisBlockLogic tetrisBlockLogic;
+class MoveComponentCommand {
   TetrisBlockModel tetrisBlockModel;
+  late Vector direction;
 
-  MoveComponentCommand(this.tetrisBlockLogic, this.tetrisBlockModel);
+  MoveComponentCommand(this.tetrisBlockModel);
 
-  @override
-  void execute(BaseComponent component) {
-    component = component as BoardWidgetComponent;
-    tetrisBlockLogic.moveTo(
-      direction: component.tetrisBlockModel.gravity,
+  void execute(Vector direction) {
+    this.direction = direction;
+    TetrisBlockLogic().moveTo(
+      direction: this.direction,
       tetrisBlockModel: tetrisBlockModel,
     );
   }
 
-  @override
-  void undo(BaseComponent component) {
-    component = component as BoardWidgetComponent;
-    var g = component.tetrisBlockModel.gravity;
+  void undo() {
+    var g = direction;
     g.x *= -1;
     g.y *= -1;
-    tetrisBlockLogic.moveTo(
+    TetrisBlockLogic().moveTo(
       direction: g,
       tetrisBlockModel: tetrisBlockModel,
     );

@@ -4,15 +4,16 @@ import 'package:flutter/material.dart';
 import 'package:petris/configs/boardConfig.dart';
 import 'package:petris/models/countDownWidgetModel.dart';
 import 'package:petris/models/gamePageModel.dart';
-import 'package:petris/pages/widget/gamePageInheritedWidget.dart';
 
 class CountDownWidget extends StatefulWidget {
   CountDownWidgetModel countDownWidgetModel;
   GamePageModel gamePageModel;
+  FocusNode nextFocus;
 
   CountDownWidget({
     required this.gamePageModel,
     required this.countDownWidgetModel,
+    required this.nextFocus,
   });
 
   @override
@@ -51,7 +52,8 @@ class _CountDownWidgetState extends State<CountDownWidget> {
           widget.countDownWidgetModel.hidden = false;
         });
 
-        widget.gamePageModel.paused = false;
+        widget.gamePageModel.isRunning = false;
+        widget.nextFocus.requestFocus();
       }
       widget.countDownWidgetModel.counter--;
     });

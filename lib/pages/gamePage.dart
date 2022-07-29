@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:petris/components/gamePageComponent.dart';
 import 'package:petris/logics/boardWidgetLogic.dart';
+import 'package:petris/logics/inputLogic.dart';
 import 'package:petris/models/boardWidgetModel.dart';
 import 'package:petris/models/countDownWidgetModel.dart';
 import 'package:petris/models/gamePageModel.dart';
@@ -9,43 +10,57 @@ import 'package:petris/pages/widget/CountDownWidget.dart';
 import 'package:petris/pages/widget/boardWidget.dart';
 
 class GamePage extends StatelessWidget {
-  GamePage({Key? key}) : super(key: key) {
-    boardWidgetLogic = BoardWidgetLogic(boardWidgetModel);
+  GamePage() {
+    boardFocus = FocusNode();
+    inputLogic = InputLogic(tetrisBlockModel, boardWidgetModel);
   }
 
-  TetrisBlockModel tetrisBlockModel = TetrisBlockModel();
-  GamePageModel gamePageModel = GamePageModel();
-  BoardWidgetModel boardWidgetModel = BoardWidgetModel();
-  CountDownWidgetModel countDownWidgetModel = CountDownWidgetModel();
+  final TetrisBlockModel tetrisBlockModel = TetrisBlockModel();
+  final GamePageModel gamePageModel = GamePageModel();
+  final BoardWidgetModel boardWidgetModel = BoardWidgetModel();
+  final CountDownWidgetModel countDownWidgetModel = CountDownWidgetModel();
 
-  late BoardWidgetLogic boardWidgetLogic;
+  late final BoardWidgetLogic boardWidgetLogic =
+      BoardWidgetLogic(boardWidgetModel);
+  late final GamePageComponent gamePageComponent =
+      GamePageComponent(gamePageModel: gamePageModel);
+
+  late FocusNode boardFocus;
+  late InputLogic inputLogic;
 
   @override
   Widget build(BuildContext context) {
-    var logic = GamePageComponent(pageState: gamePageModel);
-
-    logic.update();
+    gamePageComponent.update();
 
     return Stack(
       children: [
-        Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text("helo"),
-            BoardWidget(
-              boardWidgetModel: boardWidgetModel,
-              gamePageModel: gamePageModel,
-              tetrisBlockModel: tetrisBlockModel,
-              boardWidgetLogic: boardWidgetLogic,
-            ),
-            Text("helo"),
-          ],
+        Focus(
+          focusNode: boardFocus,
+          onKeyEvent: inputLogic.keyBoardInputHandle,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text("helo"),
+              BoardWidget(
+                boardWidgetModel: boardWidgetModel,
+                gamePageModel: gamePageModel,
+                tetrisBlockModel: tetrisBlockModel,
+                boardWidgetLogic: boardWidgetLogic,
+              ),
+              Text("helo"),
+            ],
+          ),
         ),
         CountDownWidget(
           gamePageModel: gamePageModel,
           countDownWidgetModel: countDownWidgetModel,
+          nextFocus: boardFocus,
         ),
       ],
     );
   }
+}
+
+class IncrementIntent extends Intent {
+  const IncrementIntent();
 }
