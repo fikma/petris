@@ -1,7 +1,7 @@
 import 'dart:async';
 
 class CountDownWidgetModel {
-  late Timer timer;
+  late Timer? timer;
   bool hidden = true;
   String text = "Start";
   bool countStarted = false;

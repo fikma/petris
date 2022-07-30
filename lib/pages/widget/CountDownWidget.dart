@@ -22,6 +22,14 @@ class CountDownWidget extends StatefulWidget {
 
 class _CountDownWidgetState extends State<CountDownWidget> {
   @override
+  void dispose() {
+    // TODO: implement dispose
+    widget.countDownWidgetModel.timer!.cancel();
+    widget.countDownWidgetModel.timer = null;
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     var mainWidget = (widget.countDownWidgetModel.countStarted)
         ? Text(widget.countDownWidgetModel.text)
@@ -47,7 +55,7 @@ class _CountDownWidgetState extends State<CountDownWidget> {
       });
 
       if (widget.countDownWidgetModel.counter < 0) {
-        widget.countDownWidgetModel.timer.cancel();
+        widget.countDownWidgetModel.timer!.cancel();
         setState(() {
           widget.countDownWidgetModel.hidden = false;
         });

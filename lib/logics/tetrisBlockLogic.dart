@@ -102,6 +102,22 @@ class TetrisBlockLogic {
     return false;
   }
 
+  bool isBlockCollideWithTetrominoe({
+    required TetrisBlockModel tetrisBlockModel,
+    required BoardWidgetModel boardWidgetModel,
+  }) {
+    for (var block in tetrisBlockModel.blocks) {
+      var boardBlock =
+          boardWidgetModel.boardList[block.position.x][block.position.y];
+
+      bool condition1 = (block.type == boardBlock.type);
+      bool condition2 = block.position.y > BoardConfig.ySize - 1;
+      if (condition1 || condition2) return true;
+    }
+
+    return false;
+  }
+
   TetrisBlockModel reset(TetrisBlockModel tetrisBlockModel) {
     var random = Random();
     tetrisBlockModel.blocks = _buildTetrominoes(
