@@ -62,12 +62,14 @@ class TetrisBlockLogic {
     required BoardWidgetModel boardWidgetModel,
   }) {
     for (var item in tetrisBlockModel.blocks) {
-      boardWidgetModel
-          .boardList[item.position.x.toInt()][item.position.y.toInt()]
-          .color = item.color;
-      boardWidgetModel.boardList[item.position.x.toInt()]
-              [item.position.y.toInt()]
-          .updateCallback("updated!!!!!");
+      if (item.position.y >= 0) {
+        boardWidgetModel
+            .boardList[item.position.x.toInt()][item.position.y.toInt()]
+            .color = item.color;
+        boardWidgetModel.boardList[item.position.x.toInt()]
+                [item.position.y.toInt()]
+            .updateCallback("updated!!!!!");
+      }
     }
   }
 
@@ -76,10 +78,12 @@ class TetrisBlockLogic {
     required BoardWidgetModel boardWidgetModel,
   }) {
     for (var item in tetrisBlockModel.blocks) {
-      int x = item.position.x.toInt();
-      int y = item.position.y.toInt();
-      boardWidgetModel.boardList[x][y].color = BoardConfig.boardColor;
-      boardWidgetModel.boardList[x][y].updateCallback("updated!!!!!");
+      if (item.position.y >= 0) {
+        int x = item.position.x.toInt();
+        int y = item.position.y.toInt();
+        boardWidgetModel.boardList[x][y].color = BoardConfig.boardColor;
+        boardWidgetModel.boardList[x][y].updateCallback("updated!!!!!");
+      }
     }
   }
 
