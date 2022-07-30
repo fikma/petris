@@ -104,12 +104,14 @@ class TetrisBlockLogic {
 
   TetrisBlockModel reset(TetrisBlockModel tetrisBlockModel) {
     var random = Random();
-    tetrisBlockModel.blocks = buildTetrominoes(
+    tetrisBlockModel.blocks = _buildTetrominoes(
       random: random,
       tetrisShape: tetrisShape,
     );
 
-    tetrisBlockModel = randomizeXPosition(
+    tetrisBlockModel = this._moveBlockMinTop(tetrisBlockModel);
+
+    tetrisBlockModel = _randomizeXPosition(
       tetrisBlockModel: tetrisBlockModel,
       random: random,
     );
@@ -134,7 +136,7 @@ class TetrisBlockLogic {
     return tetrisBlockModel;
   }
 
-  TetrisBlockModel randomizeXPosition({
+  TetrisBlockModel _randomizeXPosition({
     required TetrisBlockModel tetrisBlockModel,
     required Random random,
   }) {
@@ -153,7 +155,7 @@ class TetrisBlockLogic {
     return tetrisBlockModel;
   }
 
-  List<SingleBlockWidgetModel> buildTetrominoes(
+  List<SingleBlockWidgetModel> _buildTetrominoes(
       {required Random random, required List<List<List<int>>> tetrisShape}) {
     List<SingleBlockWidgetModel> result = <SingleBlockWidgetModel>[];
 
@@ -167,5 +169,19 @@ class TetrisBlockLogic {
       );
     }
     return result;
+  }
+
+  TetrisBlockModel _moveBlockMinTop(TetrisBlockModel tetrisBlockModel) {
+    int lengthOfY = 0;
+    for (var block in tetrisBlockModel.blocks) {
+      lengthOfY = (block.position.y > lengthOfY) ? block.position.y : lengthOfY;
+    }
+
+    TetrisBlockLogic().moveTo(
+      tetrisBlockModel: tetrisBlockModel,
+      direction: Vector(0, -(lengthOfY + 1)),
+    );
+
+    return tetrisBlockModel;
   }
 }
