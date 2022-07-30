@@ -1,14 +1,15 @@
+import 'package:petris/commands/baseCommand.dart';
 import 'package:petris/configs/vector.dart';
 import 'package:petris/models/tetrisBlockModel.dart';
 
 import '../logics/tetrisBlockLogic.dart';
 
 class MoveComponentCommand {
-  TetrisBlockModel tetrisBlockModel;
   late Vector direction;
 
   MoveComponentCommand(this.tetrisBlockModel);
 
+  @override
   void execute(Vector direction) {
     this.direction = direction;
     TetrisBlockLogic().moveTo(
@@ -26,4 +27,6 @@ class MoveComponentCommand {
       tetrisBlockModel: tetrisBlockModel,
     );
   }
+
+  late TetrisBlockModel tetrisBlockModel;
 }

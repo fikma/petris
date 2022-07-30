@@ -24,11 +24,20 @@ class TetrisBlockLogic {
         tetrisBlockModel.blocks[rotationOriginIndex].position;
 
     tetrisBlockModel.blocks.asMap().forEach((index, block) {
-      int x = (block.position.y - rotationOrigin.y).toInt();
-      int y = (block.position.x - rotationOrigin.x).toInt();
+      int newX, newY;
+      if (rotateClockwise) {
+        int x = (block.position.y - rotationOrigin.y).toInt();
+        int y = (block.position.x - rotationOrigin.x).toInt();
 
-      int newX = rotationOrigin.x - x;
-      int newY = rotationOrigin.y + y;
+        newX = rotationOrigin.x - x;
+        newY = rotationOrigin.y + y;
+      } else {
+        int x = (block.position.y - rotationOrigin.y).toInt();
+        int y = (block.position.x - rotationOrigin.x).toInt();
+
+        newX = rotationOrigin.x + x;
+        newY = rotationOrigin.y - y;
+      }
 
       var model = tetrisBlockModel.blocks[index];
 

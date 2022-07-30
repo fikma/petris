@@ -1,6 +1,9 @@
 import 'package:petris/components/baseComponent.dart';
+import 'package:petris/configs/vector.dart';
 
 abstract class BaseCommand {
-  void execute(Object component);
-  void undo(Object component);
+  Object? tetrisModel;
+
+  void execute(Vector direction);
+  void undo();
 }

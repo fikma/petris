@@ -1,6 +1,7 @@
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:petris/commands/moveComponentCommand.dart';
+import 'package:petris/commands/rotateComponent.dart';
 import 'package:petris/configs/vector.dart';
 import 'package:petris/logics/tetrisBlockLogic.dart';
 import 'package:petris/models/boardWidgetModel.dart';
@@ -41,6 +42,15 @@ class InputLogic {
 
       if (event.logicalKey == LogicalKeyboardKey.arrowUp) {
         print("arrow Up pressed");
+        var rotateCommand = RotateCommand(tetrisBlockModel);
+        rotateCommand.execute();
+        if (TetrisBlockLogic().isBlockOutsideBoard(
+          tetrisBlockModel: tetrisBlockModel,
+          boardWidgetModel: boardWidgetModel,
+        )) {
+          rotateCommand.undo();
+        }
+        ;
       }
 
       if (event.logicalKey == LogicalKeyboardKey.arrowDown) {
