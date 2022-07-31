@@ -72,6 +72,13 @@ class InputLogic {
         )) {
           rotateCommand.undo();
         }
+
+        if (TetrisBlockLogic().isBlockCollideWithTetrominoe(
+          tetrisBlockModel: tetrisBlockModel,
+          boardWidgetModel: boardWidgetModel,
+        )) {
+          rotateCommand.undo();
+        }
         ;
       }
 
