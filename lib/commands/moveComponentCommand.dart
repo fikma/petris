@@ -9,9 +9,8 @@ class MoveComponentCommand {
 
   MoveComponentCommand(this.tetrisBlockModel);
 
-  @override
   void execute(Vector direction) {
-    this.direction = direction;
+    this.direction = Vector(direction.x, direction.y);
     TetrisBlockLogic().moveTo(
       direction: this.direction,
       tetrisBlockModel: tetrisBlockModel,

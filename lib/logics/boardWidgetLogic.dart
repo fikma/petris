@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:petris/configs/boardConfig.dart';
 import 'package:petris/configs/vector.dart';
+import 'package:petris/logics/tetrisBlockLogic.dart';
 import 'package:petris/models/boardWidgetModel.dart';
 import 'package:petris/models/singleBlockWidgetModel.dart';
+import 'package:petris/models/tetrisBlockModel.dart';
 import 'package:petris/pages/widget/singleBlockWidget.dart';
 
 class BoardWidgetLogic {
@@ -73,6 +75,19 @@ class BoardWidgetLogic {
       model.updateCallback = callback;
 
       boardWidgetModel.boardList[x][y] = model;
+    }
+  }
+
+  void setBoardBlockType({
+    required BoardWidgetModel boardWidgetModel,
+    required TetrisBlockModel tetrisBlockModel,
+  }) {
+    for (var block in tetrisBlockModel.blocks) {
+      if (block.position.y < 0) return;
+      boardWidgetModel.boardList[block.position.x][block.position.y].type =
+          TetrisType.tetromino;
+      boardWidgetModel.boardList[block.position.x][block.position.y].color =
+          block.color;
     }
   }
 }

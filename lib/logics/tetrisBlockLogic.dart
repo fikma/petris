@@ -87,17 +87,27 @@ class TetrisBlockLogic {
     }
   }
 
-  bool isBlockOutsideBoard({
+  bool isBlockOutsideBoardWidth({
     required TetrisBlockModel tetrisBlockModel,
     required BoardWidgetModel boardWidgetModel,
   }) {
     for (var block in tetrisBlockModel.blocks) {
       bool outSideLeft = block.position.x < 0;
       bool outSideRight = block.position.x > BoardConfig.xSize - 1;
-      bool outSideBottom = block.position.y > BoardConfig.ySize - 1;
-      if (outSideLeft || outSideRight || outSideBottom) {
+
+      if (outSideLeft || outSideRight) {
         return true;
       }
+    }
+    return false;
+  }
+
+  bool isBlockOutsideBoardHeight({
+    required TetrisBlockModel tetrisBlockModel,
+    required BoardWidgetModel boardWidgetModel,
+  }) {
+    for (var block in tetrisBlockModel.blocks) {
+      if (block.position.y > BoardConfig.ySize - 1) return true;
     }
     return false;
   }
@@ -107,12 +117,13 @@ class TetrisBlockLogic {
     required BoardWidgetModel boardWidgetModel,
   }) {
     for (var block in tetrisBlockModel.blocks) {
+      if (block.position.y < 0) return false;
       var boardBlock =
           boardWidgetModel.boardList[block.position.x][block.position.y];
 
       bool condition1 = (block.type == boardBlock.type);
-      bool condition2 = block.position.y > BoardConfig.ySize - 1;
-      if (condition1 || condition2) return true;
+
+      if (condition1) return true;
     }
 
     return false;
@@ -125,7 +136,7 @@ class TetrisBlockLogic {
       tetrisShape: tetrisShape,
     );
 
-    tetrisBlockModel = this._moveBlockMinTop(tetrisBlockModel);
+    tetrisBlockModel = _moveBlockMinTop(tetrisBlockModel);
 
     tetrisBlockModel = _randomizeXPosition(
       tetrisBlockModel: tetrisBlockModel,
@@ -179,9 +190,9 @@ class TetrisBlockLogic {
     for (var position in positionBlueprint) {
       result.add(
         SingleBlockWidgetModel(
-          position: Vector(position[0], position[1]),
-          size: BoardConfig.blockSize,
-        ),
+            position: Vector(position[0], position[1]),
+            size: BoardConfig.blockSize,
+            type: TetrisType.tetromino),
       );
     }
     return result;

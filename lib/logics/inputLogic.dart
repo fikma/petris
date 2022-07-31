@@ -23,7 +23,7 @@ class InputLogic {
       if (event.logicalKey == LogicalKeyboardKey.arrowRight) {
         component.execute(Vector(1, 0));
 
-        if (TetrisBlockLogic().isBlockOutsideBoard(
+        if (TetrisBlockLogic().isBlockOutsideBoardWidth(
           tetrisBlockModel: tetrisBlockModel,
           boardWidgetModel: boardWidgetModel,
         )) {
@@ -32,7 +32,7 @@ class InputLogic {
       } else if (event.logicalKey == LogicalKeyboardKey.arrowLeft) {
         component.execute(Vector(-1, 0));
 
-        if (TetrisBlockLogic().isBlockOutsideBoard(
+        if (TetrisBlockLogic().isBlockOutsideBoardWidth(
           tetrisBlockModel: tetrisBlockModel,
           boardWidgetModel: boardWidgetModel,
         )) {
@@ -44,7 +44,7 @@ class InputLogic {
         print("arrow Up pressed");
         var rotateCommand = RotateCommand(tetrisBlockModel);
         rotateCommand.execute();
-        if (TetrisBlockLogic().isBlockOutsideBoard(
+        if (TetrisBlockLogic().isBlockOutsideBoardWidth(
           tetrisBlockModel: tetrisBlockModel,
           boardWidgetModel: boardWidgetModel,
         )) {

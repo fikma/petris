@@ -1,5 +1,6 @@
 import 'package:petris/commands/moveComponentCommand.dart';
 import 'package:petris/components/baseComponent.dart';
+import 'package:petris/logics/boardWidgetLogic.dart';
 import 'package:petris/models/boardWidgetModel.dart';
 import 'package:petris/models/gamePageModel.dart';
 import 'package:petris/models/tetrisBlockModel.dart';
@@ -27,11 +28,36 @@ class BoardWidgetComponent extends BaseComponent {
       tetrisBlockModel: tetrisBlockModel,
     );
 
-    MoveComponentCommand(tetrisBlockModel).execute(tetrisBlockModel.gravity);
-    if (tetrisBlockLogic.isBlockOutsideBoard(
+    var moveCommand = MoveComponentCommand(tetrisBlockModel);
+    moveCommand.execute(tetrisBlockModel.gravity);
+
+    if (tetrisBlockLogic.isBlockOutsideBoardHeight(
       tetrisBlockModel: tetrisBlockModel,
       boardWidgetModel: boardWidgetModel,
     )) {
+      moveCommand.undo();
+      BoardWidgetLogic(boardWidgetModel).setBoardBlockType(
+        boardWidgetModel: boardWidgetModel,
+        tetrisBlockModel: tetrisBlockModel,
+      );
+
+      tetrisBlockModel = tetrisBlockLogic.reset(tetrisBlockModel);
+    }
+
+    if (tetrisBlockLogic.isBlockCollideWithTetrominoe(
+      tetrisBlockModel: tetrisBlockModel,
+      boardWidgetModel: boardWidgetModel,
+    )) {
+      moveCommand.undo();
+      tetrisBlockLogic.clear(
+          boardWidgetModel: boardWidgetModel,
+          tetrisBlockModel: tetrisBlockModel);
+
+      BoardWidgetLogic(boardWidgetModel).setBoardBlockType(
+        boardWidgetModel: boardWidgetModel,
+        tetrisBlockModel: tetrisBlockModel,
+      );
+
       tetrisBlockModel = tetrisBlockLogic.reset(tetrisBlockModel);
     }
 
