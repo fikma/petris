@@ -23,19 +23,41 @@ class InputLogic {
       if (event.logicalKey == LogicalKeyboardKey.arrowRight) {
         component.execute(Vector(1, 0));
 
-        if (TetrisBlockLogic().isBlockOutsideBoardWidth(
+        bool condition1 = TetrisBlockLogic().isBlockOutsideBoardWidth(
           tetrisBlockModel: tetrisBlockModel,
           boardWidgetModel: boardWidgetModel,
-        )) {
+        );
+
+        if (condition1) {
+          component.undo();
+        }
+
+        bool condition2 = TetrisBlockLogic().isBlockCollideWithTetrominoe(
+          tetrisBlockModel: tetrisBlockModel,
+          boardWidgetModel: boardWidgetModel,
+        );
+
+        if (condition2) {
           component.undo();
         }
       } else if (event.logicalKey == LogicalKeyboardKey.arrowLeft) {
         component.execute(Vector(-1, 0));
 
-        if (TetrisBlockLogic().isBlockOutsideBoardWidth(
+        bool condition1 = TetrisBlockLogic().isBlockOutsideBoardWidth(
           tetrisBlockModel: tetrisBlockModel,
           boardWidgetModel: boardWidgetModel,
-        )) {
+        );
+
+        if (condition1) {
+          component.undo();
+        }
+
+        bool condition2 = TetrisBlockLogic().isBlockCollideWithTetrominoe(
+          tetrisBlockModel: tetrisBlockModel,
+          boardWidgetModel: boardWidgetModel,
+        );
+
+        if (condition2) {
           component.undo();
         }
       }
