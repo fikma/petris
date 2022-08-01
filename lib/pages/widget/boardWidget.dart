@@ -33,7 +33,10 @@ class _BoardWidgetState extends State<BoardWidget> {
     widget.boardWidgetModel.boardList =
         widget.boardWidgetLogic.initBoardListModel();
 
-    TetrisBlockLogic().reset(widget.tetrisBlockModel);
+    TetrisBlockLogic().reset(
+      boardWidgetModel: widget.boardWidgetModel,
+      tetrisBlockModel: widget.tetrisBlockModel,
+    );
 
     BoardWidgetComponent(
       gamePageModel: widget.gamePageModel,

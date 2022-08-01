@@ -41,7 +41,10 @@ class BoardWidgetComponent extends BaseComponent {
         tetrisBlockModel: tetrisBlockModel,
       );
 
-      tetrisBlockModel = tetrisBlockLogic.reset(tetrisBlockModel);
+      tetrisBlockModel = tetrisBlockLogic.reset(
+        boardWidgetModel: boardWidgetModel,
+        tetrisBlockModel: tetrisBlockModel,
+      );
     }
 
     if (tetrisBlockLogic.isBlockCollideWithTetrominoe(
@@ -58,7 +61,10 @@ class BoardWidgetComponent extends BaseComponent {
         tetrisBlockModel: tetrisBlockModel,
       );
 
-      tetrisBlockModel = tetrisBlockLogic.reset(tetrisBlockModel);
+      tetrisBlockModel = tetrisBlockLogic.reset(
+        boardWidgetModel: boardWidgetModel,
+        tetrisBlockModel: tetrisBlockModel,
+      );
     }
 
     var checkLineResult = BoardWidgetLogic(boardWidgetModel).checkLine(
@@ -71,6 +77,7 @@ class BoardWidgetComponent extends BaseComponent {
       );
       BoardWidgetLogic(boardWidgetModel).moveLineDown(
         boardWidgetModel: boardWidgetModel,
+        yPositions: checkLineResult[1],
       );
     }
 

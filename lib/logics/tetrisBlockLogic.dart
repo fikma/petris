@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:petris/configs/boardConfig.dart';
 import 'package:petris/configs/vector.dart';
+import 'package:petris/logics/boardWidgetLogic.dart';
 import 'package:petris/models/boardWidgetModel.dart';
 import 'package:petris/models/tetrisBlockModel.dart';
 
@@ -129,7 +130,10 @@ class TetrisBlockLogic {
     return false;
   }
 
-  TetrisBlockModel reset(TetrisBlockModel tetrisBlockModel) {
+  TetrisBlockModel reset({
+    required TetrisBlockModel tetrisBlockModel,
+    required BoardWidgetModel boardWidgetModel,
+  }) {
     var random = Random();
     tetrisBlockModel.blocks = _buildTetrominoes(
       random: random,
@@ -142,6 +146,14 @@ class TetrisBlockLogic {
       tetrisBlockModel: tetrisBlockModel,
       random: random,
     );
+
+    if (checkGameOver(
+      tetrisBlockModel: tetrisBlockModel,
+      boardWidgetModel: boardWidgetModel,
+    )) {
+      BoardWidgetLogic(boardWidgetModel)
+          .resetBoard(boardWidgetModel: boardWidgetModel);
+    }
 
     tetrisBlockModel = randomizeColor(
       tetrisBlockModel: tetrisBlockModel,
@@ -210,5 +222,22 @@ class TetrisBlockLogic {
     );
 
     return tetrisBlockModel;
+  }
+
+  bool checkGameOver({
+    required TetrisBlockModel tetrisBlockModel,
+    required BoardWidgetModel boardWidgetModel,
+  }) {
+    for (var block in tetrisBlockModel.blocks) {
+      if (block.position.y == -1) {
+        var blockToCheck =
+            boardWidgetModel.boardList[block.position.x][block.position.y + 1];
+        var condition1 = (blockToCheck.type != TetrisType.board);
+
+        if (condition1) return true;
+      }
+    }
+
+    return false;
   }
 }

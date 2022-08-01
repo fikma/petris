@@ -117,16 +117,31 @@ class BoardWidgetLogic {
 
   void moveLineDown({
     required BoardWidgetModel boardWidgetModel,
+    required List<int> yPositions,
   }) {
-    for (int y = BoardConfig.ySize - 1; y > 0; y--) {
-      for (int x = 0; x <= BoardConfig.xSize - 1; x++) {
-        if (y - 1 < 0) return;
-        var before = boardWidgetModel.boardList[x][y - 1];
+    yPositions.sort();
+    for (var i in yPositions.reversed) {
+      for (int y = i; y > 0; y--) {
+        for (int x = 0; x <= BoardConfig.xSize - 1; x++) {
+          if (y - 1 < 0) return;
+          var before = boardWidgetModel.boardList[x][y - 1];
 
-        boardWidgetModel.boardList[x][y].color = before.color;
-        boardWidgetModel.boardList[x][y].type = before.type;
+          boardWidgetModel.boardList[x][y].color = before.color;
+          boardWidgetModel.boardList[x][y].type = before.type;
 
-        boardWidgetModel.boardList[x][y].updateCallback("update");
+          boardWidgetModel.boardList[x][y].updateCallback("update");
+        }
+      }
+    }
+  }
+
+  void resetBoard({required BoardWidgetModel boardWidgetModel}) {
+    for (int x = 0; x < BoardConfig.xSize - 1; x++) {
+      for (int y = 0; y <= BoardConfig.ySize - 1; y++) {
+        boardWidgetModel.boardList[x][y].type = TetrisType.board;
+        boardWidgetModel.boardList[x][y].color = BoardConfig.boardColor;
+
+        boardWidgetModel.boardList[x][y].updateCallback("string");
       }
     }
   }
