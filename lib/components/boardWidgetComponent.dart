@@ -36,7 +36,7 @@ class BoardWidgetComponent extends BaseComponent {
       boardWidgetModel: boardWidgetModel,
     )) {
       moveCommand.undo();
-      BoardWidgetLogic(boardWidgetModel).setBoardBlockType(
+      BoardWidgetLogic(boardWidgetModel).setBoardBlock(
         boardWidgetModel: boardWidgetModel,
         tetrisBlockModel: tetrisBlockModel,
       );
@@ -53,12 +53,25 @@ class BoardWidgetComponent extends BaseComponent {
           boardWidgetModel: boardWidgetModel,
           tetrisBlockModel: tetrisBlockModel);
 
-      BoardWidgetLogic(boardWidgetModel).setBoardBlockType(
+      BoardWidgetLogic(boardWidgetModel).setBoardBlock(
         boardWidgetModel: boardWidgetModel,
         tetrisBlockModel: tetrisBlockModel,
       );
 
       tetrisBlockModel = tetrisBlockLogic.reset(tetrisBlockModel);
+    }
+
+    var checkLineResult = BoardWidgetLogic(boardWidgetModel).checkLine(
+      boardWidgetModel: boardWidgetModel,
+    );
+    if (checkLineResult[0] as bool) {
+      TetrisBlockLogic().clear(
+        boardWidgetModel: boardWidgetModel,
+        tetrisBlockModel: tetrisBlockModel,
+      );
+      BoardWidgetLogic(boardWidgetModel).moveLineDown(
+        boardWidgetModel: boardWidgetModel,
+      );
     }
 
     tetrisBlockLogic.setTetrisBlockToBoard(

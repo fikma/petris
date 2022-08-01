@@ -78,7 +78,7 @@ class BoardWidgetLogic {
     }
   }
 
-  void setBoardBlockType({
+  void setBoardBlock({
     required BoardWidgetModel boardWidgetModel,
     required TetrisBlockModel tetrisBlockModel,
   }) {
@@ -88,6 +88,46 @@ class BoardWidgetLogic {
           TetrisType.tetromino;
       boardWidgetModel.boardList[block.position.x][block.position.y].color =
           block.color;
+    }
+  }
+
+  List<dynamic> checkLine({
+    required BoardWidgetModel boardWidgetModel,
+  }) {
+    var result = <dynamic>[];
+    var lineResult = <int>[];
+    var boolResult = false;
+    for (int y = BoardConfig.ySize - 1; y > 0; y--) {
+      int xCount = 0;
+      for (int x = 0; x < BoardConfig.xSize - 1; x++) {
+        if (boardWidgetModel.boardList[x][y].type != TetrisType.board) xCount++;
+      }
+
+      if (xCount >= BoardConfig.xSize - 1) {
+        boolResult = true;
+        lineResult.add(y);
+      }
+    }
+
+    result.add(boolResult);
+    result.add(lineResult);
+
+    return result;
+  }
+
+  void moveLineDown({
+    required BoardWidgetModel boardWidgetModel,
+  }) {
+    for (int y = BoardConfig.ySize - 1; y > 0; y--) {
+      for (int x = 0; x <= BoardConfig.xSize - 1; x++) {
+        if (y - 1 < 0) return;
+        var before = boardWidgetModel.boardList[x][y - 1];
+
+        boardWidgetModel.boardList[x][y].color = before.color;
+        boardWidgetModel.boardList[x][y].type = before.type;
+
+        boardWidgetModel.boardList[x][y].updateCallback("update");
+      }
     }
   }
 }
