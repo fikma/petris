@@ -140,7 +140,9 @@ class TetrisBlockLogic {
       tetrisShape: tetrisShape,
     );
 
-    tetrisBlockModel = _moveBlockMinTop(tetrisBlockModel);
+    tetrisBlockModel = getBottomPositions(tetrisBlockModel: tetrisBlockModel);
+
+    tetrisBlockModel = tetrisBlockModel = _moveBlockMinTop(tetrisBlockModel);
 
     tetrisBlockModel = _randomizeXPosition(
       tetrisBlockModel: tetrisBlockModel,
@@ -159,6 +161,28 @@ class TetrisBlockLogic {
       tetrisBlockModel: tetrisBlockModel,
       random: random,
     );
+
+    return tetrisBlockModel;
+  }
+
+  TetrisBlockModel getBottomPositions(
+      {required TetrisBlockModel tetrisBlockModel}) {
+    List<Vector> result = <Vector>[];
+
+    int y = 0;
+    for (var block in tetrisBlockModel.blocks) {
+      if (block.position.y > y) {
+        y = block.position.y;
+      }
+    }
+
+    for (var block in tetrisBlockModel.blocks) {
+      if (block.position.y == y) {
+        result.add(Vector(block.position.x, block.position.y));
+      }
+    }
+
+    tetrisBlockModel.bottomXPosition = result;
 
     return tetrisBlockModel;
   }
