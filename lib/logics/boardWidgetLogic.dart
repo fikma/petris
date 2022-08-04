@@ -119,7 +119,7 @@ class BoardWidgetLogic {
     required List<int> yPositions,
   }) {
     yPositions.sort();
-    for (var i in yPositions.reversed) {
+    for (var i in yPositions) {
       for (int y = i; y > 0; y--) {
         for (int x = 0; x <= BoardConfig.xSize - 1; x++) {
           if (y - 1 < 0) return;
