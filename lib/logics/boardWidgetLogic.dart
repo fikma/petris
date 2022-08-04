@@ -98,11 +98,12 @@ class BoardWidgetLogic {
     var boolResult = false;
     for (int y = BoardConfig.ySize - 1; y > 0; y--) {
       int xCount = 0;
-      for (int x = 0; x < BoardConfig.xSize - 1; x++) {
-        if (boardWidgetModel.boardList[x][y].type != TetrisType.board) xCount++;
+      for (int x = 0; x < BoardConfig.xSize; x++) {
+        if (boardWidgetModel.boardList[x][y].type != TetrisType.board)
+          xCount = xCount + 1;
       }
 
-      if (xCount >= BoardConfig.xSize - 1) {
+      if (xCount >= BoardConfig.xSize) {
         boolResult = true;
         lineResult.add(y);
       }
