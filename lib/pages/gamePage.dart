@@ -20,8 +20,7 @@ class GamePage extends StatelessWidget {
   final BoardWidgetModel boardWidgetModel = BoardWidgetModel();
   final CountDownWidgetModel countDownWidgetModel = CountDownWidgetModel();
 
-  late final BoardWidgetLogic boardWidgetLogic =
-      BoardWidgetLogic(boardWidgetModel);
+  late final BoardWidgetLogic boardWidgetLogic = BoardWidgetLogic();
   late final GamePageComponent gamePageComponent =
       GamePageComponent(gamePageModel: gamePageModel);
 
@@ -35,20 +34,28 @@ class GamePage extends StatelessWidget {
     return Stack(
       children: [
         Focus(
+          autofocus: true,
           focusNode: boardFocus,
           onKeyEvent: inputLogic.keyBoardInputHandle,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text("helo"),
-              BoardWidget(
-                boardWidgetModel: boardWidgetModel,
-                gamePageModel: gamePageModel,
-                tetrisBlockModel: tetrisBlockModel,
-                boardWidgetLogic: boardWidgetLogic,
-              ),
-              Text("helo"),
-            ],
+          child: GestureDetector(
+            onTapDown: (TapDownDetails details) {
+              print('down: ${details.globalPosition}');
+            },
+            onTapUp: (TapUpDetails details) {
+              print('up: ${details.globalPosition}');
+            },
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text("helo"),
+                BoardWidget(
+                  boardWidgetModel: boardWidgetModel,
+                  gamePageModel: gamePageModel,
+                  tetrisBlockModel: tetrisBlockModel,
+                  boardWidgetLogic: boardWidgetLogic,
+                ),
+              ],
+            ),
           ),
         ),
         CountDownWidget(
@@ -59,8 +66,4 @@ class GamePage extends StatelessWidget {
       ],
     );
   }
-}
-
-class IncrementIntent extends Intent {
-  const IncrementIntent();
 }

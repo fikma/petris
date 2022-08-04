@@ -1,16 +1,16 @@
-import 'package:petris/commands/baseCommand.dart';
-import 'package:petris/configs/vector.dart';
+import 'dart:math';
+
 import 'package:petris/models/tetrisBlockModel.dart';
 
 import '../logics/tetrisBlockLogic.dart';
 
 class MoveComponentCommand {
-  late Vector direction;
+  late Point direction;
 
   MoveComponentCommand(this.tetrisBlockModel);
 
-  void execute(Vector direction) {
-    this.direction = Vector(direction.x, direction.y);
+  void execute(Point direction) {
+    this.direction = Point(direction.x, direction.y);
     TetrisBlockLogic().moveTo(
       direction: this.direction,
       tetrisBlockModel: tetrisBlockModel,
@@ -18,9 +18,7 @@ class MoveComponentCommand {
   }
 
   void undo() {
-    var g = direction;
-    g.x *= -1;
-    g.y *= -1;
+    var g = direction * -1;
     TetrisBlockLogic().moveTo(
       direction: g,
       tetrisBlockModel: tetrisBlockModel,

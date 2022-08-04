@@ -1,8 +1,8 @@
-import 'package:petris/configs/vector.dart';
+import 'dart:math';
 
 abstract class BaseCommand {
   Object? tetrisModel;
 
-  void execute(Vector direction);
+  void execute(Point direction);
   void undo();
 }

@@ -1,8 +1,9 @@
+import 'dart:math';
+
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:petris/commands/moveComponentCommand.dart';
 import 'package:petris/commands/rotateComponent.dart';
-import 'package:petris/configs/vector.dart';
 import 'package:petris/logics/tetrisBlockLogic.dart';
 import 'package:petris/models/boardWidgetModel.dart';
 import 'package:petris/models/tetrisBlockModel.dart';
@@ -21,7 +22,7 @@ class InputLogic {
       );
       var component = MoveComponentCommand(tetrisBlockModel);
       if (event.logicalKey == LogicalKeyboardKey.arrowRight) {
-        component.execute(Vector(1, 0));
+        component.execute(Point(1, 0));
 
         bool condition1 = TetrisBlockLogic().isBlockOutsideBoardWidth(
           tetrisBlockModel: tetrisBlockModel,
@@ -41,7 +42,7 @@ class InputLogic {
           component.undo();
         }
       } else if (event.logicalKey == LogicalKeyboardKey.arrowLeft) {
-        component.execute(Vector(-1, 0));
+        component.execute(Point(-1, 0));
 
         bool condition1 = TetrisBlockLogic().isBlockOutsideBoardWidth(
           tetrisBlockModel: tetrisBlockModel,

@@ -3,7 +3,6 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:petris/commands/moveComponentCommand.dart';
 import 'package:petris/configs/boardConfig.dart';
-import 'package:petris/configs/vector.dart';
 import 'package:petris/logics/boardWidgetLogic.dart';
 import 'package:petris/models/boardWidgetModel.dart';
 import 'package:petris/models/tetrisBlockModel.dart';
@@ -22,7 +21,7 @@ class TetrisBlockLogic {
     rotationOriginIndex = (rotationOriginIndex < tetrisBlockModel.blocks.length)
         ? rotationOriginIndex
         : 0;
-    Vector rotationOrigin =
+    Point rotationOrigin =
         tetrisBlockModel.blocks[rotationOriginIndex].position;
 
     tetrisBlockModel.blocks.asMap().forEach((index, block) {
@@ -31,19 +30,19 @@ class TetrisBlockLogic {
         int x = (block.position.y - rotationOrigin.y).toInt();
         int y = (block.position.x - rotationOrigin.x).toInt();
 
-        newX = rotationOrigin.x - x;
-        newY = rotationOrigin.y + y;
+        newX = (rotationOrigin.x - x).toInt();
+        newY = (rotationOrigin.y + y).toInt();
       } else {
         int x = (block.position.y - rotationOrigin.y).toInt();
         int y = (block.position.x - rotationOrigin.x).toInt();
 
-        newX = rotationOrigin.x + x;
-        newY = rotationOrigin.y - y;
+        newX = (rotationOrigin.x + x).toInt();
+        newY = (rotationOrigin.y - y).toInt();
       }
 
       var model = tetrisBlockModel.blocks[index];
 
-      model.position = Vector(newX, newY);
+      model.position = Point(newX, newY);
 
       tetrisBlockModel.blocks[index] = model;
     });
@@ -51,11 +50,10 @@ class TetrisBlockLogic {
 
   void moveTo({
     required TetrisBlockModel tetrisBlockModel,
-    required Vector direction,
+    required Point direction,
   }) {
     for (var i in tetrisBlockModel.blocks) {
-      i.position.x += direction.x;
-      i.position.y += direction.y;
+      i.position += direction;
     }
   }
 
@@ -121,8 +119,8 @@ class TetrisBlockLogic {
     for (var block in tetrisBlockModel.blocks) {
       if (block.position.y < 0 || block.position.y > BoardConfig.ySize - 1)
         return false;
-      var boardBlock =
-          boardWidgetModel.boardList[block.position.x][block.position.y];
+      var boardBlock = boardWidgetModel.boardList[block.position.x.toInt()]
+          [block.position.y.toInt()];
 
       bool condition1 = (block.type == boardBlock.type);
 
@@ -153,8 +151,7 @@ class TetrisBlockLogic {
       tetrisBlockModel: tetrisBlockModel,
       boardWidgetModel: boardWidgetModel,
     )) {
-      BoardWidgetLogic(boardWidgetModel)
-          .resetBoard(boardWidgetModel: boardWidgetModel);
+      BoardWidgetLogic().resetBoard(boardWidgetModel: boardWidgetModel);
     }
 
     tetrisBlockModel = randomizeColor(
@@ -184,14 +181,14 @@ class TetrisBlockLogic {
     int xPosition = 0;
     for (var block in tetrisBlockModel.blocks) {
       if (block.position.x > xPosition) {
-        xPosition = block.position.x;
+        xPosition = block.position.x.toInt();
       }
     }
 
     int xMoveTo = random.nextInt(BoardConfig.xSize - xPosition);
     moveTo(
       tetrisBlockModel: tetrisBlockModel,
-      direction: Vector(xMoveTo, 0),
+      direction: Point(xMoveTo, 0),
     );
     return tetrisBlockModel;
   }
@@ -204,7 +201,7 @@ class TetrisBlockLogic {
     for (var position in positionBlueprint) {
       result.add(
         SingleBlockWidgetModel(
-            position: Vector(position[0], position[1]),
+            position: Point(position[0], position[1]),
             size: BoardConfig.blockSize,
             type: TetrisType.tetromino),
       );
@@ -215,12 +212,13 @@ class TetrisBlockLogic {
   TetrisBlockModel _moveBlockMinTop(TetrisBlockModel tetrisBlockModel) {
     int lengthOfY = 0;
     for (var block in tetrisBlockModel.blocks) {
-      lengthOfY = (block.position.y > lengthOfY) ? block.position.y : lengthOfY;
+      lengthOfY =
+          (block.position.y > lengthOfY) ? block.position.y.toInt() : lengthOfY;
     }
 
     TetrisBlockLogic().moveTo(
       tetrisBlockModel: tetrisBlockModel,
-      direction: Vector(0, -(lengthOfY + 1)),
+      direction: Point(0, -(lengthOfY + 1)),
     );
 
     return tetrisBlockModel;
@@ -232,8 +230,8 @@ class TetrisBlockLogic {
   }) {
     for (var block in tetrisBlockModel.blocks) {
       if (block.position.y == -1) {
-        var blockToCheck =
-            boardWidgetModel.boardList[block.position.x][block.position.y + 1];
+        var blockToCheck = boardWidgetModel.boardList[block.position.x.toInt()]
+            [(block.position.y + 1).toInt()];
         var condition1 = (blockToCheck.type != TetrisType.board);
 
         if (condition1) return true;
@@ -263,7 +261,7 @@ class TetrisBlockLogic {
       if (condition1 || condition2) {
         moveCommand.undo();
 
-        BoardWidgetLogic(boardWidgetModel).setBoardBlock(
+        BoardWidgetLogic().setBoardBlock(
           boardWidgetModel: boardWidgetModel,
           tetrisBlockModel: tetrisBlockModel,
         );

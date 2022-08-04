@@ -1,5 +1,6 @@
+import 'dart:math';
+
 import 'package:flutter/foundation.dart';
-import 'package:petris/configs/vector.dart';
 import 'package:petris/models/singleBlockWidgetModel.dart';
 
 enum TetrisType {
@@ -45,7 +46,7 @@ List<List<List<int>>> tetrisShape = [
 ];
 
 class TetrisBlockModel {
-  Vector gravity = Vector(0, 1);
+  Point gravity = Point(0, 1);
 
   late List<SingleBlockWidgetModel> blocks;
 

@@ -1,22 +1,20 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:petris/configs/boardConfig.dart';
-import 'package:petris/configs/vector.dart';
 import 'package:petris/models/boardWidgetModel.dart';
 import 'package:petris/models/singleBlockWidgetModel.dart';
 import 'package:petris/models/tetrisBlockModel.dart';
 import 'package:petris/pages/widget/singleBlockWidget.dart';
 
 class BoardWidgetLogic {
-  BoardWidgetModel boardWidgetModel;
-  BoardWidgetLogic(this.boardWidgetModel);
-
   List<List<SingleBlockWidgetModel>> initBoardListModel() {
     List<List<SingleBlockWidgetModel>> data = [];
     for (var xCount = 0; xCount < BoardConfig.xSize; xCount++) {
       List<SingleBlockWidgetModel> temp = [];
       for (var yCount = 0; yCount < BoardConfig.ySize; yCount++) {
         var model = SingleBlockWidgetModel(
-          position: Vector(xCount, yCount),
+          position: Point(xCount, yCount),
           color: Colors.black,
           size: BoardConfig.blockSize,
         );
@@ -64,11 +62,12 @@ class BoardWidgetLogic {
     );
   }
 
-  void setSingleBlockCallback(
-    int x,
-    int y,
-    Function(String) callback,
-  ) {
+  void setSingleBlockCallback({
+    required BoardWidgetModel boardWidgetModel,
+    required int x,
+    required int y,
+    required Function(String) callback,
+  }) {
     var model = boardWidgetModel.boardList[x][y];
     if (model != null) {
       model.updateCallback = callback;
@@ -83,10 +82,12 @@ class BoardWidgetLogic {
   }) {
     for (var block in tetrisBlockModel.blocks) {
       if (block.position.y < 0) return;
-      boardWidgetModel.boardList[block.position.x][block.position.y].type =
-          TetrisType.tetromino;
-      boardWidgetModel.boardList[block.position.x][block.position.y].color =
-          block.color;
+      boardWidgetModel
+          .boardList[block.position.x.toInt()][block.position.y.toInt()]
+          .type = TetrisType.tetromino;
+      boardWidgetModel
+          .boardList[block.position.x.toInt()][block.position.y.toInt()]
+          .color = block.color;
     }
   }
 

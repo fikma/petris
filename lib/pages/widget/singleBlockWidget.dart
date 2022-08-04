@@ -25,11 +25,12 @@ class _SingleBlockWidgetState extends State<SingleBlockWidget> {
     super.didChangeDependencies();
 
     widget.boardWidgetLogic.setSingleBlockCallback(
-      widget.model.position.x.toInt(),
-      widget.model.position.y.toInt(),
-      (String hello) {
+      boardWidgetModel: widget.boardWidgetModel,
+      callback: (String hello) {
         setState(() {});
       },
+      x: widget.model.position.x.toInt(),
+      y: widget.model.position.y.toInt(),
     );
   }
 

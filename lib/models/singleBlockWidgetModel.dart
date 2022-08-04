@@ -1,9 +1,10 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
-import 'package:petris/configs/vector.dart';
 import 'package:petris/models/tetrisBlockModel.dart';
 
 class SingleBlockWidgetModel {
-  Vector position;
+  Point position;
 
   late final Function(String) updateCallback;
   final double size;
