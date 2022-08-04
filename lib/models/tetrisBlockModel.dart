@@ -49,8 +49,6 @@ class TetrisBlockModel {
 
   late List<SingleBlockWidgetModel> blocks;
 
-  late List<Vector> bottomXPosition = <Vector>[];
-
   void display() {
     if (kDebugMode) {
       for (var x in blocks) {

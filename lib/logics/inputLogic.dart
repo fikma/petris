@@ -63,7 +63,6 @@ class InputLogic {
       }
 
       if (event.logicalKey == LogicalKeyboardKey.arrowUp) {
-        print("arrow Up pressed");
         var rotateCommand = RotateCommand(tetrisBlockModel);
         rotateCommand.execute();
         if (TetrisBlockLogic().isBlockOutsideBoardWidth(
@@ -83,7 +82,14 @@ class InputLogic {
       }
 
       if (event.logicalKey == LogicalKeyboardKey.arrowDown) {
-        print("arrow Down pressed");
+        TetrisBlockLogic().clear(
+            boardWidgetModel: boardWidgetModel,
+            tetrisBlockModel: tetrisBlockModel);
+
+        TetrisBlockLogic().moveToBottom(
+          boardWidgetModel: boardWidgetModel,
+          tetrisBlockModel: tetrisBlockModel,
+        );
       }
 
       TetrisBlockLogic().setTetrisBlockToBoard(

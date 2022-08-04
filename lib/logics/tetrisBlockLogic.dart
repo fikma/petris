@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:petris/commands/moveComponentCommand.dart';
 import 'package:petris/configs/boardConfig.dart';
 import 'package:petris/configs/vector.dart';
 import 'package:petris/logics/boardWidgetLogic.dart';
@@ -63,7 +64,7 @@ class TetrisBlockLogic {
     required BoardWidgetModel boardWidgetModel,
   }) {
     for (var item in tetrisBlockModel.blocks) {
-      if (item.position.y >= 0) {
+      if (item.position.y >= 0 && item.position.y <= BoardConfig.ySize - 1) {
         boardWidgetModel
             .boardList[item.position.x.toInt()][item.position.y.toInt()]
             .color = item.color;
@@ -118,7 +119,8 @@ class TetrisBlockLogic {
     required BoardWidgetModel boardWidgetModel,
   }) {
     for (var block in tetrisBlockModel.blocks) {
-      if (block.position.y < 0) return false;
+      if (block.position.y < 0 || block.position.y > BoardConfig.ySize - 1)
+        return false;
       var boardBlock =
           boardWidgetModel.boardList[block.position.x][block.position.y];
 
@@ -140,8 +142,6 @@ class TetrisBlockLogic {
       tetrisShape: tetrisShape,
     );
 
-    tetrisBlockModel = getBottomPositions(tetrisBlockModel: tetrisBlockModel);
-
     tetrisBlockModel = tetrisBlockModel = _moveBlockMinTop(tetrisBlockModel);
 
     tetrisBlockModel = _randomizeXPosition(
@@ -161,28 +161,6 @@ class TetrisBlockLogic {
       tetrisBlockModel: tetrisBlockModel,
       random: random,
     );
-
-    return tetrisBlockModel;
-  }
-
-  TetrisBlockModel getBottomPositions(
-      {required TetrisBlockModel tetrisBlockModel}) {
-    List<Vector> result = <Vector>[];
-
-    int y = 0;
-    for (var block in tetrisBlockModel.blocks) {
-      if (block.position.y > y) {
-        y = block.position.y;
-      }
-    }
-
-    for (var block in tetrisBlockModel.blocks) {
-      if (block.position.y == y) {
-        result.add(Vector(block.position.x, block.position.y));
-      }
-    }
-
-    tetrisBlockModel.bottomXPosition = result;
 
     return tetrisBlockModel;
   }
@@ -263,5 +241,34 @@ class TetrisBlockLogic {
     }
 
     return false;
+  }
+
+  void moveToBottom({
+    required BoardWidgetModel boardWidgetModel,
+    required TetrisBlockModel tetrisBlockModel,
+  }) {
+    while (true) {
+      var moveCommand = MoveComponentCommand(tetrisBlockModel);
+      moveCommand.execute(tetrisBlockModel.gravity);
+
+      var condition1 = isBlockCollideWithTetrominoe(
+        tetrisBlockModel: tetrisBlockModel,
+        boardWidgetModel: boardWidgetModel,
+      );
+      var condition2 = isBlockOutsideBoardHeight(
+        tetrisBlockModel: tetrisBlockModel,
+        boardWidgetModel: boardWidgetModel,
+      );
+
+      if (condition1 || condition2) {
+        moveCommand.undo();
+
+        BoardWidgetLogic(boardWidgetModel).setBoardBlock(
+          boardWidgetModel: boardWidgetModel,
+          tetrisBlockModel: tetrisBlockModel,
+        );
+        break;
+      }
+    }
   }
 }
