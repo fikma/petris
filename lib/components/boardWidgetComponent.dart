@@ -1,3 +1,5 @@
+import 'dart:html';
+
 import 'package:petris/commands/moveComponentCommand.dart';
 import 'package:petris/components/baseComponent.dart';
 import 'package:petris/logics/boardWidgetLogic.dart';
@@ -29,6 +31,22 @@ class BoardWidgetComponent extends BaseComponent {
     );
 
     var moveCommand = MoveComponentCommand(tetrisBlockModel);
+
+    // todo:
+    // refactor move tetris blok seperti di video
+    moveCommand.execute(tetrisBlockModel.xDirection);
+    var xMoveCondition1 = tetrisBlockLogic.isBlockOutsideBoardWidth(
+      tetrisBlockModel: tetrisBlockModel,
+      boardWidgetModel: boardWidgetModel,
+    );
+    var xMoveCondition2 = tetrisBlockLogic.isBlockCollideWithTetrominoe(
+      tetrisBlockModel: tetrisBlockModel,
+      boardWidgetModel: boardWidgetModel,
+    );
+    if (xMoveCondition1 || xMoveCondition2) {
+      moveCommand.undo();
+    }
+
     moveCommand.execute(tetrisBlockModel.gravity);
 
     if (tetrisBlockLogic.isBlockOutsideBoardHeight(
@@ -85,7 +103,6 @@ class BoardWidgetComponent extends BaseComponent {
       boardWidgetModel: boardWidgetModel,
       tetrisBlockModel: tetrisBlockModel,
     );
-
-    tetrisBlockModel.display();
+    tetrisBlockModel.xDirection = Point(0, 0);
   }
 }

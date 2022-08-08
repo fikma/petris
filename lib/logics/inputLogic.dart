@@ -3,7 +3,7 @@ import 'dart:math';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:petris/commands/moveComponentCommand.dart';
-import 'package:petris/commands/rotateComponent.dart';
+import 'package:petris/commands/rotateCommand.dart';
 import 'package:petris/logics/tetrisBlockLogic.dart';
 import 'package:petris/models/boardWidgetModel.dart';
 import 'package:petris/models/tetrisBlockModel.dart';
@@ -22,45 +22,9 @@ class InputLogic {
       );
       var component = MoveComponentCommand(tetrisBlockModel);
       if (event.logicalKey == LogicalKeyboardKey.arrowRight) {
-        component.execute(Point(1, 0));
-
-        bool condition1 = TetrisBlockLogic().isBlockOutsideBoardWidth(
-          tetrisBlockModel: tetrisBlockModel,
-          boardWidgetModel: boardWidgetModel,
-        );
-
-        if (condition1) {
-          component.undo();
-        }
-
-        bool condition2 = TetrisBlockLogic().isBlockCollideWithTetrominoe(
-          tetrisBlockModel: tetrisBlockModel,
-          boardWidgetModel: boardWidgetModel,
-        );
-
-        if (condition2) {
-          component.undo();
-        }
+        tetrisBlockModel.xDirection = Point(1, 0);
       } else if (event.logicalKey == LogicalKeyboardKey.arrowLeft) {
-        component.execute(Point(-1, 0));
-
-        bool condition1 = TetrisBlockLogic().isBlockOutsideBoardWidth(
-          tetrisBlockModel: tetrisBlockModel,
-          boardWidgetModel: boardWidgetModel,
-        );
-
-        if (condition1) {
-          component.undo();
-        }
-
-        bool condition2 = TetrisBlockLogic().isBlockCollideWithTetrominoe(
-          tetrisBlockModel: tetrisBlockModel,
-          boardWidgetModel: boardWidgetModel,
-        );
-
-        if (condition2) {
-          component.undo();
-        }
+        tetrisBlockModel.xDirection = Point(-1, 0);
       }
 
       if (event.logicalKey == LogicalKeyboardKey.arrowUp) {

@@ -47,6 +47,7 @@ List<List<List<int>>> tetrisShape = [
 
 class TetrisBlockModel {
   Point gravity = Point(0, 1);
+  Point xDirection = Point(0, 0);
 
   late List<SingleBlockWidgetModel> blocks;
 
