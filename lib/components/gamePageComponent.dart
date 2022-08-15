@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:petris/components/baseComponent.dart';
-import 'package:petris/configs/boardConfig.dart';
+import 'package:petris/utils/boardConfig.dart';
 import 'package:petris/models/gamePageModel.dart';
 
 class GamePageComponent extends BaseComponent {

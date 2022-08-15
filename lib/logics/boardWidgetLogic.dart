@@ -1,7 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:petris/configs/boardConfig.dart';
+import 'package:petris/utils/boardConfig.dart';
 import 'package:petris/models/boardWidgetModel.dart';
 import 'package:petris/models/singleBlockWidgetModel.dart';
 import 'package:petris/models/tetrisBlockModel.dart';
