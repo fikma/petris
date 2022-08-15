@@ -11,6 +11,7 @@ class GamePageComponent extends BaseComponent {
 
   @override
   void update() {
+    gamePageModel.timer.start();
     gamePageModel.loop = Timer.periodic(BoardConfig.loopDuration, (timer) {
       if (!gamePageModel.isRunning) {
         for (var element in gamePageModel.components) {
@@ -19,6 +20,9 @@ class GamePageComponent extends BaseComponent {
         print("game running");
       } else {
         print("paused");
+      }
+      if (gamePageModel.timer.elapsedMilliseconds >= 1000) {
+        gamePageModel.timer.reset();
       }
     });
   }

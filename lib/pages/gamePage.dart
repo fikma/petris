@@ -45,13 +45,14 @@ class GamePage extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text("helo"),
+                Text("helo"), // todo: HUD
                 BoardWidget(
                   boardWidgetModel: boardWidgetModel,
                   gamePageModel: gamePageModel,
                   tetrisBlockModel: tetrisBlockModel,
                   boardWidgetLogic: boardWidgetLogic,
                 ),
+                Container()
               ],
             ),
           ),

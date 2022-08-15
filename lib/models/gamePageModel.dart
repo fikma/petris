@@ -7,5 +7,6 @@ class GamePageModel {
   List<BaseComponent> components = [];
   bool isRunning = true;
 
-  double tickTime = 0.0;
+  int tickTime = 0;
+  Stopwatch timer = Stopwatch();
 }
