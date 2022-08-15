@@ -38,11 +38,9 @@ class GamePage extends StatelessWidget {
           focusNode: boardFocus,
           onKeyEvent: inputLogic.keyBoardInputHandle,
           child: GestureDetector(
-            onTapDown: (TapDownDetails details) {
-              print('down: ${details.globalPosition}');
-            },
-            onTapUp: (TapUpDetails details) {
-              print('up: ${details.globalPosition}');
+            onPanDown: inputLogic.gestureStartHandle,
+            onPanUpdate: (DragUpdateDetails details) {
+              inputLogic.gestureUpdateHandle(details);
             },
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,

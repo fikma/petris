@@ -65,4 +65,32 @@ class InputLogic {
 
     return KeyEventResult.handled;
   }
+
+  void gestureStartHandle(DragDownDetails details) {
+    tetrisBlockModel.gestureStartLocalLocation = details.localPosition;
+  }
+
+  void gestureUpdateHandle(DragUpdateDetails details) {
+    tetrisBlockModel.vectorRadianDirection =
+        (details.localPosition - tetrisBlockModel.gestureStartLocalLocation!)
+            .direction;
+
+    // gestureRight
+    if (isBetween(
+      tetrisBlockModel.vectorRadianDirection!,
+      -0.785,
+      0.785,
+    )) {
+      tetrisBlockModel.xDirection = Point(1, 0);
+    } else if ((tetrisBlockModel.vectorRadianDirection! >= 2.355) ||
+        (tetrisBlockModel.vectorRadianDirection! <= -2.355)) {
+      tetrisBlockModel.xDirection = Point(-1, 0);
+    }
+  }
+
+  bool isBetween(num value, num min, num max) {
+    bool result = false;
+    if (value > min && value < max) result = true;
+    return result;
+  }
 }
