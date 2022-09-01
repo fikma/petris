@@ -28,22 +28,7 @@ class InputEventLogic {
       }
 
       if (event.logicalKey == LogicalKeyboardKey.arrowUp) {
-        var rotateCommand = RotateCommand(tetrisBlockModel);
-        rotateCommand.execute();
-        if (TetrisBlockLogic().isBlockOutsideBoardWidth(
-          tetrisBlockModel: tetrisBlockModel,
-          boardWidgetModel: boardWidgetModel,
-        )) {
-          rotateCommand.undo();
-        }
-
-        if (TetrisBlockLogic().isBlockCollideWithTetrominoe(
-          tetrisBlockModel: tetrisBlockModel,
-          boardWidgetModel: boardWidgetModel,
-        )) {
-          rotateCommand.undo();
-        }
-        ;
+        _rotateBlock();
       }
 
       if (event.logicalKey == LogicalKeyboardKey.arrowDown) {
@@ -66,6 +51,24 @@ class InputEventLogic {
     return KeyEventResult.handled;
   }
 
+  void _rotateBlock() {
+    var rotateCommand = RotateCommand(tetrisBlockModel);
+    rotateCommand.execute();
+    if (TetrisBlockLogic().isBlockOutsideBoardWidth(
+      tetrisBlockModel: tetrisBlockModel,
+      boardWidgetModel: boardWidgetModel,
+    )) {
+      rotateCommand.undo();
+    }
+
+    if (TetrisBlockLogic().isBlockCollideWithTetrominoe(
+      tetrisBlockModel: tetrisBlockModel,
+      boardWidgetModel: boardWidgetModel,
+    )) {
+      rotateCommand.undo();
+    }
+  }
+
   void pointerDownHandle(PointerDownEvent details) {
     tetrisBlockModel.gestureStartLocalLocation = details.localPosition;
   }
@@ -85,6 +88,11 @@ class InputEventLogic {
     } else if ((tetrisBlockModel.vectorRadianDirection! >= 2.355) ||
         (tetrisBlockModel.vectorRadianDirection! <= -2.355)) {
       tetrisBlockModel.xDirection = Point(-1, 0);
+    }
+
+    // gestureUp
+    if (isBetween(tetrisBlockModel.vectorRadianDirection!, -2.355, -0.785)) {
+      _rotateBlock();
     }
   }
 
