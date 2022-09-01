@@ -13,32 +13,45 @@ enum TetrisType {
   randomizeTetrominosType
 }
 
-List<List<List<int>>> tetrisShape = [
+enum TetrisShape {
+  i,
+  n,
+  l,
+  t,
+  o,
+}
+
+List<List<dynamic>> tetrisShape = [
   [
+    0,
     [0, 0],
     [0, 1],
     [0, 2],
     [0, 3],
   ], // I
   [
+    1,
     [0, 0],
     [0, 1],
     [1, 1],
     [1, 2],
   ], // N
   [
+    2,
     [0, 0],
     [0, 1],
     [0, 2],
     [1, 2],
   ], // L
   [
+    3,
     [0, 0],
     [1, 0],
     [2, 0],
     [1, 1],
   ], // T
   [
+    4,
     [0, 0],
     [1, 0],
     [0, 1],
@@ -56,12 +69,5 @@ class TetrisBlockModel {
   double? vectorLength;
 
   late List<SingleBlockWidgetModel> blocks;
-
-  void display() {
-    if (kDebugMode) {
-      for (var x in blocks) {
-        print('${x.position.x}:${x.position.y}');
-      }
-    }
-  }
+  TetrisShape? shape;
 }

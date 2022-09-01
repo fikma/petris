@@ -137,7 +137,8 @@ class TetrisBlockLogic {
     var random = Random();
     tetrisBlockModel.blocks = _buildTetrominoes(
       random: random,
-      tetrisShape: tetrisShape,
+      tetrisShapeList: tetrisShape,
+      tetrisBlockModel: tetrisBlockModel,
     );
 
     tetrisBlockModel = tetrisBlockModel = _moveBlockMinTop(tetrisBlockModel);
@@ -186,15 +187,24 @@ class TetrisBlockLogic {
     return tetrisBlockModel;
   }
 
-  List<SingleBlockWidgetModel> _buildTetrominoes(
-      {required Random random, required List<List<List<int>>> tetrisShape}) {
+  List<SingleBlockWidgetModel> _buildTetrominoes({
+    required Random random,
+    required List<List<dynamic>> tetrisShapeList,
+    required TetrisBlockModel tetrisBlockModel,
+  }) {
     List<SingleBlockWidgetModel> result = <SingleBlockWidgetModel>[];
 
-    var positionBlueprint = tetrisShape[random.nextInt(tetrisShape.length)];
-    for (var position in positionBlueprint) {
+    var positionBlueprint =
+        tetrisShapeList[random.nextInt(tetrisShapeList.length)];
+    tetrisBlockModel.shape = TetrisShape.values[positionBlueprint[0]];
+
+    for (var index = 1; index < positionBlueprint.length; index++) {
       result.add(
         SingleBlockWidgetModel(
-            position: Point(position[0], position[1]),
+            position: Point(
+              positionBlueprint[index][0],
+              positionBlueprint[index][1],
+            ),
             size: BoardConfig.blockSize,
             type: TetrisType.tetromino),
       );
