@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:petris/components/gamePageComponent.dart';
 import 'package:petris/logics/boardWidgetLogic.dart';
-import 'package:petris/logics/inputLogic.dart';
+import 'package:petris/logics/inputEventLogic.dart';
 import 'package:petris/models/boardWidgetModel.dart';
 import 'package:petris/models/countDownWidgetModel.dart';
 import 'package:petris/models/gamePageModel.dart';
@@ -12,7 +12,7 @@ import 'package:petris/pages/widget/boardWidget.dart';
 class GamePage extends StatelessWidget {
   GamePage() {
     boardFocus = FocusNode();
-    inputLogic = InputLogic(tetrisBlockModel, boardWidgetModel);
+    inputEventLogic = InputEventLogic(tetrisBlockModel, boardWidgetModel);
   }
 
   final TetrisBlockModel tetrisBlockModel = TetrisBlockModel();
@@ -25,7 +25,7 @@ class GamePage extends StatelessWidget {
       GamePageComponent(gamePageModel: gamePageModel);
 
   late FocusNode boardFocus;
-  late InputLogic inputLogic;
+  late InputEventLogic inputEventLogic;
 
   @override
   Widget build(BuildContext context) {
@@ -36,12 +36,16 @@ class GamePage extends StatelessWidget {
         Focus(
           autofocus: true,
           focusNode: boardFocus,
-          onKeyEvent: inputLogic.keyBoardInputHandle,
-          child: GestureDetector(
-            onPanDown: inputLogic.gestureStartHandle,
-            onPanUpdate: (DragUpdateDetails details) {
-              inputLogic.gestureUpdateHandle(details);
-            },
+          onKeyEvent: inputEventLogic.keyBoardInputHandle,
+          // child: GestureDetector(
+          // onPanDown: inputLogic.gestureStartHandle,
+          // onPanUpdate: (DragUpdateDetails details) {
+          //   inputLogic.gestureUpdateHandle(details);
+          //   details.delta.direction;
+          // },
+          child: Listener(
+            onPointerDown: inputEventLogic.pointerDownHandle,
+            onPointerUp: inputEventLogic.pointerUpHandle,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [

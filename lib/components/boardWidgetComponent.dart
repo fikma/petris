@@ -1,4 +1,4 @@
-import 'dart:html';
+import 'dart:math';
 
 import 'package:petris/commands/moveComponentCommand.dart';
 import 'package:petris/components/baseComponent.dart';
@@ -6,6 +6,7 @@ import 'package:petris/logics/boardWidgetLogic.dart';
 import 'package:petris/models/boardWidgetModel.dart';
 import 'package:petris/models/gamePageModel.dart';
 import 'package:petris/models/tetrisBlockModel.dart';
+import 'package:petris/utils/boardConfig.dart';
 
 import '../logics/tetrisBlockLogic.dart';
 
@@ -31,42 +32,43 @@ class BoardWidgetComponent extends BaseComponent {
     );
 
     var moveCommand = MoveComponentCommand(tetrisBlockModel);
-
-    moveCommand.execute(tetrisBlockModel.gravity);
-    if (tetrisBlockLogic.isBlockOutsideBoardHeight(
-      tetrisBlockModel: tetrisBlockModel,
-      boardWidgetModel: boardWidgetModel,
-    )) {
-      moveCommand.undo();
-      BoardWidgetLogic().setBoardBlock(
-        boardWidgetModel: boardWidgetModel,
+    if (gamePageModel.timer.elapsedMilliseconds >= BoardConfig.tickTime) {
+      moveCommand.execute(tetrisBlockModel.gravity);
+      if (tetrisBlockLogic.isBlockOutsideBoardHeight(
         tetrisBlockModel: tetrisBlockModel,
-      );
-
-      tetrisBlockModel = tetrisBlockLogic.reset(
         boardWidgetModel: boardWidgetModel,
-        tetrisBlockModel: tetrisBlockModel,
-      );
-    }
-
-    if (tetrisBlockLogic.isBlockCollideWithTetrominoe(
-      tetrisBlockModel: tetrisBlockModel,
-      boardWidgetModel: boardWidgetModel,
-    )) {
-      moveCommand.undo();
-      tetrisBlockLogic.clear(
+      )) {
+        moveCommand.undo();
+        BoardWidgetLogic().setBoardBlock(
           boardWidgetModel: boardWidgetModel,
-          tetrisBlockModel: tetrisBlockModel);
+          tetrisBlockModel: tetrisBlockModel,
+        );
 
-      BoardWidgetLogic().setBoardBlock(
-        boardWidgetModel: boardWidgetModel,
-        tetrisBlockModel: tetrisBlockModel,
-      );
+        tetrisBlockModel = tetrisBlockLogic.reset(
+          boardWidgetModel: boardWidgetModel,
+          tetrisBlockModel: tetrisBlockModel,
+        );
+      }
 
-      tetrisBlockModel = tetrisBlockLogic.reset(
-        boardWidgetModel: boardWidgetModel,
+      if (tetrisBlockLogic.isBlockCollideWithTetrominoe(
         tetrisBlockModel: tetrisBlockModel,
-      );
+        boardWidgetModel: boardWidgetModel,
+      )) {
+        moveCommand.undo();
+        tetrisBlockLogic.clear(
+            boardWidgetModel: boardWidgetModel,
+            tetrisBlockModel: tetrisBlockModel);
+
+        BoardWidgetLogic().setBoardBlock(
+          boardWidgetModel: boardWidgetModel,
+          tetrisBlockModel: tetrisBlockModel,
+        );
+
+        tetrisBlockModel = tetrisBlockLogic.reset(
+          boardWidgetModel: boardWidgetModel,
+          tetrisBlockModel: tetrisBlockModel,
+        );
+      }
     }
 
     // todo:
@@ -82,6 +84,9 @@ class BoardWidgetComponent extends BaseComponent {
         )) {
       moveCommand.undo();
     }
+
+    // reset flag untuk xMove dan rotate
+    tetrisBlockModel.xDirection = Point(0, 0);
 
     var checkLineResult = BoardWidgetLogic().checkLine(
       boardWidgetModel: boardWidgetModel,
@@ -101,6 +106,5 @@ class BoardWidgetComponent extends BaseComponent {
       boardWidgetModel: boardWidgetModel,
       tetrisBlockModel: tetrisBlockModel,
     );
-    tetrisBlockModel.xDirection = Point(0, 0);
   }
 }

@@ -8,11 +8,11 @@ import 'package:petris/logics/tetrisBlockLogic.dart';
 import 'package:petris/models/boardWidgetModel.dart';
 import 'package:petris/models/tetrisBlockModel.dart';
 
-class InputLogic {
+class InputEventLogic {
   TetrisBlockModel tetrisBlockModel;
   BoardWidgetModel boardWidgetModel;
 
-  InputLogic(this.tetrisBlockModel, this.boardWidgetModel);
+  InputEventLogic(this.tetrisBlockModel, this.boardWidgetModel);
 
   KeyEventResult keyBoardInputHandle(FocusNode node, KeyEvent event) {
     if (event is KeyUpEvent) {
@@ -66,11 +66,11 @@ class InputLogic {
     return KeyEventResult.handled;
   }
 
-  void gestureStartHandle(DragDownDetails details) {
+  void pointerDownHandle(PointerDownEvent details) {
     tetrisBlockModel.gestureStartLocalLocation = details.localPosition;
   }
 
-  void gestureUpdateHandle(DragUpdateDetails details) {
+  void pointerUpHandle(PointerUpEvent details) {
     tetrisBlockModel.vectorRadianDirection =
         (details.localPosition - tetrisBlockModel.gestureStartLocalLocation!)
             .direction;

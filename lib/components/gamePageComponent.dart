@@ -17,11 +17,10 @@ class GamePageComponent extends BaseComponent {
         for (var element in gamePageModel.components) {
           element.update();
         }
-        print("game running");
       } else {
         print("paused");
       }
-      if (gamePageModel.timer.elapsedMilliseconds >= 1000) {
+      if (gamePageModel.timer.elapsedMilliseconds >= BoardConfig.tickTime) {
         gamePageModel.timer.reset();
       }
     });
