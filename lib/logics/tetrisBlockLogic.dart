@@ -147,13 +147,6 @@ class TetrisBlockLogic {
       random: random,
     );
 
-    if (checkGameOver(
-      tetrisBlockModel: tetrisBlockModel,
-      boardWidgetModel: boardWidgetModel,
-    )) {
-      BoardWidgetLogic().resetBoard(boardWidgetModel: boardWidgetModel);
-    }
-
     tetrisBlockModel = randomizeColor(
       tetrisBlockModel: tetrisBlockModel,
       random: random,
@@ -206,6 +199,16 @@ class TetrisBlockLogic {
             type: TetrisType.tetromino),
       );
     }
+
+    if (random.nextInt(5) >= 2) {
+      for (var item in result) {
+        var newPosition =
+            Offset(item.position.x.toDouble(), item.position.y.toDouble())
+                .scale(-1, 1);
+        item.position = Point(newPosition.dx, newPosition.dy);
+      }
+    }
+
     return result;
   }
 
@@ -222,23 +225,6 @@ class TetrisBlockLogic {
     );
 
     return tetrisBlockModel;
-  }
-
-  bool checkGameOver({
-    required TetrisBlockModel tetrisBlockModel,
-    required BoardWidgetModel boardWidgetModel,
-  }) {
-    for (var block in tetrisBlockModel.blocks) {
-      if (block.position.y == -1) {
-        var blockToCheck = boardWidgetModel.boardList[block.position.x.toInt()]
-            [(block.position.y + 1).toInt()];
-        var condition1 = (blockToCheck.type != TetrisType.board);
-
-        if (condition1) return true;
-      }
-    }
-
-    return false;
   }
 
   void moveToBottom({
