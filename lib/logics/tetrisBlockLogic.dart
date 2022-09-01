@@ -260,11 +260,6 @@ class TetrisBlockLogic {
 
       if (condition1 || condition2) {
         moveCommand.undo();
-
-        BoardWidgetLogic().setBoardBlock(
-          boardWidgetModel: boardWidgetModel,
-          tetrisBlockModel: tetrisBlockModel,
-        );
         break;
       }
     }

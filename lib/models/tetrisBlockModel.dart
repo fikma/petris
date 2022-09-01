@@ -53,6 +53,7 @@ class TetrisBlockModel {
   Offset? gestureStartLocalLocation;
 
   double? vectorRadianDirection;
+  double? vectorLength;
 
   late List<SingleBlockWidgetModel> blocks;
 

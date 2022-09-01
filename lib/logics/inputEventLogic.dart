@@ -32,23 +32,18 @@ class InputEventLogic {
       }
 
       if (event.logicalKey == LogicalKeyboardKey.arrowDown) {
-        TetrisBlockLogic().clear(
-            boardWidgetModel: boardWidgetModel,
-            tetrisBlockModel: tetrisBlockModel);
-
-        TetrisBlockLogic().moveToBottom(
-          boardWidgetModel: boardWidgetModel,
-          tetrisBlockModel: tetrisBlockModel,
-        );
+        _moveBlockToBottom();
       }
-
-      TetrisBlockLogic().setTetrisBlockToBoard(
-        tetrisBlockModel: tetrisBlockModel,
-        boardWidgetModel: boardWidgetModel,
-      );
     }
 
     return KeyEventResult.handled;
+  }
+
+  void _moveBlockToBottom() {
+    TetrisBlockLogic().moveToBottom(
+      boardWidgetModel: boardWidgetModel,
+      tetrisBlockModel: tetrisBlockModel,
+    );
   }
 
   void _rotateBlock() {
@@ -74,25 +69,31 @@ class InputEventLogic {
   }
 
   void pointerUpHandle(PointerUpEvent details) {
-    tetrisBlockModel.vectorRadianDirection =
-        (details.localPosition - tetrisBlockModel.gestureStartLocalLocation!)
-            .direction;
+    var temp =
+        details.localPosition - tetrisBlockModel.gestureStartLocalLocation!;
+    tetrisBlockModel.vectorRadianDirection = temp.direction;
+    tetrisBlockModel.vectorLength = temp.distanceSquared;
 
-    // gestureRight
-    if (isBetween(
-      tetrisBlockModel.vectorRadianDirection!,
-      -0.785,
-      0.785,
-    )) {
-      tetrisBlockModel.xDirection = Point(1, 0);
-    } else if ((tetrisBlockModel.vectorRadianDirection! >= 2.355) ||
-        (tetrisBlockModel.vectorRadianDirection! <= -2.355)) {
-      tetrisBlockModel.xDirection = Point(-1, 0);
-    }
+    if (tetrisBlockModel.vectorLength! >= 800) {
+      // gestureLeftRight
+      if (isBetween(
+        tetrisBlockModel.vectorRadianDirection!,
+        -0.785,
+        0.785,
+      )) {
+        tetrisBlockModel.xDirection = Point(1, 0);
+      } else if ((tetrisBlockModel.vectorRadianDirection! >= 2.355) ||
+          (tetrisBlockModel.vectorRadianDirection! <= -2.355)) {
+        tetrisBlockModel.xDirection = Point(-1, 0);
+      }
 
-    // gestureUp
-    if (isBetween(tetrisBlockModel.vectorRadianDirection!, -2.355, -0.785)) {
-      _rotateBlock();
+      // gestureUp
+      if (isBetween(tetrisBlockModel.vectorRadianDirection!, -2.355, -0.785)) {
+        _rotateBlock();
+      }
+
+      // gestureDown
+      if (isBetween(tetrisBlockModel.vectorRadianDirection!, 0.785, 2.355)) {}
     }
   }
 
