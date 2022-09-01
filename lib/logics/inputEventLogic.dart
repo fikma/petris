@@ -2,7 +2,6 @@ import 'dart:math';
 
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
-import 'package:petris/commands/moveComponentCommand.dart';
 import 'package:petris/commands/rotateCommand.dart';
 import 'package:petris/logics/tetrisBlockLogic.dart';
 import 'package:petris/models/boardWidgetModel.dart';
@@ -21,15 +20,16 @@ class InputEventLogic {
         tetrisBlockModel: tetrisBlockModel,
         boardWidgetModel: boardWidgetModel,
       );
-      var component = MoveComponentCommand(tetrisBlockModel);
       if (event.logicalKey == LogicalKeyboardKey.arrowRight) {
-        tetrisBlockModel.xDirection = Point(1, 0);
+        tetrisBlockModel.xDirection = const Point(1, 0);
       } else if (event.logicalKey == LogicalKeyboardKey.arrowLeft) {
-        tetrisBlockModel.xDirection = Point(-1, 0);
+        tetrisBlockModel.xDirection = const Point(-1, 0);
       }
 
       if (event.logicalKey == LogicalKeyboardKey.arrowUp) {
-        _rotateBlock();
+        if (tetrisBlockModel.shape != TetrisShape.l) {
+          _rotateBlock();
+        }
       }
 
       if (event.logicalKey == LogicalKeyboardKey.arrowDown) {
@@ -94,15 +94,17 @@ class InputEventLogic {
         -0.785,
         0.785,
       )) {
-        tetrisBlockModel.xDirection = Point(1, 0);
+        tetrisBlockModel.xDirection = const Point(1, 0);
       } else if ((tetrisBlockModel.vectorRadianDirection! >= 2.355) ||
           (tetrisBlockModel.vectorRadianDirection! <= -2.355)) {
-        tetrisBlockModel.xDirection = Point(-1, 0);
+        tetrisBlockModel.xDirection = const Point(-1, 0);
       }
 
       // gestureUp
       if (isBetween(tetrisBlockModel.vectorRadianDirection!, -2.355, -0.785)) {
-        _rotateBlock();
+        if (tetrisBlockModel.shape != TetrisShape.l) {
+          _rotateBlock();
+        }
       }
     }
 
