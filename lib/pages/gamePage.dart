@@ -46,6 +46,7 @@ class GamePage extends StatelessWidget {
           child: Listener(
             onPointerDown: inputEventLogic.pointerDownHandle,
             onPointerUp: inputEventLogic.pointerUpHandle,
+            onPointerMove: inputEventLogic.pointerMoveHandle,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [

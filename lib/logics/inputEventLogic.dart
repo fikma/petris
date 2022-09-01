@@ -7,6 +7,7 @@ import 'package:petris/commands/rotateCommand.dart';
 import 'package:petris/logics/tetrisBlockLogic.dart';
 import 'package:petris/models/boardWidgetModel.dart';
 import 'package:petris/models/tetrisBlockModel.dart';
+import 'package:petris/utils/boardConfig.dart';
 
 class InputEventLogic {
   TetrisBlockModel tetrisBlockModel;
@@ -68,11 +69,23 @@ class InputEventLogic {
     tetrisBlockModel.gestureStartLocalLocation = details.localPosition;
   }
 
+  void pointerMoveHandle(PointerMoveEvent details) {
+    var temp =
+        details.localPosition - tetrisBlockModel.gestureStartLocalLocation!;
+    tetrisBlockModel.vectorLength = temp.distanceSquared;
+
+    if (tetrisBlockModel.vectorLength! >= 800) {
+      // gestureDown
+      if (isBetween(tetrisBlockModel.vectorRadianDirection!, 0.785, 2.355)) {
+        BoardConfig.tickTime = 200;
+      }
+    }
+  }
+
   void pointerUpHandle(PointerUpEvent details) {
     var temp =
         details.localPosition - tetrisBlockModel.gestureStartLocalLocation!;
     tetrisBlockModel.vectorRadianDirection = temp.direction;
-    tetrisBlockModel.vectorLength = temp.distanceSquared;
 
     if (tetrisBlockModel.vectorLength! >= 800) {
       // gestureLeftRight
@@ -91,10 +104,9 @@ class InputEventLogic {
       if (isBetween(tetrisBlockModel.vectorRadianDirection!, -2.355, -0.785)) {
         _rotateBlock();
       }
-
-      // gestureDown
-      if (isBetween(tetrisBlockModel.vectorRadianDirection!, 0.785, 2.355)) {}
     }
+
+    BoardConfig.tickTime = 700;
   }
 
   bool isBetween(num value, num min, num max) {
