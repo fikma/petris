@@ -73,16 +73,18 @@ class BoardWidgetComponent extends BaseComponent {
 
     // todo:
     // refactor move tetris blok seperti di video
-    moveCommand.execute(tetrisBlockModel.xDirection);
-    if (tetrisBlockLogic.isBlockOutsideBoardWidth(
-          tetrisBlockModel: tetrisBlockModel,
-          boardWidgetModel: boardWidgetModel,
-        ) ||
-        tetrisBlockLogic.isBlockCollideWithTetrominoe(
-          tetrisBlockModel: tetrisBlockModel,
-          boardWidgetModel: boardWidgetModel,
-        )) {
-      moveCommand.undo();
+    if (tetrisBlockModel.xDirection != Point(0, 0)) {
+      moveCommand.execute(tetrisBlockModel.xDirection);
+      if (tetrisBlockLogic.isBlockOutsideBoardWidth(
+            tetrisBlockModel: tetrisBlockModel,
+            boardWidgetModel: boardWidgetModel,
+          ) ||
+          tetrisBlockLogic.isBlockCollideWithTetrominoe(
+            tetrisBlockModel: tetrisBlockModel,
+            boardWidgetModel: boardWidgetModel,
+          )) {
+        moveCommand.undo();
+      }
     }
 
     // reset flag untuk xMove dan rotate

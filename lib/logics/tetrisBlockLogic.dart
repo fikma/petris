@@ -77,12 +77,12 @@ class TetrisBlockLogic {
     required TetrisBlockModel tetrisBlockModel,
     required BoardWidgetModel boardWidgetModel,
   }) {
-    for (var item in tetrisBlockModel.blocks) {
-      if (item.position.y >= 0) {
-        int x = item.position.x.toInt();
-        int y = item.position.y.toInt();
-        boardWidgetModel.boardList[x][y].color = BoardConfig.boardColor;
-        boardWidgetModel.boardList[x][y].updateCallback("updated!!!!!");
+    for (var one in boardWidgetModel.boardList) {
+      for (var two in one) {
+        if (two.type == TetrisType.board) {
+          two.color = BoardConfig.boardColor;
+          two.updateCallback("rerender");
+        }
       }
     }
   }
