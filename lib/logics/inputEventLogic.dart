@@ -27,7 +27,7 @@ class InputEventLogic {
       }
 
       if (event.logicalKey == LogicalKeyboardKey.arrowUp) {
-        if (tetrisBlockModel.shape != TetrisShape.l) {
+        if (tetrisBlockModel.shape != TetrisShape.o) {
           _rotateBlock();
         }
       }
