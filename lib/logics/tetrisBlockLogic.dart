@@ -132,18 +132,21 @@ class TetrisBlockLogic {
 
   TetrisBlockModel reset({
     required TetrisBlockModel tetrisBlockModel,
-    required BoardWidgetModel boardWidgetModel,
   }) {
     var random = Random();
-    tetrisBlockModel.blocks = _buildTetrominoes(
+    tetrisBlockModel.blocks = buildTetrominoes(
       random: random,
-      tetrisShapeList: tetrisShape,
+      tetrisShapeList: TetrisShapeList,
       tetrisBlockModel: tetrisBlockModel,
     );
 
+    if (random.nextInt(5) >= 2) {
+      tetrisBlockModel = invertBlockTetris(tetrisBlockModel);
+    }
+
     tetrisBlockModel = tetrisBlockModel = _moveBlockMinTop(tetrisBlockModel);
 
-    tetrisBlockModel = _randomizeXPosition(
+    tetrisBlockModel = randomizeXPosition(
       tetrisBlockModel: tetrisBlockModel,
       random: random,
     );
@@ -168,7 +171,7 @@ class TetrisBlockLogic {
     return tetrisBlockModel;
   }
 
-  TetrisBlockModel _randomizeXPosition({
+  TetrisBlockModel randomizeXPosition({
     required TetrisBlockModel tetrisBlockModel,
     required Random random,
   }) {
@@ -187,15 +190,36 @@ class TetrisBlockLogic {
     return tetrisBlockModel;
   }
 
-  List<SingleBlockWidgetModel> _buildTetrominoes({
-    required Random random,
+  List<SingleBlockWidgetModel> buildTetrominoes({
+    Random? random,
+    TetrisShape? tetrisShape,
     required List<List<dynamic>> tetrisShapeList,
     required TetrisBlockModel tetrisBlockModel,
   }) {
     List<SingleBlockWidgetModel> result = <SingleBlockWidgetModel>[];
 
+    if (tetrisShape != null) {
+      for (var item in tetrisShapeList) {
+        if (TetrisShape.values[item[0]] == tetrisShape) {
+          for (var index = 1; index < item.length; index++) {
+            result.add(
+              SingleBlockWidgetModel(
+                  position: Point(
+                    item[index][0],
+                    item[index][1],
+                  ),
+                  size: BoardConfig.blockSize,
+                  type: TetrisType.tetromino),
+            );
+          }
+        }
+      }
+
+      return result;
+    }
+
     var positionBlueprint =
-        tetrisShapeList[random.nextInt(tetrisShapeList.length)];
+        tetrisShapeList[random!.nextInt(tetrisShapeList.length)];
     tetrisBlockModel.shape = TetrisShape.values[positionBlueprint[0]];
 
     for (var index = 1; index < positionBlueprint.length; index++) {
@@ -210,16 +234,27 @@ class TetrisBlockLogic {
       );
     }
 
-    if (random.nextInt(5) >= 2) {
-      for (var item in result) {
-        var newPosition =
-            Offset(item.position.x.toDouble(), item.position.y.toDouble())
-                .scale(-1, 1);
-        item.position = Point(newPosition.dx, newPosition.dy);
+    return result;
+  }
+
+  TetrisBlockModel invertBlockTetris(TetrisBlockModel tetrisBlockModel) {
+    var xOffset = 0;
+    for (var item in tetrisBlockModel.blocks) {
+      var newPosition =
+          Offset(item.position.x.toDouble(), item.position.y.toDouble())
+              .scale(-1, 1);
+      item.position = Point(newPosition.dx, newPosition.dy);
+
+      if (item.position.x < xOffset) {
+        xOffset = item.position.x.toInt();
       }
     }
+    moveTo(
+      tetrisBlockModel: tetrisBlockModel,
+      direction: Point(xOffset.abs(), 0),
+    );
 
-    return result;
+    return tetrisBlockModel;
   }
 
   TetrisBlockModel _moveBlockMinTop(TetrisBlockModel tetrisBlockModel) {

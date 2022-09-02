@@ -21,7 +21,7 @@ enum TetrisShape {
   o,
 }
 
-List<List<dynamic>> tetrisShape = [
+List<List<dynamic>> TetrisShapeList = [
   [
     0,
     [0, 0],
