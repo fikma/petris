@@ -13,7 +13,7 @@ class GamePageComponent extends BaseComponent {
   void update() {
     gamePageModel.timer.start();
     gamePageModel.loop = Timer.periodic(BoardConfig.loopDuration, (timer) {
-      if (!gamePageModel.isRunning) {
+      if (gamePageModel.isRunning) {
         for (var element in gamePageModel.components) {
           element.update();
         }

@@ -26,6 +26,9 @@ class BoardWidgetComponent extends BaseComponent {
   }
   @override
   void update() {
+    if (gamePageModel.gameStatePaused) {
+      return;
+    }
     tetrisBlockLogic.clear(
       boardWidgetModel: boardWidgetModel,
       tetrisBlockModel: tetrisBlockModel,
