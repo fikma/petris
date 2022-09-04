@@ -10,18 +10,19 @@ class GamePageComponent extends BaseComponent {
   GamePageComponent({required this.gamePageModel});
 
   @override
-  void update() {
-    gamePageModel.timer.start();
-    gamePageModel.loop = Timer.periodic(BoardConfig.loopDuration, (timer) {
-      if (gamePageModel.isRunning) {
-        for (var element in gamePageModel.components) {
-          element.update();
+  void update(GamePageModel? gamePageModel) {
+    this.gamePageModel.timer.start();
+    this.gamePageModel.loop = Timer.periodic(BoardConfig.loopDuration, (timer) {
+      if (this.gamePageModel.isRunning) {
+        for (var element in this.gamePageModel.components) {
+          element.update(this.gamePageModel);
         }
       } else {
         print("paused");
       }
-      if (gamePageModel.timer.elapsedMilliseconds >= BoardConfig.tickTime) {
-        gamePageModel.timer.reset();
+      if (this.gamePageModel.timer.elapsedMilliseconds >=
+          BoardConfig.tickTime) {
+        this.gamePageModel.timer.reset();
       }
     });
   }

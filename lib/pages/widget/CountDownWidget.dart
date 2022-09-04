@@ -49,6 +49,7 @@ class _CountDownWidgetState extends State<CountDownWidget> {
         ? Text(widget.countDownWidgetModel.text)
         : ElevatedButton(
             onPressed: () {
+              widget.countDownWidgetModel.counter = 3;
               widget.countDownWidgetModel.countStarted = true;
               widget.gamePageModel.gameStatePaused = true;
             },

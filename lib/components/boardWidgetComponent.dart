@@ -4,6 +4,7 @@ import 'package:petris/commands/moveComponentCommand.dart';
 import 'package:petris/components/baseComponent.dart';
 import 'package:petris/logics/boardWidgetLogic.dart';
 import 'package:petris/models/boardWidgetModel.dart';
+import 'package:petris/models/countDownWidgetModel.dart';
 import 'package:petris/models/gamePageModel.dart';
 import 'package:petris/models/tetrisBlockModel.dart';
 import 'package:petris/utils/boardConfig.dart';
@@ -13,20 +14,21 @@ import '../logics/tetrisBlockLogic.dart';
 class BoardWidgetComponent extends BaseComponent {
   TetrisBlockModel tetrisBlockModel;
   BoardWidgetModel boardWidgetModel;
-  GamePageModel gamePageModel;
+  CountDownWidgetModel countDownWidgetModel;
 
   TetrisBlockLogic tetrisBlockLogic = TetrisBlockLogic();
 
   BoardWidgetComponent({
-    required this.gamePageModel,
+    required GamePageModel gamePageModel,
     required this.boardWidgetModel,
     required this.tetrisBlockModel,
+    required this.countDownWidgetModel,
   }) {
     gamePageModel.components.add(this);
   }
   @override
-  void update() {
-    if (gamePageModel.gameStatePaused) {
+  void update(GamePageModel? gamePageModel) {
+    if (gamePageModel!.gameStatePaused) {
       return;
     }
 
@@ -59,6 +61,7 @@ class BoardWidgetComponent extends BaseComponent {
       )) {
         moveCommand.undo();
 
+        // Gameover logic
         if (tetrisBlockLogic.isBlockOutsideBoardHeight(
           tetrisBlockModel: tetrisBlockModel,
           boardWidgetModel: boardWidgetModel,
@@ -66,6 +69,13 @@ class BoardWidgetComponent extends BaseComponent {
         )) {
           print("gameOver");
           gamePageModel.gameStatePaused = true;
+
+          countDownWidgetModel.visible = true;
+          countDownWidgetModel.text = "gameOver";
+          countDownWidgetModel.updateCallback!();
+          BoardWidgetLogic().resetBoard(
+            boardWidgetModel: boardWidgetModel,
+          );
           return;
         }
 

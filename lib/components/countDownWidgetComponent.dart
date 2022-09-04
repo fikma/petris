@@ -5,26 +5,27 @@ import 'package:petris/utils/boardConfig.dart';
 import '../models/gamePageModel.dart';
 
 class CountDownWidgetComponent extends BaseComponent {
-  GamePageModel gamePageModel;
   CountDownWidgetModel countDownWidgetModel;
 
   CountDownWidgetComponent({
-    required this.gamePageModel,
+    required GamePageModel gamePageModel,
     required this.countDownWidgetModel,
   }) {
     gamePageModel.components.add(this);
   }
 
   @override
-  void update() {
+  void update(GamePageModel? gamePageModel) {
     if (countDownWidgetModel.countStarted) {
-      if (gamePageModel.timer.elapsedMilliseconds >= BoardConfig.tickTime) {
+      if (gamePageModel!.timer.elapsedMilliseconds >= BoardConfig.tickTime) {
         countDownWidgetModel.text = countDownWidgetModel.counter.toString();
         countDownWidgetModel.updateCallback!();
 
         if (countDownWidgetModel.counter < 0) {
           countDownWidgetModel.visible = false;
           countDownWidgetModel.updateCallback!();
+          countDownWidgetModel.counter = 3;
+          countDownWidgetModel.countStarted = false;
 
           gamePageModel.gameStatePaused = false;
           countDownWidgetModel.nextFocus.requestFocus();

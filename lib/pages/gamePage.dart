@@ -20,7 +20,6 @@ class GamePage extends StatelessWidget {
   final BoardWidgetModel boardWidgetModel = BoardWidgetModel();
   final CountDownWidgetModel countDownWidgetModel = CountDownWidgetModel();
 
-  late final BoardWidgetLogic boardWidgetLogic = BoardWidgetLogic();
   late final GamePageComponent gamePageComponent =
       GamePageComponent(gamePageModel: gamePageModel);
 
@@ -29,7 +28,7 @@ class GamePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    gamePageComponent.update();
+    gamePageComponent.update(null);
 
     return Stack(
       children: [
@@ -49,7 +48,7 @@ class GamePage extends StatelessWidget {
                   boardWidgetModel: boardWidgetModel,
                   gamePageModel: gamePageModel,
                   tetrisBlockModel: tetrisBlockModel,
-                  boardWidgetLogic: boardWidgetLogic,
+                  countDownWidgetModel: countDownWidgetModel,
                 ),
                 Container()
               ],

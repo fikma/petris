@@ -137,12 +137,12 @@ class BoardWidgetLogic {
   }
 
   void resetBoard({required BoardWidgetModel boardWidgetModel}) {
-    for (int x = 0; x < BoardConfig.xSize - 1; x++) {
-      for (int y = 0; y < BoardConfig.ySize - 1; y++) {
+    for (int x = 0; x < BoardConfig.xSize; x++) {
+      for (int y = 0; y < BoardConfig.ySize; y++) {
         boardWidgetModel.boardList[x][y].type = BlockType.board;
         boardWidgetModel.boardList[x][y].color = BoardConfig.boardColor;
 
-        boardWidgetModel.boardList[x][y].updateCallback("string");
+        // print('${x} ${y}');
       }
     }
   }
