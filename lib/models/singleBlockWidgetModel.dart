@@ -1,7 +1,15 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:petris/models/tetrisBlockModel.dart';
+
+enum BlockType {
+  board,
+  tetromino,
+  crossBom,
+  xBom,
+  yBom,
+  randomizeTetrominosType
+}
 
 class SingleBlockWidgetModel {
   Point position;
@@ -10,12 +18,12 @@ class SingleBlockWidgetModel {
   final double size;
   Color color;
 
-  TetrisType type;
+  BlockType type;
 
   SingleBlockWidgetModel({
     required this.position,
     required this.size,
     this.color = Colors.black,
-    this.type = TetrisType.board,
+    this.type = BlockType.board,
   });
 }

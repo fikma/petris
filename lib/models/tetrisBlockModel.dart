@@ -1,17 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:petris/models/singleBlockWidgetModel.dart';
-
-enum TetrisType {
-  board,
-  tetromino,
-  crossBom,
-  xBom,
-  yBom,
-  randomizeTetrominosType
-}
 
 enum TetrisShape {
   i,

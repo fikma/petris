@@ -79,7 +79,7 @@ class TetrisBlockLogic {
   }) {
     for (var one in boardWidgetModel.boardList) {
       for (var two in one) {
-        if (two.type == TetrisType.board) {
+        if (two.type == BlockType.board) {
           two.color = BoardConfig.boardColor;
           two.updateCallback("rerender");
         }
@@ -105,8 +105,12 @@ class TetrisBlockLogic {
   bool isBlockOutsideBoardHeight({
     required TetrisBlockModel tetrisBlockModel,
     required BoardWidgetModel boardWidgetModel,
+    bool? checkTop,
   }) {
     for (var block in tetrisBlockModel.blocks) {
+      if (checkTop != null) {
+        if (block.position.y < 0) return true;
+      }
       if (block.position.y > BoardConfig.ySize - 1) return true;
     }
     return false;
@@ -116,18 +120,21 @@ class TetrisBlockLogic {
     required TetrisBlockModel tetrisBlockModel,
     required BoardWidgetModel boardWidgetModel,
   }) {
+    var result = false;
     for (var block in tetrisBlockModel.blocks) {
       if (block.position.y < 0 || block.position.y > BoardConfig.ySize - 1)
-        return false;
+        continue;
+      if (block.position.x < 0 || block.position.x > BoardConfig.xSize - 1)
+        continue;
       var boardBlock = boardWidgetModel.boardList[block.position.x.toInt()]
           [block.position.y.toInt()];
 
-      bool condition1 = (block.type == boardBlock.type);
+      bool collided = (boardBlock.type != BlockType.board);
 
-      if (condition1) return true;
+      if (collided) result = true;
     }
 
-    return false;
+    return result;
   }
 
   TetrisBlockModel reset({
@@ -209,7 +216,7 @@ class TetrisBlockLogic {
                     item[index][1],
                   ),
                   size: BoardConfig.blockSize,
-                  type: TetrisType.tetromino),
+                  type: BlockType.tetromino),
             );
           }
         }
@@ -230,7 +237,7 @@ class TetrisBlockLogic {
               positionBlueprint[index][1],
             ),
             size: BoardConfig.blockSize,
-            type: TetrisType.tetromino),
+            type: BlockType.tetromino),
       );
     }
 

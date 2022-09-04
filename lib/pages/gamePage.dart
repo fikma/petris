@@ -37,12 +37,6 @@ class GamePage extends StatelessWidget {
           autofocus: true,
           focusNode: boardFocus,
           onKeyEvent: inputEventLogic.keyBoardInputHandle,
-          // child: GestureDetector(
-          // onPanDown: inputLogic.gestureStartHandle,
-          // onPanUpdate: (DragUpdateDetails details) {
-          //   inputLogic.gestureUpdateHandle(details);
-          //   details.delta.direction;
-          // },
           child: Listener(
             onPointerDown: inputEventLogic.pointerDownHandle,
             onPointerUp: inputEventLogic.pointerUpHandle,

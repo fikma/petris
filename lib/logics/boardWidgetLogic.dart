@@ -84,7 +84,7 @@ class BoardWidgetLogic {
       if (block.position.y < 0) return;
       boardWidgetModel
           .boardList[block.position.x.toInt()][block.position.y.toInt()]
-          .type = TetrisType.tetromino;
+          .type = BlockType.tetromino;
       boardWidgetModel
           .boardList[block.position.x.toInt()][block.position.y.toInt()]
           .color = block.color;
@@ -100,7 +100,7 @@ class BoardWidgetLogic {
     for (int y = BoardConfig.ySize - 1; y > 0; y--) {
       int xCount = 0;
       for (int x = 0; x < BoardConfig.xSize; x++) {
-        if (boardWidgetModel.boardList[x][y].type != TetrisType.board)
+        if (boardWidgetModel.boardList[x][y].type != BlockType.board)
           xCount = xCount + 1;
       }
 
@@ -138,8 +138,8 @@ class BoardWidgetLogic {
 
   void resetBoard({required BoardWidgetModel boardWidgetModel}) {
     for (int x = 0; x < BoardConfig.xSize - 1; x++) {
-      for (int y = 0; y <= BoardConfig.ySize - 1; y++) {
-        boardWidgetModel.boardList[x][y].type = TetrisType.board;
+      for (int y = 0; y < BoardConfig.ySize - 1; y++) {
+        boardWidgetModel.boardList[x][y].type = BlockType.board;
         boardWidgetModel.boardList[x][y].color = BoardConfig.boardColor;
 
         boardWidgetModel.boardList[x][y].updateCallback("string");

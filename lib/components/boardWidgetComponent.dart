@@ -29,6 +29,7 @@ class BoardWidgetComponent extends BaseComponent {
     if (gamePageModel.gameStatePaused) {
       return;
     }
+
     tetrisBlockLogic.clear(
       boardWidgetModel: boardWidgetModel,
       tetrisBlockModel: tetrisBlockModel,
@@ -57,6 +58,17 @@ class BoardWidgetComponent extends BaseComponent {
         boardWidgetModel: boardWidgetModel,
       )) {
         moveCommand.undo();
+
+        if (tetrisBlockLogic.isBlockOutsideBoardHeight(
+          tetrisBlockModel: tetrisBlockModel,
+          boardWidgetModel: boardWidgetModel,
+          checkTop: true,
+        )) {
+          print("gameOver");
+          gamePageModel.gameStatePaused = true;
+          return;
+        }
+
         tetrisBlockLogic.clear(
             boardWidgetModel: boardWidgetModel,
             tetrisBlockModel: tetrisBlockModel);
