@@ -6,23 +6,23 @@ import 'package:petris/models/gamePageModel.dart';
 
 class GamePageComponent extends BaseComponent {
   GamePageModel gamePageModel;
+  Timer? gameLoop;
 
   GamePageComponent({required this.gamePageModel});
 
   @override
-  void update(GamePageModel? gamePageModel) {
-    this.gamePageModel.timer.start();
-    this.gamePageModel.loop = Timer.periodic(BoardConfig.loopDuration, (timer) {
+  void update() {
+    gamePageModel.stopwatch.start();
+    gameLoop = Timer.periodic(BoardConfig.loopDuration, (timer) {
       if (this.gamePageModel.isRunning) {
         for (var element in this.gamePageModel.components) {
-          element.update(this.gamePageModel);
+          element.update();
         }
       } else {
         print("paused");
       }
-      if (this.gamePageModel.timer.elapsedMilliseconds >=
-          BoardConfig.tickTime) {
-        this.gamePageModel.timer.reset();
+      if (gamePageModel.stopwatch.elapsedMilliseconds >= BoardConfig.tickTime) {
+        this.gamePageModel.stopwatch.reset();
       }
     });
   }

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:petris/components/gamePageComponent.dart';
-import 'package:petris/logics/boardWidgetLogic.dart';
 import 'package:petris/logics/inputEventLogic.dart';
 import 'package:petris/models/boardWidgetModel.dart';
 import 'package:petris/models/countDownWidgetModel.dart';
@@ -31,7 +30,7 @@ class GamePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    gamePageComponent.update(null);
+    gamePageComponent.update();
 
     return Stack(
       children: [

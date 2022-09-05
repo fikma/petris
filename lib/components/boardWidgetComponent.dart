@@ -15,11 +15,12 @@ class BoardWidgetComponent extends BaseComponent {
   TetrisBlockModel tetrisBlockModel;
   BoardWidgetModel boardWidgetModel;
   CountDownWidgetModel countDownWidgetModel;
+  GamePageModel gamePageModel;
 
   TetrisBlockLogic tetrisBlockLogic = TetrisBlockLogic();
 
   BoardWidgetComponent({
-    required GamePageModel gamePageModel,
+    required this.gamePageModel,
     required this.boardWidgetModel,
     required this.tetrisBlockModel,
     required this.countDownWidgetModel,
@@ -27,8 +28,8 @@ class BoardWidgetComponent extends BaseComponent {
     gamePageModel.components.add(this);
   }
   @override
-  void update(GamePageModel? gamePageModel) {
-    if (gamePageModel!.gameStatePaused) {
+  void update() {
+    if (gamePageModel.gameStatePaused) {
       return;
     }
 
@@ -38,7 +39,7 @@ class BoardWidgetComponent extends BaseComponent {
     );
 
     var moveCommand = MoveComponentCommand(tetrisBlockModel);
-    if (gamePageModel.timer.elapsedMilliseconds >= BoardConfig.tickTime) {
+    if (gamePageModel.stopwatch.elapsedMilliseconds >= BoardConfig.tickTime) {
       moveCommand.execute(tetrisBlockModel.gravity);
       if (tetrisBlockLogic.isBlockOutsideBoardHeight(
         tetrisBlockModel: tetrisBlockModel,

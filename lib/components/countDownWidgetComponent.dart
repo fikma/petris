@@ -6,18 +6,19 @@ import '../models/gamePageModel.dart';
 
 class CountDownWidgetComponent extends BaseComponent {
   CountDownWidgetModel countDownWidgetModel;
+  final GamePageModel gamePageModel;
 
   CountDownWidgetComponent({
-    required GamePageModel gamePageModel,
+    required this.gamePageModel,
     required this.countDownWidgetModel,
   }) {
     gamePageModel.components.add(this);
   }
 
   @override
-  void update(GamePageModel? gamePageModel) {
+  void update() {
     if (countDownWidgetModel.countStarted) {
-      if (gamePageModel!.timer.elapsedMilliseconds >= BoardConfig.tickTime) {
+      if (gamePageModel.stopwatch.elapsedMilliseconds >= BoardConfig.tickTime) {
         countDownWidgetModel.text = countDownWidgetModel.counter.toString();
         countDownWidgetModel.updateCallback!();
 

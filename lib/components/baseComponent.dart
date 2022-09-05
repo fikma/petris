@@ -1,5 +1,5 @@
 import 'package:petris/models/gamePageModel.dart';
 
 abstract class BaseComponent {
-  void update(GamePageModel? gamePageModel);
+  void update();
 }
