@@ -5,9 +5,11 @@ import 'package:petris/logics/inputEventLogic.dart';
 import 'package:petris/models/boardWidgetModel.dart';
 import 'package:petris/models/countDownWidgetModel.dart';
 import 'package:petris/models/gamePageModel.dart';
+import 'package:petris/models/hudWidgetModel.dart';
 import 'package:petris/models/tetrisBlockModel.dart';
 import 'package:petris/pages/widget/CountDownWidget.dart';
 import 'package:petris/pages/widget/boardWidget.dart';
+import 'package:petris/pages/widget/hudWidget.dart';
 
 class GamePage extends StatelessWidget {
   GamePage() {
@@ -19,6 +21,7 @@ class GamePage extends StatelessWidget {
   final GamePageModel gamePageModel = GamePageModel();
   final BoardWidgetModel boardWidgetModel = BoardWidgetModel();
   final CountDownWidgetModel countDownWidgetModel = CountDownWidgetModel();
+  final HudWidgetModel hudWidgetModel = HudWidgetModel();
 
   late final GamePageComponent gamePageComponent =
       GamePageComponent(gamePageModel: gamePageModel);
@@ -43,7 +46,9 @@ class GamePage extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text("helo"), // todo: HUD
+                HudWidget(
+                  hudWidgetModel: hudWidgetModel,
+                ), // todo: HUD
                 BoardWidget(
                   boardWidgetModel: boardWidgetModel,
                   gamePageModel: gamePageModel,

@@ -141,8 +141,6 @@ class BoardWidgetLogic {
       for (int y = 0; y < BoardConfig.ySize; y++) {
         boardWidgetModel.boardList[x][y].type = BlockType.board;
         boardWidgetModel.boardList[x][y].color = BoardConfig.boardColor;
-
-        // print('${x} ${y}');
       }
     }
   }
