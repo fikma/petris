@@ -74,7 +74,7 @@ class BoardWidgetComponent extends BaseComponent {
         );
 
         tetrisBlockModel.blocks = tetrisBlockLogic.reset(
-          tetrisBlockModel: tetrisBlockModel,
+          tetrisBlocks: tetrisBlockModel.blocks,
         );
       }
 
@@ -88,7 +88,7 @@ class BoardWidgetComponent extends BaseComponent {
         );
 
         tetrisBlockModel.blocks = tetrisBlockLogic.reset(
-          tetrisBlockModel: tetrisBlockModel,
+          tetrisBlocks: tetrisBlockModel.blocks,
         );
       }
     }

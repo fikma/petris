@@ -14,7 +14,6 @@ void main() {
     tetrisBlockModel.blocks = logic.buildTetrominoes(
       random: random,
       tetrisShapeList: TetrisShapeList,
-      tetrisBlockModel: tetrisBlockModel,
     );
 
     expect(tetrisBlockModel.blocks.length, 4);
@@ -32,9 +31,9 @@ void main() {
           position: const Point(1, 1), size: BoardConfig.blockSize),
     ];
     tetrisBlockModel.blocks = logic.buildTetrominoes(
-        tetrisShapeList: TetrisShapeList,
-        tetrisBlockModel: tetrisBlockModel,
-        tetrisShape: TetrisShape.o);
+      tetrisShapeList: TetrisShapeList,
+      tetrisShape: TetrisShape.o,
+    );
 
     for (var i = 0; i < expectedValueO.length; i++) {
       var valueX = tetrisBlockModel.blocks[i].position.x;
@@ -59,7 +58,7 @@ void main() {
           position: const Point(0, 1), size: BoardConfig.blockSize),
     ];
 
-    tetrisBlockModel.blocks = logic.invertBlockTetris(tetrisBlockModel);
+    tetrisBlockModel.blocks = logic.invertBlockTetris(tetrisBlockModel.blocks);
 
     for (var i = 0; i < tetrisBlockModel.blocks.length; i++) {
       var valueX = tetrisBlockModel.blocks[i].position.x;

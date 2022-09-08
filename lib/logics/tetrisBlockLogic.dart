@@ -122,67 +122,65 @@ class TetrisBlockLogic {
   }
 
   TetrisBlockList<SingleBlockWidgetModel> reset({
-    required TetrisBlockModel tetrisBlockModel,
+    required TetrisBlockList<SingleBlockWidgetModel> tetrisBlocks,
   }) {
     var random = Random();
-    tetrisBlockModel.blocks = buildTetrominoes(
+    tetrisBlocks = buildTetrominoes(
       random: random,
       tetrisShapeList: TetrisShapeList,
-      tetrisBlockModel: tetrisBlockModel,
     );
 
     if (random.nextInt(5) >= 2) {
-      tetrisBlockModel.blocks = invertBlockTetris(tetrisBlockModel);
+      tetrisBlocks = invertBlockTetris(tetrisBlocks);
     }
 
-    tetrisBlockModel.blocks = moveBlockMinTop(tetrisBlockModel.blocks);
+    tetrisBlocks = moveBlockMinTop(tetrisBlocks);
 
-    tetrisBlockModel.blocks = randomizeXPosition(
-      tetrisBlockModel: tetrisBlockModel,
+    tetrisBlocks = randomizeXPosition(
+      tetrisBlocks: tetrisBlocks,
       random: random,
     );
 
-    tetrisBlockModel.blocks = randomizeColor(
-      tetrisBlockModel: tetrisBlockModel,
+    tetrisBlocks = randomizeColor(
+      tetrisBlocks: tetrisBlocks,
       random: random,
     );
 
-    return tetrisBlockModel.blocks;
+    return tetrisBlocks;
   }
 
   TetrisBlockList<SingleBlockWidgetModel> randomizeColor({
-    required TetrisBlockModel tetrisBlockModel,
+    required TetrisBlockList<SingleBlockWidgetModel> tetrisBlocks,
     required Random random,
   }) {
     var color = Colors.primaries[random.nextInt(Colors.primaries.length)];
-    for (var x = 0; x < tetrisBlockModel.blocks.length; x++) {
-      tetrisBlockModel.blocks[x].color = color;
+    for (var x = 0; x < tetrisBlocks.length; x++) {
+      tetrisBlocks[x].color = color;
     }
 
-    return tetrisBlockModel.blocks;
+    return tetrisBlocks;
   }
 
   TetrisBlockList<SingleBlockWidgetModel> randomizeXPosition({
-    required TetrisBlockModel tetrisBlockModel,
+    required TetrisBlockList<SingleBlockWidgetModel> tetrisBlocks,
     required Random random,
   }) {
     int xPosition = 0;
-    for (var block in tetrisBlockModel.blocks) {
+    for (var block in tetrisBlocks) {
       if (block.position.x > xPosition) {
         xPosition = block.position.x.toInt();
       }
     }
 
     int xMoveTo = random.nextInt(BoardConfig.xSize - xPosition);
-    moveTo(direction: Point(xMoveTo, 0), tetrisBlocks: tetrisBlockModel.blocks);
-    return tetrisBlockModel.blocks;
+    moveTo(direction: Point(xMoveTo, 0), tetrisBlocks: tetrisBlocks);
+    return tetrisBlocks;
   }
 
   TetrisBlockList<SingleBlockWidgetModel> buildTetrominoes({
     Random? random,
     TetrisShape? tetrisShape,
     required List<List<dynamic>> tetrisShapeList,
-    required TetrisBlockModel tetrisBlockModel,
   }) {
     TetrisBlockList<SingleBlockWidgetModel> result = TetrisBlockList();
 
@@ -229,9 +227,9 @@ class TetrisBlockLogic {
   }
 
   TetrisBlockList<SingleBlockWidgetModel> invertBlockTetris(
-      TetrisBlockModel tetrisBlockModel) {
+      TetrisBlockList<SingleBlockWidgetModel> tetrisBlocks) {
     var xOffset = 0;
-    for (var item in tetrisBlockModel.blocks) {
+    for (var item in tetrisBlocks) {
       var newPosition =
           Offset(item.position.x.toDouble(), item.position.y.toDouble())
               .scale(-1, 1);
@@ -243,10 +241,10 @@ class TetrisBlockLogic {
     }
     moveTo(
       direction: Point(xOffset.abs(), 0),
-      tetrisBlocks: tetrisBlockModel.blocks,
+      tetrisBlocks: tetrisBlocks,
     );
 
-    return tetrisBlockModel.blocks;
+    return tetrisBlocks;
   }
 
   TetrisBlockList<SingleBlockWidgetModel> moveBlockMinTop(

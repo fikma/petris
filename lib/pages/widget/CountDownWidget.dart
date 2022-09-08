@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:petris/components/countDownWidgetComponent.dart';
-import 'package:petris/utils/boardConfig.dart';
 import 'package:petris/models/countDownWidgetModel.dart';
 import 'package:petris/models/gamePageModel.dart';
 

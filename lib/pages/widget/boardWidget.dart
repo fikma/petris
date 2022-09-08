@@ -38,8 +38,8 @@ class _BoardWidgetState extends State<BoardWidget> {
       BoardConfig.ySize,
     );
 
-    TetrisBlockLogic().reset(
-      tetrisBlockModel: widget.tetrisBlockModel,
+    widget.tetrisBlockModel.blocks = TetrisBlockLogic().reset(
+      tetrisBlocks: widget.tetrisBlockModel.blocks,
     );
 
     BoardWidgetComponent(
