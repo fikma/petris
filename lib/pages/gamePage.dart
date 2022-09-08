@@ -14,13 +14,15 @@ class GamePage extends StatelessWidget {
   GamePage() {
     boardFocus = FocusNode();
     inputEventLogic = InputEventLogic(tetrisBlockModel, boardWidgetModel);
+
+    hudWidgetModel = HudWidgetModel(tetrisBlockModel: tetrisBlockModel);
   }
 
   final TetrisBlockModel tetrisBlockModel = TetrisBlockModel();
   final GamePageModel gamePageModel = GamePageModel();
   final BoardWidgetModel boardWidgetModel = BoardWidgetModel();
   final CountDownWidgetModel countDownWidgetModel = CountDownWidgetModel();
-  final HudWidgetModel hudWidgetModel = HudWidgetModel();
+  late final HudWidgetModel hudWidgetModel;
 
   late final GamePageComponent gamePageComponent =
       GamePageComponent(gamePageModel: gamePageModel);
@@ -32,39 +34,42 @@ class GamePage extends StatelessWidget {
   Widget build(BuildContext context) {
     gamePageComponent.update();
 
-    return Stack(
-      children: [
-        Focus(
-          autofocus: true,
-          focusNode: boardFocus,
-          onKeyEvent: inputEventLogic.keyBoardInputHandle,
-          child: Listener(
-            onPointerDown: inputEventLogic.pointerDownHandle,
-            onPointerUp: inputEventLogic.pointerUpHandle,
-            onPointerMove: inputEventLogic.pointerMoveHandle,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                HudWidget(
-                  hudWidgetModel: hudWidgetModel,
-                ), // todo: HUD
-                BoardWidget(
-                  boardWidgetModel: boardWidgetModel,
-                  gamePageModel: gamePageModel,
-                  tetrisBlockModel: tetrisBlockModel,
-                  countDownWidgetModel: countDownWidgetModel,
-                ),
-                Container()
-              ],
+    return Scaffold(
+      body: Stack(
+        children: [
+          Focus(
+            autofocus: true,
+            focusNode: boardFocus,
+            onKeyEvent: inputEventLogic.keyBoardInputHandle,
+            child: Listener(
+              onPointerDown: inputEventLogic.pointerDownHandle,
+              onPointerUp: inputEventLogic.pointerUpHandle,
+              onPointerMove: inputEventLogic.pointerMoveHandle,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  HudWidget(
+                    boardWidgetModel: boardWidgetModel,
+                    hudWidgetModel: hudWidgetModel,
+                  ), // todo: HUD
+                  BoardWidget(
+                    boardWidgetModel: boardWidgetModel,
+                    gamePageModel: gamePageModel,
+                    tetrisBlockModel: tetrisBlockModel,
+                    countDownWidgetModel: countDownWidgetModel,
+                  ),
+                  Container()
+                ],
+              ),
             ),
           ),
-        ),
-        CountDownWidget(
-          gamePageModel: gamePageModel,
-          countDownWidgetModel: countDownWidgetModel,
-          nextFocus: boardFocus,
-        ),
-      ],
+          CountDownWidget(
+            gamePageModel: gamePageModel,
+            countDownWidgetModel: countDownWidgetModel,
+            nextFocus: boardFocus,
+          ),
+        ],
+      ),
     );
   }
 }

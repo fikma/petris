@@ -8,11 +8,12 @@ import 'package:petris/models/tetrisBlockModel.dart';
 import 'package:petris/pages/widget/singleBlockWidget.dart';
 
 class BoardWidgetLogic {
-  List<List<SingleBlockWidgetModel>> initBoardListModel() {
+  //
+  List<List<SingleBlockWidgetModel>> initBoardList(int xSize, int ySize) {
     List<List<SingleBlockWidgetModel>> data = [];
-    for (var xCount = 0; xCount < BoardConfig.xSize; xCount++) {
+    for (var xCount = 0; xCount < xSize; xCount++) {
       List<SingleBlockWidgetModel> temp = [];
-      for (var yCount = 0; yCount < BoardConfig.ySize; yCount++) {
+      for (var yCount = 0; yCount < ySize; yCount++) {
         var model = SingleBlockWidgetModel(
           position: Point(xCount, yCount),
           color: Colors.black,
@@ -37,9 +38,8 @@ class BoardWidgetLogic {
 
       for (var x in y) {
         singleBlockWidgetList.add(SingleBlockWidget(
-          model: x,
+          singleBlockWidgetModel: x,
           boardWidgetModel: boardWidgetModel,
-          boardWidgetLogic: this,
         ));
       }
 
@@ -60,20 +60,6 @@ class BoardWidgetLogic {
         child: baris,
       ),
     );
-  }
-
-  void setSingleBlockCallback({
-    required BoardWidgetModel boardWidgetModel,
-    required int x,
-    required int y,
-    required Function(String) callback,
-  }) {
-    var model = boardWidgetModel.boardList[x][y];
-    if (model != null) {
-      model.updateCallback = callback;
-
-      boardWidgetModel.boardList[x][y] = model;
-    }
   }
 
   void setBoardBlock({

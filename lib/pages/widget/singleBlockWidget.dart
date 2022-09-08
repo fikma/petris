@@ -5,14 +5,12 @@ import 'package:petris/models/boardWidgetModel.dart';
 import 'package:petris/models/singleBlockWidgetModel.dart';
 
 class SingleBlockWidget extends StatefulWidget {
-  SingleBlockWidgetModel model;
-  BoardWidgetModel boardWidgetModel;
+  final SingleBlockWidgetModel singleBlockWidgetModel;
+  final BoardWidgetModel boardWidgetModel;
 
-  BoardWidgetLogic boardWidgetLogic;
   SingleBlockWidget({
-    required this.model,
+    required this.singleBlockWidgetModel,
     required this.boardWidgetModel,
-    required this.boardWidgetLogic,
   });
 
   @override
@@ -20,30 +18,27 @@ class SingleBlockWidget extends StatefulWidget {
 }
 
 class _SingleBlockWidgetState extends State<SingleBlockWidget> {
+  BoardWidgetLogic boardWidgetLogic = BoardWidgetLogic();
+
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
 
-    widget.boardWidgetLogic.setSingleBlockCallback(
-      boardWidgetModel: widget.boardWidgetModel,
-      callback: (String hello) {
-        setState(() {});
-      },
-      x: widget.model.position.x.toInt(),
-      y: widget.model.position.y.toInt(),
-    );
+    widget.singleBlockWidgetModel.updateCallback = (String hello) {
+      setState(() {});
+    };
   }
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: widget.model.size,
-      height: widget.model.size,
-      color: widget.model.color,
+      width: widget.singleBlockWidgetModel.size,
+      height: widget.singleBlockWidgetModel.size,
+      color: widget.singleBlockWidgetModel.color,
       child: Center(
         child: (kDebugMode)
             ? Text(
-                '${widget.model.position.x}:${widget.model.position.y}',
+                '${widget.singleBlockWidgetModel.position.x}:${widget.singleBlockWidgetModel.position.y}',
                 style: TextStyle(
                   fontSize: 10.0,
                   color: Colors.red,

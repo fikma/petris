@@ -4,6 +4,7 @@ import 'package:petris/logics/boardWidgetLogic.dart';
 import 'package:petris/logics/tetrisBlockLogic.dart';
 import 'package:petris/models/boardWidgetModel.dart';
 import 'package:petris/models/countDownWidgetModel.dart';
+import 'package:petris/utils/boardConfig.dart';
 
 import '../../models/gamePageModel.dart';
 import '../../models/tetrisBlockModel.dart';
@@ -32,8 +33,10 @@ class _BoardWidgetState extends State<BoardWidget> {
   void didChangeDependencies() {
     super.didChangeDependencies();
 
-    widget.boardWidgetModel.boardList =
-        widget.boardWidgetLogic.initBoardListModel();
+    widget.boardWidgetModel.boardList = widget.boardWidgetLogic.initBoardList(
+      BoardConfig.xSize,
+      BoardConfig.ySize,
+    );
 
     TetrisBlockLogic().reset(
       tetrisBlockModel: widget.tetrisBlockModel,
