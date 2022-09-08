@@ -65,11 +65,26 @@ class TetrisBlockModel {
 
   late Queue<List<SingleBlockWidgetModel>> blocksQueue;
   TetrisShape? shape;
-
-  // late BlockListWrapper blocks = BlockListWrapper();
 }
 
-class BlockListWrapper {
-  TetrisShape? shape;
-  late List<SingleBlockWidgetModel> blocks;
+class TetrisBlockList<E> extends ListBase<E> {
+  List<E> l = [];
+
+  @override
+  set length(int newLength) {
+    l.length = newLength;
+  }
+
+  @override
+  int get length => l.length;
+
+  @override
+  E operator [](int index) {
+    return l[index];
+  }
+
+  @override
+  void operator []=(int index, E value) {
+    l[index] = value;
+  }
 }
