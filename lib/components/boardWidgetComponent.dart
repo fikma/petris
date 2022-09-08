@@ -1,6 +1,6 @@
 import 'dart:math';
 
-import 'package:petris/commands/moveComponentCommand.dart';
+import 'package:petris/commands/moveTetrisBlocksCommand.dart';
 import 'package:petris/components/baseComponent.dart';
 import 'package:petris/logics/boardWidgetLogic.dart';
 import 'package:petris/models/boardWidgetModel.dart';
@@ -9,6 +9,7 @@ import 'package:petris/models/gamePageModel.dart';
 import 'package:petris/models/tetrisBlockModel.dart';
 import 'package:petris/utils/boardConfig.dart';
 
+import '../commands/rotateTetrisBlocksCommand.dart';
 import '../logics/tetrisBlockLogic.dart';
 
 class BoardWidgetComponent extends BaseComponent {
@@ -18,6 +19,7 @@ class BoardWidgetComponent extends BaseComponent {
   GamePageModel gamePageModel;
 
   TetrisBlockLogic tetrisBlockLogic = TetrisBlockLogic();
+  BoardWidgetLogic boardWidgetLogic = BoardWidgetLogic();
 
   BoardWidgetComponent({
     required this.gamePageModel,
@@ -33,63 +35,59 @@ class BoardWidgetComponent extends BaseComponent {
       return;
     }
 
-    tetrisBlockLogic.clear(
-      boardWidgetModel: boardWidgetModel,
-      tetrisBlockModel: tetrisBlockModel,
+    boardWidgetLogic.clear(
+      boardList: boardWidgetModel.boardList,
     );
 
-    var moveCommand = MoveComponentCommand(tetrisBlockModel);
+    var moveCommand = MoveTetrisBlocksCommand(
+      tetrisBlocks: tetrisBlockModel.blocks,
+    );
     if (gamePageModel.stopwatch.elapsedMilliseconds >= BoardConfig.tickTime) {
       moveCommand.execute(tetrisBlockModel.gravity);
-      if (tetrisBlockLogic.isBlockOutsideBoardHeight(
-        tetrisBlockModel: tetrisBlockModel,
-        boardWidgetModel: boardWidgetModel,
-      )) {
-        moveCommand.undo();
-        BoardWidgetLogic().setBoardBlock(
-          boardWidgetModel: boardWidgetModel,
-          tetrisBlockModel: tetrisBlockModel,
-        );
-
-        tetrisBlockModel = tetrisBlockLogic.reset(
-          tetrisBlockModel: tetrisBlockModel,
-        );
-      }
 
       if (tetrisBlockLogic.isBlockCollideWithTetrominoe(
-        tetrisBlockModel: tetrisBlockModel,
-        boardWidgetModel: boardWidgetModel,
+        tetrisBlocks: tetrisBlockModel.blocks,
+        boardList: boardWidgetModel.boardList,
       )) {
         moveCommand.undo();
 
         // Gameover logic
         if (tetrisBlockLogic.isBlockOutsideBoardHeight(
-          tetrisBlockModel: tetrisBlockModel,
-          boardWidgetModel: boardWidgetModel,
+          tetrisBlocks: tetrisBlockModel.blocks,
           checkTop: true,
         )) {
-          print("gameOver");
           gamePageModel.gameStatePaused = true;
 
           countDownWidgetModel.visible = true;
           countDownWidgetModel.text = "gameOver";
           countDownWidgetModel.updateCallback!();
-          BoardWidgetLogic().resetBoard(
-            boardWidgetModel: boardWidgetModel,
-          );
           return;
         }
 
-        tetrisBlockLogic.clear(
-            boardWidgetModel: boardWidgetModel,
-            tetrisBlockModel: tetrisBlockModel);
-
-        BoardWidgetLogic().setBoardBlock(
-          boardWidgetModel: boardWidgetModel,
-          tetrisBlockModel: tetrisBlockModel,
+        boardWidgetLogic.clear(
+          boardList: boardWidgetModel.boardList,
         );
 
-        tetrisBlockModel = tetrisBlockLogic.reset(
+        boardWidgetLogic.setBoardBlock(
+          boardList: boardWidgetModel.boardList,
+          tetrisBlocks: tetrisBlockModel.blocks,
+        );
+
+        tetrisBlockModel.blocks = tetrisBlockLogic.reset(
+          tetrisBlockModel: tetrisBlockModel,
+        );
+      }
+
+      if (tetrisBlockLogic.isBlockOutsideBoardHeight(
+        tetrisBlocks: tetrisBlockModel.blocks,
+      )) {
+        moveCommand.undo();
+        boardWidgetLogic.setBoardBlock(
+          boardList: boardWidgetModel.boardList,
+          tetrisBlocks: tetrisBlockModel.blocks,
+        );
+
+        tetrisBlockModel.blocks = tetrisBlockLogic.reset(
           tetrisBlockModel: tetrisBlockModel,
         );
       }
@@ -100,37 +98,68 @@ class BoardWidgetComponent extends BaseComponent {
     if (tetrisBlockModel.xDirection != Point(0, 0)) {
       moveCommand.execute(tetrisBlockModel.xDirection);
       if (tetrisBlockLogic.isBlockOutsideBoardWidth(
-            tetrisBlockModel: tetrisBlockModel,
-            boardWidgetModel: boardWidgetModel,
+            tetrisBlocks: tetrisBlockModel.blocks,
           ) ||
           tetrisBlockLogic.isBlockCollideWithTetrominoe(
-            tetrisBlockModel: tetrisBlockModel,
-            boardWidgetModel: boardWidgetModel,
+            tetrisBlocks: tetrisBlockModel.blocks,
+            boardList: boardWidgetModel.boardList,
           )) {
         moveCommand.undo();
       }
     }
 
-    // reset flag untuk xMove dan rotate
-    tetrisBlockModel.xDirection = Point(0, 0);
+    // start rotate logic
+    if (tetrisBlockModel.rotate) {
+      var rotateCommand = RotateTetrisBlocksCommand(
+        tetrisBlocks: tetrisBlockModel.blocks,
+      );
+      rotateCommand.execute();
+      if (TetrisBlockLogic().isBlockOutsideBoardWidth(
+        tetrisBlocks: tetrisBlockModel.blocks,
+      )) {
+        rotateCommand.undo();
+      }
+
+      if (TetrisBlockLogic().isBlockCollideWithTetrominoe(
+        tetrisBlocks: tetrisBlockModel.blocks,
+        boardList: boardWidgetModel.boardList,
+      )) {
+        rotateCommand.undo();
+      }
+    }
+    // end rotate
+
+    // start move tetris block to bottom
+    if (tetrisBlockModel.moveBlocksToBottom) {
+      TetrisBlockLogic().moveTetrisBlocksToBottom(
+        boardList: boardWidgetModel.boardList,
+        tetrisBlocks: tetrisBlockModel.blocks,
+      );
+    }
+    // end move tetris block to bottom
+
+    // start reset flag untuk xMove, rotate, moveBlockToBottom
+    tetrisBlockModel.xDirection = const Point(0, 0);
+    tetrisBlockModel.rotate = false;
+    tetrisBlockModel.moveBlocksToBottom = false;
+    // end reset
 
     var checkLineResult = BoardWidgetLogic().checkLine(
-      boardWidgetModel: boardWidgetModel,
+      boardList: boardWidgetModel.boardList,
     );
-    if (checkLineResult[0] as bool) {
-      TetrisBlockLogic().clear(
-        boardWidgetModel: boardWidgetModel,
-        tetrisBlockModel: tetrisBlockModel,
+    if (checkLineResult.isLine) {
+      boardWidgetLogic.clear(
+        boardList: boardWidgetModel.boardList,
       );
-      BoardWidgetLogic().moveLineDown(
-        boardWidgetModel: boardWidgetModel,
-        yPositions: checkLineResult[1],
+      boardWidgetLogic.moveLineDown(
+        boardList: boardWidgetModel.boardList,
+        yPositions: checkLineResult.lineResults,
       );
     }
 
     tetrisBlockLogic.setTetrisBlockToBoard(
-      boardWidgetModel: boardWidgetModel,
-      tetrisBlockModel: tetrisBlockModel,
+      boardList: boardWidgetModel.boardList,
+      tetrisBlocks: tetrisBlockModel.blocks,
     );
   }
 }

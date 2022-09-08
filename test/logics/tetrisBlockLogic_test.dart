@@ -59,7 +59,7 @@ void main() {
           position: const Point(0, 1), size: BoardConfig.blockSize),
     ];
 
-    tetrisBlockModel = logic.invertBlockTetris(tetrisBlockModel);
+    tetrisBlockModel.blocks = logic.invertBlockTetris(tetrisBlockModel);
 
     for (var i = 0; i < tetrisBlockModel.blocks.length; i++) {
       var valueX = tetrisBlockModel.blocks[i].position.x;

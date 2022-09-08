@@ -1,3 +1,4 @@
+import 'dart:collection';
 import 'dart:math';
 
 import 'package:flutter/cupertino.dart';
@@ -50,8 +51,10 @@ List<List<dynamic>> TetrisShapeList = [
 ];
 
 class TetrisBlockModel {
-  Point gravity = Point(0, 1);
-  Point xDirection = Point(0, 0);
+  Point gravity = const Point(0, 1);
+  Point xDirection = const Point(0, 0);
+  bool rotate = false;
+  bool moveBlocksToBottom = false;
 
   Offset? gestureStartLocalLocation;
 
@@ -59,5 +62,14 @@ class TetrisBlockModel {
   double? vectorLength;
 
   late List<SingleBlockWidgetModel> blocks;
+
+  late Queue<List<SingleBlockWidgetModel>> blocksQueue;
   TetrisShape? shape;
+
+  // late BlockListWrapper blocks = BlockListWrapper();
+}
+
+class BlockListWrapper {
+  TetrisShape? shape;
+  late List<SingleBlockWidgetModel> blocks;
 }

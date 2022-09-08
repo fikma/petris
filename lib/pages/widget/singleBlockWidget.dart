@@ -6,11 +6,9 @@ import 'package:petris/models/singleBlockWidgetModel.dart';
 
 class SingleBlockWidget extends StatefulWidget {
   final SingleBlockWidgetModel singleBlockWidgetModel;
-  final BoardWidgetModel boardWidgetModel;
 
   SingleBlockWidget({
     required this.singleBlockWidgetModel,
-    required this.boardWidgetModel,
   });
 
   @override

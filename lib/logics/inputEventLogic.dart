@@ -2,7 +2,6 @@ import 'dart:math';
 
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
-import 'package:petris/commands/rotateCommand.dart';
 import 'package:petris/logics/tetrisBlockLogic.dart';
 import 'package:petris/models/boardWidgetModel.dart';
 import 'package:petris/models/tetrisBlockModel.dart';
@@ -16,10 +15,6 @@ class InputEventLogic {
 
   KeyEventResult keyBoardInputHandle(FocusNode node, KeyEvent event) {
     if (event is KeyUpEvent) {
-      TetrisBlockLogic().clear(
-        tetrisBlockModel: tetrisBlockModel,
-        boardWidgetModel: boardWidgetModel,
-      );
       if (event.logicalKey == LogicalKeyboardKey.arrowRight) {
         tetrisBlockModel.xDirection = const Point(1, 0);
       } else if (event.logicalKey == LogicalKeyboardKey.arrowLeft) {
@@ -28,41 +23,16 @@ class InputEventLogic {
 
       if (event.logicalKey == LogicalKeyboardKey.arrowUp) {
         if (tetrisBlockModel.shape != TetrisShape.o) {
-          _rotateBlock();
+          tetrisBlockModel.rotate = true;
         }
       }
 
       if (event.logicalKey == LogicalKeyboardKey.arrowDown) {
-        _moveBlockToBottom();
+        tetrisBlockModel.moveBlocksToBottom = true;
       }
     }
 
     return KeyEventResult.handled;
-  }
-
-  void _moveBlockToBottom() {
-    TetrisBlockLogic().moveToBottom(
-      boardWidgetModel: boardWidgetModel,
-      tetrisBlockModel: tetrisBlockModel,
-    );
-  }
-
-  void _rotateBlock() {
-    var rotateCommand = RotateCommand(tetrisBlockModel);
-    rotateCommand.execute();
-    if (TetrisBlockLogic().isBlockOutsideBoardWidth(
-      tetrisBlockModel: tetrisBlockModel,
-      boardWidgetModel: boardWidgetModel,
-    )) {
-      rotateCommand.undo();
-    }
-
-    if (TetrisBlockLogic().isBlockCollideWithTetrominoe(
-      tetrisBlockModel: tetrisBlockModel,
-      boardWidgetModel: boardWidgetModel,
-    )) {
-      rotateCommand.undo();
-    }
   }
 
   void pointerDownHandle(PointerDownEvent details) {
@@ -77,17 +47,28 @@ class InputEventLogic {
     if (tetrisBlockModel.vectorLength! >= 800) {
       // gestureDown
       if (isBetween(tetrisBlockModel.vectorRadianDirection!, 0.785, 2.355)) {
-        BoardConfig.tickTime = 200;
+        BoardConfig.tickTime = 100;
       }
     }
   }
 
   void pointerUpHandle(PointerUpEvent details) {
+    BoardConfig.tickTime = 700;
+
     var temp =
         details.localPosition - tetrisBlockModel.gestureStartLocalLocation!;
     tetrisBlockModel.vectorRadianDirection = temp.direction;
 
     if (tetrisBlockModel.vectorLength! >= 800) {
+      // gestureUp
+      if (isBetween(tetrisBlockModel.vectorRadianDirection!, -2.355, -0.785)) {
+        if (tetrisBlockModel.shape != TetrisShape.l) {
+          tetrisBlockModel.rotate = true;
+
+          return;
+        }
+      }
+
       // gestureLeftRight
       if (isBetween(
         tetrisBlockModel.vectorRadianDirection!,
@@ -99,16 +80,7 @@ class InputEventLogic {
           (tetrisBlockModel.vectorRadianDirection! <= -2.355)) {
         tetrisBlockModel.xDirection = const Point(-1, 0);
       }
-
-      // gestureUp
-      if (isBetween(tetrisBlockModel.vectorRadianDirection!, -2.355, -0.785)) {
-        if (tetrisBlockModel.shape != TetrisShape.l) {
-          _rotateBlock();
-        }
-      }
     }
-
-    BoardConfig.tickTime = 700;
   }
 
   bool isBetween(num value, num min, num max) {

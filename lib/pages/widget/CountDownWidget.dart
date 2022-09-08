@@ -24,14 +24,6 @@ class CountDownWidget extends StatefulWidget {
 
 class _CountDownWidgetState extends State<CountDownWidget> {
   @override
-  void dispose() {
-    // TODO: implement dispose
-    widget.countDownWidgetModel.timer!.cancel();
-    widget.countDownWidgetModel.timer = null;
-    super.dispose();
-  }
-
-  @override
   void initState() {
     CountDownWidgetComponent(
       gamePageModel: widget.gamePageModel,

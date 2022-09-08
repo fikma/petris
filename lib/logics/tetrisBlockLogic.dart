@@ -1,30 +1,26 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:petris/commands/moveComponentCommand.dart';
+import 'package:petris/commands/moveTetrisBlocksCommand.dart';
 import 'package:petris/utils/boardConfig.dart';
-import 'package:petris/logics/boardWidgetLogic.dart';
-import 'package:petris/models/boardWidgetModel.dart';
 import 'package:petris/models/tetrisBlockModel.dart';
 
 import '../models/singleBlockWidgetModel.dart';
 
 class TetrisBlockLogic {
-  void rotate({
-    required TetrisBlockModel tetrisBlockModel,
+  List<SingleBlockWidgetModel> rotate({
+    required List<SingleBlockWidgetModel> tetrisBlocks,
     bool rotateClockwise = true,
     int rotationOriginIndex = 0,
   }) {
-    rotationOriginIndex = (rotationOriginIndex > tetrisBlockModel.blocks.length)
-        ? tetrisBlockModel.blocks.length - 1
+    rotationOriginIndex = (rotationOriginIndex > tetrisBlocks.length)
+        ? tetrisBlocks.length - 1
         : rotationOriginIndex;
-    rotationOriginIndex = (rotationOriginIndex < tetrisBlockModel.blocks.length)
-        ? rotationOriginIndex
-        : 0;
-    Point rotationOrigin =
-        tetrisBlockModel.blocks[rotationOriginIndex].position;
+    rotationOriginIndex =
+        (rotationOriginIndex < tetrisBlocks.length) ? rotationOriginIndex : 0;
+    Point rotationOrigin = tetrisBlocks[rotationOriginIndex].position;
 
-    tetrisBlockModel.blocks.asMap().forEach((index, block) {
+    tetrisBlocks.asMap().forEach((index, block) {
       int newX, newY;
       if (rotateClockwise) {
         int x = (block.position.y - rotationOrigin.y).toInt();
@@ -40,58 +36,45 @@ class TetrisBlockLogic {
         newY = (rotationOrigin.y - y).toInt();
       }
 
-      var model = tetrisBlockModel.blocks[index];
+      var model = tetrisBlocks[index];
 
       model.position = Point(newX, newY);
 
-      tetrisBlockModel.blocks[index] = model;
+      tetrisBlocks[index] = model;
     });
+
+    return tetrisBlocks;
   }
 
-  void moveTo({
-    required TetrisBlockModel tetrisBlockModel,
+  List<SingleBlockWidgetModel> moveTo({
+    required List<SingleBlockWidgetModel> tetrisBlocks,
     required Point direction,
   }) {
-    for (var i in tetrisBlockModel.blocks) {
+    for (var i in tetrisBlocks) {
       i.position += direction;
     }
+
+    return tetrisBlocks;
   }
 
   void setTetrisBlockToBoard({
-    required TetrisBlockModel tetrisBlockModel,
-    required BoardWidgetModel boardWidgetModel,
+    required List<SingleBlockWidgetModel> tetrisBlocks,
+    required List<List<SingleBlockWidgetModel>> boardList,
   }) {
-    for (var item in tetrisBlockModel.blocks) {
+    for (var item in tetrisBlocks) {
       if (item.position.y >= 0 && item.position.y <= BoardConfig.ySize - 1) {
-        boardWidgetModel
-            .boardList[item.position.x.toInt()][item.position.y.toInt()]
-            .color = item.color;
-        boardWidgetModel.boardList[item.position.x.toInt()]
-                [item.position.y.toInt()]
+        boardList[item.position.x.toInt()][item.position.y.toInt()].color =
+            item.color;
+        boardList[item.position.x.toInt()][item.position.y.toInt()]
             .updateCallback("updated!!!!!");
       }
     }
   }
 
-  void clear({
-    required TetrisBlockModel tetrisBlockModel,
-    required BoardWidgetModel boardWidgetModel,
-  }) {
-    for (var one in boardWidgetModel.boardList) {
-      for (var two in one) {
-        if (two.type == BlockType.board) {
-          two.color = BoardConfig.boardColor;
-          two.updateCallback("rerender");
-        }
-      }
-    }
-  }
-
   bool isBlockOutsideBoardWidth({
-    required TetrisBlockModel tetrisBlockModel,
-    required BoardWidgetModel boardWidgetModel,
+    required List<SingleBlockWidgetModel> tetrisBlocks,
   }) {
-    for (var block in tetrisBlockModel.blocks) {
+    for (var block in tetrisBlocks) {
       bool outSideLeft = block.position.x < 0;
       bool outSideRight = block.position.x > BoardConfig.xSize - 1;
 
@@ -103,11 +86,10 @@ class TetrisBlockLogic {
   }
 
   bool isBlockOutsideBoardHeight({
-    required TetrisBlockModel tetrisBlockModel,
-    required BoardWidgetModel boardWidgetModel,
+    required List<SingleBlockWidgetModel> tetrisBlocks,
     bool? checkTop,
   }) {
-    for (var block in tetrisBlockModel.blocks) {
+    for (var block in tetrisBlocks) {
       if (checkTop != null) {
         if (block.position.y < 0) return true;
       }
@@ -117,17 +99,19 @@ class TetrisBlockLogic {
   }
 
   bool isBlockCollideWithTetrominoe({
-    required TetrisBlockModel tetrisBlockModel,
-    required BoardWidgetModel boardWidgetModel,
+    required List<SingleBlockWidgetModel> tetrisBlocks,
+    required List<List<SingleBlockWidgetModel>> boardList,
   }) {
     var result = false;
-    for (var block in tetrisBlockModel.blocks) {
-      if (block.position.y < 0 || block.position.y > BoardConfig.ySize - 1)
+    for (var block in tetrisBlocks) {
+      if (block.position.y < 0 || block.position.y > BoardConfig.ySize - 1) {
         continue;
-      if (block.position.x < 0 || block.position.x > BoardConfig.xSize - 1)
+      }
+      if (block.position.x < 0 || block.position.x > BoardConfig.xSize - 1) {
         continue;
-      var boardBlock = boardWidgetModel.boardList[block.position.x.toInt()]
-          [block.position.y.toInt()];
+      }
+      var boardBlock =
+          boardList[block.position.x.toInt()][block.position.y.toInt()];
 
       bool collided = (boardBlock.type != BlockType.board);
 
@@ -137,7 +121,7 @@ class TetrisBlockLogic {
     return result;
   }
 
-  TetrisBlockModel reset({
+  List<SingleBlockWidgetModel> reset({
     required TetrisBlockModel tetrisBlockModel,
   }) {
     var random = Random();
@@ -148,25 +132,25 @@ class TetrisBlockLogic {
     );
 
     if (random.nextInt(5) >= 2) {
-      tetrisBlockModel = invertBlockTetris(tetrisBlockModel);
+      tetrisBlockModel.blocks = invertBlockTetris(tetrisBlockModel);
     }
 
-    tetrisBlockModel = tetrisBlockModel = _moveBlockMinTop(tetrisBlockModel);
+    tetrisBlockModel.blocks = moveBlockMinTop(tetrisBlockModel.blocks);
 
-    tetrisBlockModel = randomizeXPosition(
+    tetrisBlockModel.blocks = randomizeXPosition(
       tetrisBlockModel: tetrisBlockModel,
       random: random,
     );
 
-    tetrisBlockModel = randomizeColor(
+    tetrisBlockModel.blocks = randomizeColor(
       tetrisBlockModel: tetrisBlockModel,
       random: random,
     );
 
-    return tetrisBlockModel;
+    return tetrisBlockModel.blocks;
   }
 
-  TetrisBlockModel randomizeColor({
+  List<SingleBlockWidgetModel> randomizeColor({
     required TetrisBlockModel tetrisBlockModel,
     required Random random,
   }) {
@@ -175,10 +159,10 @@ class TetrisBlockLogic {
       tetrisBlockModel.blocks[x].color = color;
     }
 
-    return tetrisBlockModel;
+    return tetrisBlockModel.blocks;
   }
 
-  TetrisBlockModel randomizeXPosition({
+  List<SingleBlockWidgetModel> randomizeXPosition({
     required TetrisBlockModel tetrisBlockModel,
     required Random random,
   }) {
@@ -190,11 +174,8 @@ class TetrisBlockLogic {
     }
 
     int xMoveTo = random.nextInt(BoardConfig.xSize - xPosition);
-    moveTo(
-      tetrisBlockModel: tetrisBlockModel,
-      direction: Point(xMoveTo, 0),
-    );
-    return tetrisBlockModel;
+    moveTo(direction: Point(xMoveTo, 0), tetrisBlocks: tetrisBlockModel.blocks);
+    return tetrisBlockModel.blocks;
   }
 
   List<SingleBlockWidgetModel> buildTetrominoes({
@@ -205,6 +186,7 @@ class TetrisBlockLogic {
   }) {
     List<SingleBlockWidgetModel> result = <SingleBlockWidgetModel>[];
 
+    // start logic untuk test
     if (tetrisShape != null) {
       for (var item in tetrisShapeList) {
         if (TetrisShape.values[item[0]] == tetrisShape) {
@@ -224,6 +206,7 @@ class TetrisBlockLogic {
 
       return result;
     }
+    // end logic untuk test
 
     var positionBlueprint =
         tetrisShapeList[random!.nextInt(tetrisShapeList.length)];
@@ -232,19 +215,21 @@ class TetrisBlockLogic {
     for (var index = 1; index < positionBlueprint.length; index++) {
       result.add(
         SingleBlockWidgetModel(
-            position: Point(
-              positionBlueprint[index][0],
-              positionBlueprint[index][1],
-            ),
-            size: BoardConfig.blockSize,
-            type: BlockType.tetromino),
+          position: Point(
+            positionBlueprint[index][0],
+            positionBlueprint[index][1],
+          ),
+          size: BoardConfig.blockSize,
+          type: BlockType.tetromino,
+        ),
       );
     }
 
     return result;
   }
 
-  TetrisBlockModel invertBlockTetris(TetrisBlockModel tetrisBlockModel) {
+  List<SingleBlockWidgetModel> invertBlockTetris(
+      TetrisBlockModel tetrisBlockModel) {
     var xOffset = 0;
     for (var item in tetrisBlockModel.blocks) {
       var newPosition =
@@ -257,43 +242,43 @@ class TetrisBlockLogic {
       }
     }
     moveTo(
-      tetrisBlockModel: tetrisBlockModel,
       direction: Point(xOffset.abs(), 0),
+      tetrisBlocks: tetrisBlockModel.blocks,
     );
 
-    return tetrisBlockModel;
+    return tetrisBlockModel.blocks;
   }
 
-  TetrisBlockModel _moveBlockMinTop(TetrisBlockModel tetrisBlockModel) {
+  List<SingleBlockWidgetModel> moveBlockMinTop(
+      List<SingleBlockWidgetModel> tetrisBlocks) {
     int lengthOfY = 0;
-    for (var block in tetrisBlockModel.blocks) {
+    for (var block in tetrisBlocks) {
       lengthOfY =
           (block.position.y > lengthOfY) ? block.position.y.toInt() : lengthOfY;
     }
 
     TetrisBlockLogic().moveTo(
-      tetrisBlockModel: tetrisBlockModel,
       direction: Point(0, -(lengthOfY + 1)),
+      tetrisBlocks: tetrisBlocks,
     );
 
-    return tetrisBlockModel;
+    return tetrisBlocks;
   }
 
-  void moveToBottom({
-    required BoardWidgetModel boardWidgetModel,
-    required TetrisBlockModel tetrisBlockModel,
+  void moveTetrisBlocksToBottom({
+    required List<List<SingleBlockWidgetModel>> boardList,
+    required List<SingleBlockWidgetModel> tetrisBlocks,
   }) {
     while (true) {
-      var moveCommand = MoveComponentCommand(tetrisBlockModel);
-      moveCommand.execute(tetrisBlockModel.gravity);
+      var moveCommand = MoveTetrisBlocksCommand(tetrisBlocks: tetrisBlocks);
+      moveCommand.execute(const Point(0, 1));
 
       var condition1 = isBlockCollideWithTetrominoe(
-        tetrisBlockModel: tetrisBlockModel,
-        boardWidgetModel: boardWidgetModel,
+        tetrisBlocks: tetrisBlocks,
+        boardList: boardList,
       );
       var condition2 = isBlockOutsideBoardHeight(
-        tetrisBlockModel: tetrisBlockModel,
-        boardWidgetModel: boardWidgetModel,
+        tetrisBlocks: tetrisBlocks,
       );
 
       if (condition1 || condition2) {

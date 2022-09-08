@@ -2,10 +2,9 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:petris/utils/boardConfig.dart';
-import 'package:petris/models/boardWidgetModel.dart';
 import 'package:petris/models/singleBlockWidgetModel.dart';
-import 'package:petris/models/tetrisBlockModel.dart';
 import 'package:petris/pages/widget/singleBlockWidget.dart';
+import 'package:petris/utils/lineCheckResultWrapper.dart';
 
 class BoardWidgetLogic {
   //
@@ -28,18 +27,17 @@ class BoardWidgetLogic {
   }
 
   // column yang berisi children kumpulan row
-  Center generateBoard(
-    BoardWidgetModel boardWidgetModel,
-  ) {
+  Center generateBoard({
+    required List<List<SingleBlockWidgetModel>> boardList,
+  }) {
     List<Column> rowTetrisWidgetCollections = [];
 
-    for (var y in boardWidgetModel.boardList) {
+    for (var y in boardList) {
       List<SingleBlockWidget> singleBlockWidgetList = [];
 
       for (var x in y) {
         singleBlockWidgetList.add(SingleBlockWidget(
           singleBlockWidgetModel: x,
-          boardWidgetModel: boardWidgetModel,
         ));
       }
 
@@ -63,31 +61,28 @@ class BoardWidgetLogic {
   }
 
   void setBoardBlock({
-    required BoardWidgetModel boardWidgetModel,
-    required TetrisBlockModel tetrisBlockModel,
+    required List<List<SingleBlockWidgetModel>> boardList,
+    required List<SingleBlockWidgetModel> tetrisBlocks,
   }) {
-    for (var block in tetrisBlockModel.blocks) {
+    for (var block in tetrisBlocks) {
       if (block.position.y < 0) return;
-      boardWidgetModel
-          .boardList[block.position.x.toInt()][block.position.y.toInt()]
-          .type = BlockType.tetromino;
-      boardWidgetModel
-          .boardList[block.position.x.toInt()][block.position.y.toInt()]
-          .color = block.color;
+      boardList[block.position.x.toInt()][block.position.y.toInt()].type =
+          BlockType.tetromino;
+      boardList[block.position.x.toInt()][block.position.y.toInt()].color =
+          block.color;
     }
   }
 
-  List<dynamic> checkLine({
-    required BoardWidgetModel boardWidgetModel,
+  LineCheckResultWrapper checkLine({
+    required List<List<SingleBlockWidgetModel>> boardList,
   }) {
-    var result = <dynamic>[];
+    LineCheckResultWrapper result = LineCheckResultWrapper();
     var lineResult = <int>[];
     var boolResult = false;
     for (int y = BoardConfig.ySize - 1; y > 0; y--) {
       int xCount = 0;
       for (int x = 0; x < BoardConfig.xSize; x++) {
-        if (boardWidgetModel.boardList[x][y].type != BlockType.board)
-          xCount = xCount + 1;
+        if (boardList[x][y].type != BlockType.board) xCount = xCount + 1;
       }
 
       if (xCount >= BoardConfig.xSize) {
@@ -96,14 +91,14 @@ class BoardWidgetLogic {
       }
     }
 
-    result.add(boolResult);
-    result.add(lineResult);
+    result.isLine = boolResult;
+    result.lineResults = lineResult;
 
     return result;
   }
 
   void moveLineDown({
-    required BoardWidgetModel boardWidgetModel,
+    required List<List<SingleBlockWidgetModel>> boardList,
     required List<int> yPositions,
   }) {
     yPositions.sort();
@@ -111,22 +106,35 @@ class BoardWidgetLogic {
       for (int y = i; y > 0; y--) {
         for (int x = 0; x <= BoardConfig.xSize - 1; x++) {
           if (y - 1 < 0) return;
-          var before = boardWidgetModel.boardList[x][y - 1];
+          var before = boardList[x][y - 1];
 
-          boardWidgetModel.boardList[x][y].color = before.color;
-          boardWidgetModel.boardList[x][y].type = before.type;
+          boardList[x][y].color = before.color;
+          boardList[x][y].type = before.type;
 
-          boardWidgetModel.boardList[x][y].updateCallback("update");
+          boardList[x][y].updateCallback("update");
         }
       }
     }
   }
 
-  void resetBoard({required BoardWidgetModel boardWidgetModel}) {
+  void resetBoard({required List<List<SingleBlockWidgetModel>> boardList}) {
     for (int x = 0; x < BoardConfig.xSize; x++) {
       for (int y = 0; y < BoardConfig.ySize; y++) {
-        boardWidgetModel.boardList[x][y].type = BlockType.board;
-        boardWidgetModel.boardList[x][y].color = BoardConfig.boardColor;
+        boardList[x][y].type = BlockType.board;
+        boardList[x][y].color = BoardConfig.boardColor;
+      }
+    }
+  }
+
+  void clear({
+    required List<List<SingleBlockWidgetModel>> boardList,
+  }) {
+    for (var one in boardList) {
+      for (var two in one) {
+        if (two.type == BlockType.board) {
+          two.color = BoardConfig.boardColor;
+          two.updateCallback("rerender");
+        }
       }
     }
   }

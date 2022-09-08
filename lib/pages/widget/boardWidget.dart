@@ -52,6 +52,8 @@ class _BoardWidgetState extends State<BoardWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return widget.boardWidgetLogic.generateBoard(widget.boardWidgetModel);
+    return widget.boardWidgetLogic.generateBoard(
+      boardList: widget.boardWidgetModel.boardList,
+    );
   }
 }
