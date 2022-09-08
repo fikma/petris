@@ -121,7 +121,7 @@ class TetrisBlockLogic {
     return result;
   }
 
-  List<SingleBlockWidgetModel> reset({
+  TetrisBlockList<SingleBlockWidgetModel> reset({
     required TetrisBlockModel tetrisBlockModel,
   }) {
     var random = Random();
@@ -150,7 +150,7 @@ class TetrisBlockLogic {
     return tetrisBlockModel.blocks;
   }
 
-  List<SingleBlockWidgetModel> randomizeColor({
+  TetrisBlockList<SingleBlockWidgetModel> randomizeColor({
     required TetrisBlockModel tetrisBlockModel,
     required Random random,
   }) {
@@ -162,7 +162,7 @@ class TetrisBlockLogic {
     return tetrisBlockModel.blocks;
   }
 
-  List<SingleBlockWidgetModel> randomizeXPosition({
+  TetrisBlockList<SingleBlockWidgetModel> randomizeXPosition({
     required TetrisBlockModel tetrisBlockModel,
     required Random random,
   }) {
@@ -178,13 +178,13 @@ class TetrisBlockLogic {
     return tetrisBlockModel.blocks;
   }
 
-  List<SingleBlockWidgetModel> buildTetrominoes({
+  TetrisBlockList<SingleBlockWidgetModel> buildTetrominoes({
     Random? random,
     TetrisShape? tetrisShape,
     required List<List<dynamic>> tetrisShapeList,
     required TetrisBlockModel tetrisBlockModel,
   }) {
-    List<SingleBlockWidgetModel> result = <SingleBlockWidgetModel>[];
+    TetrisBlockList<SingleBlockWidgetModel> result = TetrisBlockList();
 
     // start logic untuk test
     if (tetrisShape != null) {
@@ -210,7 +210,7 @@ class TetrisBlockLogic {
 
     var positionBlueprint =
         tetrisShapeList[random!.nextInt(tetrisShapeList.length)];
-    tetrisBlockModel.shape = TetrisShape.values[positionBlueprint[0]];
+    result.tetrisShape = TetrisShape.values[positionBlueprint[0]];
 
     for (var index = 1; index < positionBlueprint.length; index++) {
       result.add(
@@ -228,7 +228,7 @@ class TetrisBlockLogic {
     return result;
   }
 
-  List<SingleBlockWidgetModel> invertBlockTetris(
+  TetrisBlockList<SingleBlockWidgetModel> invertBlockTetris(
       TetrisBlockModel tetrisBlockModel) {
     var xOffset = 0;
     for (var item in tetrisBlockModel.blocks) {
@@ -249,8 +249,8 @@ class TetrisBlockLogic {
     return tetrisBlockModel.blocks;
   }
 
-  List<SingleBlockWidgetModel> moveBlockMinTop(
-      List<SingleBlockWidgetModel> tetrisBlocks) {
+  TetrisBlockList<SingleBlockWidgetModel> moveBlockMinTop(
+      TetrisBlockList<SingleBlockWidgetModel> tetrisBlocks) {
     int lengthOfY = 0;
     for (var block in tetrisBlocks) {
       lengthOfY =

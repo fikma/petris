@@ -61,9 +61,7 @@ class TetrisBlockModel {
   double? vectorRadianDirection;
   double? vectorLength;
 
-  late List<SingleBlockWidgetModel> blocks;
-
-  late TetrisShape shape;
+  late TetrisBlockList<SingleBlockWidgetModel> blocks;
 }
 
 class TetrisBlockList<E> extends ListBase<E> {
@@ -86,5 +84,15 @@ class TetrisBlockList<E> extends ListBase<E> {
   @override
   void operator []=(int index, E value) {
     l[index] = value;
+  }
+
+  @override
+  void add(E element) {
+    l.add(element);
+  }
+
+  @override
+  void addAll(Iterable<E> iterable) {
+    l.addAll(iterable);
   }
 }
