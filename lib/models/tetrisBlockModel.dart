@@ -63,11 +63,11 @@ class TetrisBlockModel {
 
   late List<SingleBlockWidgetModel> blocks;
 
-  late Queue<List<SingleBlockWidgetModel>> blocksQueue;
-  TetrisShape? shape;
+  late TetrisShape shape;
 }
 
 class TetrisBlockList<E> extends ListBase<E> {
+  late TetrisShape tetrisShape;
   List<E> l = [];
 
   @override
