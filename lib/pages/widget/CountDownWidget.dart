@@ -1,17 +1,18 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:petris/components/countDownWidgetComponent.dart';
 import 'package:petris/models/countDownWidgetModel.dart';
 import 'package:petris/models/gamePageModel.dart';
+import 'package:petris/models/hudWidgetModel.dart';
 
 class CountDownWidget extends StatefulWidget {
   CountDownWidgetModel countDownWidgetModel;
   GamePageModel gamePageModel;
+  HudWidgetModel hudWidgetModel;
 
   CountDownWidget({
     required this.gamePageModel,
     required this.countDownWidgetModel,
+    required this.hudWidgetModel,
     required FocusNode nextFocus,
   }) {
     countDownWidgetModel.nextFocus = nextFocus;
@@ -24,9 +25,12 @@ class CountDownWidget extends StatefulWidget {
 class _CountDownWidgetState extends State<CountDownWidget> {
   @override
   void initState() {
+    super.initState();
+
     CountDownWidgetComponent(
       gamePageModel: widget.gamePageModel,
       countDownWidgetModel: widget.countDownWidgetModel,
+      hudWidgetModel: widget.hudWidgetModel,
     );
 
     widget.countDownWidgetModel.updateCallback = () {

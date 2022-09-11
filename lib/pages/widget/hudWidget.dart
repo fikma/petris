@@ -1,15 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:petris/logics/boardWidgetLogic.dart';
-import 'package:petris/models/boardWidgetModel.dart';
 import 'package:petris/models/hudWidgetModel.dart';
 import 'package:petris/utils/boardConfig.dart';
 
 class HudWidget extends StatefulWidget {
   final HudWidgetModel hudWidgetModel;
-  final BoardWidgetModel boardWidgetModel;
   const HudWidget({
     required this.hudWidgetModel,
-    required this.boardWidgetModel,
     Key? key,
   }) : super(key: key);
 
@@ -26,13 +23,28 @@ class _HudWidgetState extends State<HudWidget> {
     widget.hudWidgetModel.updateCallback = () {
       setState(() {});
     };
+
+    widget.hudWidgetModel.boardList = BoardWidgetLogic().initBoardList(
+      blockSize: 10,
+      blockColor: HudConfig.boardColor,
+      xSize: 4,
+      ySize: 4,
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-    var nextBlocks = Container();
-    var container = Container(
-      width: BoardConfig.xSize * BoardConfig.blockSize,
+    var board = BoardWidgetLogic().generateBoard(
+      boardList: widget.hudWidgetModel.boardList,
+      xGridSize: 4,
+      yGridSize: 4,
+    );
+
+    var nextBlocks = Container(
+      child: board,
+    );
+    var container = SizedBox(
+      width: (BoardConfig.xSize * BoardConfig.blockSize).toDouble(),
       child: Row(
         children: [
           Text(

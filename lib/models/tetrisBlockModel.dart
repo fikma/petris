@@ -12,7 +12,8 @@ enum TetrisShape {
   o,
 }
 
-List<List<dynamic>> TetrisShapeList = [
+// ignore: constant_identifier_names
+const List<List<dynamic>> TetrisShapeList = [
   [
     0,
     [0, 0],
@@ -61,7 +62,8 @@ class TetrisBlockModel {
   double? vectorRadianDirection;
   double? vectorLength;
 
-  TetrisBlockList<SingleBlockWidgetModel> blocks = TetrisBlockList();
+  TetrisBlockList<SingleBlockWidgetModel> blocks =
+      TetrisBlockList<SingleBlockWidgetModel>();
 }
 
 class TetrisBlockList<E> extends ListBase<E> {
@@ -95,4 +97,12 @@ class TetrisBlockList<E> extends ListBase<E> {
   void addAll(Iterable<E> iterable) {
     l.addAll(iterable);
   }
+
+  // TetrisBlockList<SingleBlockWidgetModel> toTetrisBlockList() {
+  //   TetrisBlockList<SingleBlockWidgetModel> result = TetrisBlockList();
+  //   for (var element in l) {
+  //     result.add(element);
+  //   }
+  //   return result;
+  // }
 }

@@ -9,11 +9,10 @@ import 'package:petris/utils/boardConfig.dart';
 void main() {
   var tetrisBlockModel = TetrisBlockModel();
   var logic = TetrisBlockLogic();
-  var random = Random();
   test("build tetrominos dengan random block yang dipilih", () {
     tetrisBlockModel.blocks = logic.buildTetrominoes(
-      random: random,
       tetrisShapeList: TetrisShapeList,
+      blockSize: BoardConfig.blockSize,
     );
 
     expect(tetrisBlockModel.blocks.length, 4);
@@ -30,9 +29,10 @@ void main() {
       SingleBlockWidgetModel(
           position: const Point(1, 1), size: BoardConfig.blockSize),
     ];
-    tetrisBlockModel.blocks = logic.buildTetrominoes(
+    tetrisBlockModel.blocks = logic.buildTetrominoesByType(
       tetrisShapeList: TetrisShapeList,
       tetrisShape: TetrisShape.o,
+      blockSize: BoardConfig.blockSize,
     );
 
     for (var i = 0; i < expectedValueO.length; i++) {

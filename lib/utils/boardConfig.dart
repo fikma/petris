@@ -4,9 +4,14 @@ class BoardConfig {
   static int xSize = 10;
   static int ySize = 20;
 
-  static double blockSize = 30.0;
-  static Duration loopDuration = Duration(milliseconds: 100);
+  static int blockSize = 30;
+  static Duration loopDuration = const Duration(milliseconds: 100);
   static int tickTime = 700;
 
-  static Color boardColor = Colors.black;
+  static Color boardColor = Color(Colors.grey[900]!.value);
+}
+
+class HudConfig {
+  static Color boardColor = Color(Colors.grey[900]!.value);
+  static const int tetrisBlockSize = 10;
 }

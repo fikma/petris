@@ -57,16 +57,20 @@ class TetrisBlockLogic {
     return tetrisBlocks;
   }
 
-  void setTetrisBlockToBoard({
-    required List<SingleBlockWidgetModel> tetrisBlocks,
+  void setTetrisBlockColorToBoard({
+    required TetrisBlockList tetrisBlocks,
     required List<List<SingleBlockWidgetModel>> boardList,
   }) {
     for (var item in tetrisBlocks) {
       if (item.position.y >= 0 && item.position.y <= BoardConfig.ySize - 1) {
         boardList[item.position.x.toInt()][item.position.y.toInt()].color =
             item.color;
-        boardList[item.position.x.toInt()][item.position.y.toInt()]
-            .updateCallback("updated!!!!!");
+        // if (boardList[item.position.x.toInt()][item.position.y.toInt()]
+        //         .updateCallback !=
+        //     null) {
+        //   boardList[item.position.x.toInt()][item.position.y.toInt()]
+        //       .updateCallback("updated!!!!!");
+        // }
       }
     }
   }
@@ -126,20 +130,20 @@ class TetrisBlockLogic {
   }) {
     var random = Random();
     tetrisBlocks = buildTetrominoes(
-      random: random,
       tetrisShapeList: TetrisShapeList,
+      blockSize: BoardConfig.blockSize,
     );
 
     if (random.nextInt(5) >= 2) {
       tetrisBlocks = invertBlockTetris(tetrisBlocks);
     }
 
-    tetrisBlocks = moveBlockMinTop(tetrisBlocks);
+    // tetrisBlocks = moveBlockMinTop(tetrisBlocks);
 
-    tetrisBlocks = randomizeXPosition(
-      tetrisBlocks: tetrisBlocks,
-      random: random,
-    );
+    // tetrisBlocks = randomizeXPosition(
+    //   tetrisBlocks: tetrisBlocks,
+    //   random: random,
+    // );
 
     tetrisBlocks = randomizeColor(
       tetrisBlocks: tetrisBlocks,
@@ -177,37 +181,42 @@ class TetrisBlockLogic {
     return tetrisBlocks;
   }
 
-  TetrisBlockList<SingleBlockWidgetModel> buildTetrominoes({
-    Random? random,
-    TetrisShape? tetrisShape,
+  TetrisBlockList<SingleBlockWidgetModel> buildTetrominoesByType({
+    required TetrisShape tetrisShape,
     required List<List<dynamic>> tetrisShapeList,
+    required int blockSize,
   }) {
     TetrisBlockList<SingleBlockWidgetModel> result = TetrisBlockList();
 
     // start logic untuk test
-    if (tetrisShape != null) {
-      for (var item in tetrisShapeList) {
-        if (TetrisShape.values[item[0]] == tetrisShape) {
-          for (var index = 1; index < item.length; index++) {
-            result.add(
-              SingleBlockWidgetModel(
-                  position: Point(
-                    item[index][0],
-                    item[index][1],
-                  ),
-                  size: BoardConfig.blockSize,
-                  type: BlockType.tetromino),
-            );
-          }
+    for (var item in tetrisShapeList) {
+      if (TetrisShape.values[item[0]] == tetrisShape) {
+        for (var index = 1; index < item.length; index++) {
+          result.add(
+            SingleBlockWidgetModel(
+              position: Point(
+                item[index][0],
+                item[index][1],
+              ),
+              size: blockSize,
+              type: BlockType.tetromino,
+            ),
+          );
         }
       }
-
-      return result;
     }
     // end logic untuk test
+    return result;
+  }
+
+  TetrisBlockList<SingleBlockWidgetModel> buildTetrominoes({
+    required List<List<dynamic>> tetrisShapeList,
+    required int blockSize,
+  }) {
+    TetrisBlockList<SingleBlockWidgetModel> result = TetrisBlockList();
 
     var positionBlueprint =
-        tetrisShapeList[random!.nextInt(tetrisShapeList.length)];
+        tetrisShapeList[Random().nextInt(tetrisShapeList.length)];
     result.tetrisShape = TetrisShape.values[positionBlueprint[0]];
 
     for (var index = 1; index < positionBlueprint.length; index++) {

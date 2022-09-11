@@ -6,6 +6,7 @@ import 'package:petris/logics/boardWidgetLogic.dart';
 import 'package:petris/models/boardWidgetModel.dart';
 import 'package:petris/models/countDownWidgetModel.dart';
 import 'package:petris/models/gamePageModel.dart';
+import 'package:petris/models/hudWidgetModel.dart';
 import 'package:petris/models/tetrisBlockModel.dart';
 import 'package:petris/utils/boardConfig.dart';
 
@@ -13,10 +14,11 @@ import '../commands/rotateTetrisBlocksCommand.dart';
 import '../logics/tetrisBlockLogic.dart';
 
 class BoardWidgetComponent extends BaseComponent {
+  GamePageModel gamePageModel;
   TetrisBlockModel tetrisBlockModel;
   BoardWidgetModel boardWidgetModel;
   CountDownWidgetModel countDownWidgetModel;
-  GamePageModel gamePageModel;
+  HudWidgetModel hudWidgetModel;
 
   TetrisBlockLogic tetrisBlockLogic = TetrisBlockLogic();
   BoardWidgetLogic boardWidgetLogic = BoardWidgetLogic();
@@ -26,7 +28,9 @@ class BoardWidgetComponent extends BaseComponent {
     required this.boardWidgetModel,
     required this.tetrisBlockModel,
     required this.countDownWidgetModel,
+    required this.hudWidgetModel,
   }) {
+    priority = 1;
     gamePageModel.components.add(this);
   }
   @override
@@ -51,7 +55,7 @@ class BoardWidgetComponent extends BaseComponent {
       )) {
         moveCommand.undo();
 
-        // Gameover logic
+        // start Gameover logic
         if (tetrisBlockLogic.isBlockOutsideBoardHeight(
           tetrisBlocks: tetrisBlockModel.blocks,
           checkTop: true,
@@ -61,14 +65,15 @@ class BoardWidgetComponent extends BaseComponent {
           countDownWidgetModel.visible = true;
           countDownWidgetModel.text = "gameOver";
           countDownWidgetModel.updateCallback!();
+
+          boardWidgetLogic.resetBoard(
+            boardList: boardWidgetModel.boardList,
+          );
           return;
         }
+        // end gameover
 
-        boardWidgetLogic.clear(
-          boardList: boardWidgetModel.boardList,
-        );
-
-        boardWidgetLogic.setBoardBlock(
+        boardWidgetLogic.setTetrisBlockTypeToBoard(
           boardList: boardWidgetModel.boardList,
           tetrisBlocks: tetrisBlockModel.blocks,
         );
@@ -82,7 +87,7 @@ class BoardWidgetComponent extends BaseComponent {
         tetrisBlocks: tetrisBlockModel.blocks,
       )) {
         moveCommand.undo();
-        boardWidgetLogic.setBoardBlock(
+        boardWidgetLogic.setTetrisBlockTypeToBoard(
           boardList: boardWidgetModel.boardList,
           tetrisBlocks: tetrisBlockModel.blocks,
         );
@@ -90,12 +95,34 @@ class BoardWidgetComponent extends BaseComponent {
         tetrisBlockModel.blocks = tetrisBlockLogic.reset(
           tetrisBlocks: tetrisBlockModel.blocks,
         );
+
+        return;
       }
+
+      boardWidgetLogic.clear(
+        boardList: hudWidgetModel.boardList,
+      );
+
+      hudWidgetModel.tetrisBlocks = TetrisBlockLogic().buildTetrominoesByType(
+        blockSize: 20,
+        tetrisShape: tetrisBlockModel.blocks.tetrisShape,
+        tetrisShapeList: TetrisShapeList,
+      );
+
+      hudWidgetModel.tetrisBlocks = TetrisBlockLogic().randomizeColor(
+        random: Random(),
+        tetrisBlocks: hudWidgetModel.tetrisBlocks,
+      );
+      tetrisBlockLogic.setTetrisBlockColorToBoard(
+        boardList: hudWidgetModel.boardList,
+        tetrisBlocks: hudWidgetModel.tetrisBlocks,
+      );
+      hudWidgetModel.updateCallback!();
     }
 
     // todo:
     // refactor move tetris blok seperti di video
-    if (tetrisBlockModel.xDirection != Point(0, 0)) {
+    if (tetrisBlockModel.xDirection != const Point(0, 0)) {
       moveCommand.execute(tetrisBlockModel.xDirection);
       if (tetrisBlockLogic.isBlockOutsideBoardWidth(
             tetrisBlocks: tetrisBlockModel.blocks,
@@ -157,7 +184,7 @@ class BoardWidgetComponent extends BaseComponent {
       );
     }
 
-    tetrisBlockLogic.setTetrisBlockToBoard(
+    tetrisBlockLogic.setTetrisBlockColorToBoard(
       boardList: boardWidgetModel.boardList,
       tetrisBlocks: tetrisBlockModel.blocks,
     );

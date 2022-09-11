@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:petris/models/tetrisBlockModel.dart';
 import 'package:petris/utils/boardConfig.dart';
 import 'package:petris/models/singleBlockWidgetModel.dart';
 import 'package:petris/pages/widget/singleBlockWidget.dart';
@@ -8,15 +9,20 @@ import 'package:petris/utils/lineCheckResultWrapper.dart';
 
 class BoardWidgetLogic {
   //
-  List<List<SingleBlockWidgetModel>> initBoardList(int xSize, int ySize) {
+  List<List<SingleBlockWidgetModel>> initBoardList({
+    required int xSize,
+    required int ySize,
+    required int blockSize,
+    required Color blockColor,
+  }) {
     List<List<SingleBlockWidgetModel>> data = [];
     for (var xCount = 0; xCount < xSize; xCount++) {
       List<SingleBlockWidgetModel> temp = [];
       for (var yCount = 0; yCount < ySize; yCount++) {
         var model = SingleBlockWidgetModel(
           position: Point(xCount, yCount),
-          color: Colors.black,
-          size: BoardConfig.blockSize,
+          color: blockColor,
+          size: blockSize,
         );
         temp.add(model);
       }
@@ -29,8 +35,11 @@ class BoardWidgetLogic {
   // column yang berisi children kumpulan row
   Center generateBoard({
     required List<List<SingleBlockWidgetModel>> boardList,
+    required int xGridSize,
+    required int yGridSize,
   }) {
     List<Column> rowTetrisWidgetCollections = [];
+    var blockSize = 0;
 
     for (var y in boardList) {
       List<SingleBlockWidget> singleBlockWidgetList = [];
@@ -39,6 +48,8 @@ class BoardWidgetLogic {
         singleBlockWidgetList.add(SingleBlockWidget(
           singleBlockWidgetModel: x,
         ));
+
+        blockSize = x.size;
       }
 
       rowTetrisWidgetCollections.add(Column(
@@ -52,22 +63,22 @@ class BoardWidgetLogic {
 
     return Center(
       child: Container(
-        width: BoardConfig.blockSize * BoardConfig.xSize,
-        height: BoardConfig.blockSize * BoardConfig.ySize,
+        width: (blockSize * xGridSize).toDouble(),
+        height: (blockSize * yGridSize).toDouble(),
         color: Colors.blue,
         child: baris,
       ),
     );
   }
 
-  void setBoardBlock({
+  void setTetrisBlockTypeToBoard({
     required List<List<SingleBlockWidgetModel>> boardList,
-    required List<SingleBlockWidgetModel> tetrisBlocks,
+    required TetrisBlockList<SingleBlockWidgetModel> tetrisBlocks,
   }) {
     for (var block in tetrisBlocks) {
       if (block.position.y < 0) return;
       boardList[block.position.x.toInt()][block.position.y.toInt()].type =
-          BlockType.tetromino;
+          block.type;
       boardList[block.position.x.toInt()][block.position.y.toInt()].color =
           block.color;
     }

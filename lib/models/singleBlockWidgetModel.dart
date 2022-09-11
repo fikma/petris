@@ -15,7 +15,7 @@ class SingleBlockWidgetModel {
   Point position;
 
   late final Function(String) updateCallback;
-  final double size;
+  final int size;
   Color color;
 
   BlockType type;

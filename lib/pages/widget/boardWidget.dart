@@ -1,9 +1,12 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:petris/components/boardWidgetComponent.dart';
 import 'package:petris/logics/boardWidgetLogic.dart';
 import 'package:petris/logics/tetrisBlockLogic.dart';
 import 'package:petris/models/boardWidgetModel.dart';
 import 'package:petris/models/countDownWidgetModel.dart';
+import 'package:petris/models/hudWidgetModel.dart';
 import 'package:petris/utils/boardConfig.dart';
 
 import '../../models/gamePageModel.dart';
@@ -14,6 +17,7 @@ class BoardWidget extends StatefulWidget {
   GamePageModel gamePageModel;
   BoardWidgetModel boardWidgetModel;
   CountDownWidgetModel countDownWidgetModel;
+  HudWidgetModel hudWidgetModel;
 
   BoardWidgetLogic boardWidgetLogic = BoardWidgetLogic();
 
@@ -22,6 +26,7 @@ class BoardWidget extends StatefulWidget {
     required this.gamePageModel,
     required this.tetrisBlockModel,
     required this.countDownWidgetModel,
+    required this.hudWidgetModel,
   });
 
   @override
@@ -30,16 +35,30 @@ class BoardWidget extends StatefulWidget {
 
 class _BoardWidgetState extends State<BoardWidget> {
   @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
+  void initState() {
+    super.initState();
 
     widget.boardWidgetModel.boardList = widget.boardWidgetLogic.initBoardList(
-      BoardConfig.xSize,
-      BoardConfig.ySize,
+      blockSize: BoardConfig.blockSize,
+      xSize: BoardConfig.xSize,
+      ySize: BoardConfig.ySize,
+      blockColor: BoardConfig.boardColor,
     );
 
     widget.tetrisBlockModel.blocks = TetrisBlockLogic().reset(
       tetrisBlocks: widget.tetrisBlockModel.blocks,
+    );
+
+    widget.hudWidgetModel.tetrisBlocks =
+        TetrisBlockLogic().buildTetrominoesByType(
+      blockSize: 20,
+      tetrisShape: widget.tetrisBlockModel.blocks.tetrisShape,
+      tetrisShapeList: TetrisShapeList,
+    );
+
+    widget.hudWidgetModel.tetrisBlocks = TetrisBlockLogic().randomizeColor(
+      random: Random(),
+      tetrisBlocks: widget.hudWidgetModel.tetrisBlocks,
     );
 
     BoardWidgetComponent(
@@ -47,6 +66,7 @@ class _BoardWidgetState extends State<BoardWidget> {
       boardWidgetModel: widget.boardWidgetModel,
       tetrisBlockModel: widget.tetrisBlockModel,
       countDownWidgetModel: widget.countDownWidgetModel,
+      hudWidgetModel: widget.hudWidgetModel,
     );
   }
 
@@ -54,6 +74,8 @@ class _BoardWidgetState extends State<BoardWidget> {
   Widget build(BuildContext context) {
     return widget.boardWidgetLogic.generateBoard(
       boardList: widget.boardWidgetModel.boardList,
+      xGridSize: BoardConfig.xSize,
+      yGridSize: BoardConfig.ySize,
     );
   }
 }

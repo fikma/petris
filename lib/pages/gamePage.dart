@@ -49,7 +49,6 @@ class GamePage extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   HudWidget(
-                    boardWidgetModel: boardWidgetModel,
                     hudWidgetModel: hudWidgetModel,
                   ), // todo: HUD
                   BoardWidget(
@@ -57,6 +56,7 @@ class GamePage extends StatelessWidget {
                     gamePageModel: gamePageModel,
                     tetrisBlockModel: tetrisBlockModel,
                     countDownWidgetModel: countDownWidgetModel,
+                    hudWidgetModel: hudWidgetModel,
                   ),
                   Container()
                 ],
@@ -64,8 +64,9 @@ class GamePage extends StatelessWidget {
             ),
           ),
           CountDownWidget(
-            gamePageModel: gamePageModel,
             countDownWidgetModel: countDownWidgetModel,
+            hudWidgetModel: hudWidgetModel,
+            gamePageModel: gamePageModel,
             nextFocus: boardFocus,
           ),
         ],

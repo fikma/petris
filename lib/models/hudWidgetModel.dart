@@ -1,5 +1,4 @@
-import 'dart:collection';
-
+import 'package:petris/models/singleBlockWidgetModel.dart';
 import 'package:petris/models/tetrisBlockModel.dart';
 
 class HudWidgetModel {
@@ -9,6 +8,8 @@ class HudWidgetModel {
   double singleBlockSize = 10;
 
   final TetrisBlockModel tetrisBlockModel;
+  late final List<List<SingleBlockWidgetModel>> boardList;
+  late TetrisBlockList<SingleBlockWidgetModel> tetrisBlocks;
 
   HudWidgetModel({required this.tetrisBlockModel});
 }
