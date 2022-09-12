@@ -11,24 +11,22 @@ import 'package:petris/pages/widget/board_widget.dart';
 import 'package:petris/pages/widget/hud_widget.dart';
 
 class GamePage extends StatelessWidget {
-  GamePage({Key? key}) : super(key: key) {
-    inputEventLogic = InputEventLogic(tetrisBlockModel, boardWidgetModel);
-
-    hudWidgetModel = HudWidgetModel(tetrisBlockModel: tetrisBlockModel);
-  }
+  GamePage({Key? key}) : super(key: key);
 
   final TetrisBlockModel tetrisBlockModel = TetrisBlockModel();
   final GamePageModel gamePageModel = GamePageModel();
   final BoardWidgetModel boardWidgetModel = BoardWidgetModel();
   final MainMenuModel countDownWidgetModel = MainMenuModel();
-  late final HudWidgetModel hudWidgetModel;
 
   late final GamePageComponent gamePageComponent = GamePageComponent(
     gamePageModel: gamePageModel,
     boardWidgetModel: boardWidgetModel,
   );
-
-  late final InputEventLogic inputEventLogic;
+  late final HudWidgetModel hudWidgetModel = HudWidgetModel(
+    tetrisBlockModel: tetrisBlockModel,
+  );
+  late final InputEventLogic inputEventLogic =
+      InputEventLogic(tetrisBlockModel, boardWidgetModel);
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +37,7 @@ class GamePage extends StatelessWidget {
         children: [
           Focus(
             autofocus: true,
-            focusNode: gamePageModel.boardFocus,
+            focusNode: boardWidgetModel.boardFocus,
             onKeyEvent: inputEventLogic.keyBoardInputHandle,
             child: Listener(
               onPointerDown: inputEventLogic.pointerDownHandle,
@@ -68,7 +66,7 @@ class GamePage extends StatelessWidget {
             countDownWidgetModel: countDownWidgetModel,
             hudWidgetModel: hudWidgetModel,
             gamePageModel: gamePageModel,
-            nextFocus: gamePageModel.boardFocus,
+            nextFocus: boardWidgetModel.boardFocus,
           ),
         ],
       ),

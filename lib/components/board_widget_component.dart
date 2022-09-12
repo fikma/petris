@@ -34,8 +34,8 @@ class BoardWidgetComponent extends BaseComponent {
       return;
     }
 
-    if (!gamePageModel.boardFocus.hasFocus) {
-      gamePageModel.boardFocus.requestFocus();
+    if (!boardWidgetModel.boardFocus.hasFocus) {
+      boardWidgetModel.boardFocus.requestFocus();
     }
     var checkLineResult = BoardWidgetLogic().checkLine(
       boardList: boardWidgetModel.boardList,
