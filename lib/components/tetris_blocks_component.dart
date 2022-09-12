@@ -127,8 +127,6 @@ class TetrisBlocksComponent extends BaseComponent {
         tetrisBlockModel.nextBlocks.add(tetrisBlockLogic.reset(
           tetrisBlocks: tetrisBlockModel.currentBlocks,
         ));
-
-        return;
       }
 
       boardWidgetLogic.clear(
