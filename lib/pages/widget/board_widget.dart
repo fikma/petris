@@ -58,6 +58,12 @@ class _BoardWidgetState extends State<BoardWidget> {
       tetrisShapeList: TetrisShapeList,
     );
 
+    if (widget.tetrisBlockModel.blocks.isXFlipped) {
+      widget.hudWidgetModel.tetrisBlocks = TetrisBlockLogic().invertBlockTetris(
+        widget.hudWidgetModel.tetrisBlocks,
+      );
+    }
+
     widget.hudWidgetModel.tetrisBlocks = TetrisBlockLogic().randomizeColor(
       random: Random(),
       tetrisBlocks: widget.hudWidgetModel.tetrisBlocks,

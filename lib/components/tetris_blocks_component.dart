@@ -132,6 +132,12 @@ class TetrisBlocksComponent extends BaseComponent {
         tetrisShapeList: TetrisShapeList,
       );
 
+      if (tetrisBlockModel.blocks.isXFlipped) {
+        hudWidgetModel.tetrisBlocks = TetrisBlockLogic().invertBlockTetris(
+          hudWidgetModel.tetrisBlocks,
+        );
+      }
+
       hudWidgetModel.tetrisBlocks = TetrisBlockLogic().randomizeColor(
         random: Random(),
         tetrisBlocks: hudWidgetModel.tetrisBlocks,
