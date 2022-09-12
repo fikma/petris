@@ -76,7 +76,7 @@ class BoardWidgetLogic {
     required TetrisBlockList<SingleBlockWidgetModel> tetrisBlocks,
   }) {
     for (var block in tetrisBlocks) {
-      if (block.position.y < 0) return;
+      if (block.position.y < 0) continue;
       boardList[block.position.x.toInt()][block.position.y.toInt()].type =
           block.type;
       boardList[block.position.x.toInt()][block.position.y.toInt()].color =

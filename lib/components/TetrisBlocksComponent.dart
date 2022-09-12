@@ -91,7 +91,6 @@ class TetrisBlocksComponent extends BaseComponent {
           countDownWidgetModel.visible = true;
           countDownWidgetModel.text = "gameOver";
           countDownWidgetModel.updateCallback!();
-          return;
         }
         // end gameover
 
