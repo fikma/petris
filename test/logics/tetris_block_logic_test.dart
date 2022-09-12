@@ -1,10 +1,10 @@
 import 'dart:math';
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:petris/logics/tetrisBlockLogic.dart';
-import 'package:petris/models/singleBlockWidgetModel.dart';
-import 'package:petris/models/tetrisBlockModel.dart';
-import 'package:petris/utils/boardConfig.dart';
+import 'package:petris/logics/tetris_block_logic.dart';
+import 'package:petris/models/single_block_widget_model.dart';
+import 'package:petris/models/tetris_block_model.dart';
+import 'package:petris/utils/board_config.dart';
 
 void main() {
   var tetrisBlockModel = TetrisBlockModel();

@@ -2,9 +2,9 @@ import 'dart:math';
 
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
-import 'package:petris/models/boardWidgetModel.dart';
-import 'package:petris/models/tetrisBlockModel.dart';
-import 'package:petris/utils/boardConfig.dart';
+import 'package:petris/models/board_widget_model.dart';
+import 'package:petris/models/tetris_block_model.dart';
+import 'package:petris/utils/board_config.dart';
 
 class InputEventLogic {
   TetrisBlockModel tetrisBlockModel;

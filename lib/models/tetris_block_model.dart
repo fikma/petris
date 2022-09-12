@@ -2,7 +2,7 @@ import 'dart:collection';
 import 'dart:math';
 
 import 'package:flutter/cupertino.dart';
-import 'package:petris/models/singleBlockWidgetModel.dart';
+import 'package:petris/models/single_block_widget_model.dart';
 
 enum TetrisShape {
   i,

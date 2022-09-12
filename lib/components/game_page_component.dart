@@ -1,10 +1,10 @@
 import 'dart:async';
 
-import 'package:petris/components/baseComponent.dart';
-import 'package:petris/logics/boardWidgetLogic.dart';
-import 'package:petris/models/boardWidgetModel.dart';
-import 'package:petris/utils/boardConfig.dart';
-import 'package:petris/models/gamePageModel.dart';
+import 'package:petris/components/base_component.dart';
+import 'package:petris/logics/board_widget_logic.dart';
+import 'package:petris/models/board_widget_model.dart';
+import 'package:petris/utils/board_config.dart';
+import 'package:petris/models/game_page_model.dart';
 
 class GamePageComponent extends BaseComponent {
   Timer? gameLoop;

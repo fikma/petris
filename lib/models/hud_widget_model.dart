@@ -1,5 +1,5 @@
-import 'package:petris/models/singleBlockWidgetModel.dart';
-import 'package:petris/models/tetrisBlockModel.dart';
+import 'package:petris/models/single_block_widget_model.dart';
+import 'package:petris/models/tetris_block_model.dart';
 
 class HudWidgetModel {
   double fontSize = 14;

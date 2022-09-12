@@ -1,7 +1,7 @@
 import 'dart:math';
 
-import '../logics/tetrisBlockLogic.dart';
-import '../models/singleBlockWidgetModel.dart';
+import '../logics/tetris_block_logic.dart';
+import '../models/single_block_widget_model.dart';
 
 class MoveTetrisBlocksCommand {
   late Point direction;

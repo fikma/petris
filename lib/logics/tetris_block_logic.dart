@@ -1,11 +1,11 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:petris/commands/moveTetrisBlocksCommand.dart';
-import 'package:petris/utils/boardConfig.dart';
-import 'package:petris/models/tetrisBlockModel.dart';
+import 'package:petris/commands/move_tetris_blocks_command.dart';
+import 'package:petris/utils/board_config.dart';
+import 'package:petris/models/tetris_block_model.dart';
 
-import '../models/singleBlockWidgetModel.dart';
+import '../models/single_block_widget_model.dart';
 
 class TetrisBlockLogic {
   List<SingleBlockWidgetModel> rotate({

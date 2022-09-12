@@ -1,4 +1,4 @@
-import 'package:petris/components/baseComponent.dart';
+import 'package:petris/components/base_component.dart';
 
 class GamePageModel {
   List<BaseComponent> components = [];

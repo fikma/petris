@@ -1,15 +1,15 @@
-import 'package:petris/logics/tetrisBlockLogic.dart';
+import 'package:petris/logics/tetris_block_logic.dart';
 
-import '../models/singleBlockWidgetModel.dart';
+import '../models/single_block_widget_model.dart';
 
 class RotateTetrisBlocksCommand {
   List<SingleBlockWidgetModel> tetrisBlocks;
+  TetrisBlockLogic tetrisBlockLogic = TetrisBlockLogic();
 
   RotateTetrisBlocksCommand({required this.tetrisBlocks});
 
   void execute() {
-    // TODO: implement execute
-    tetrisBlocks = TetrisBlockLogic().rotate(
+    tetrisBlocks = tetrisBlockLogic.rotate(
       tetrisBlocks: tetrisBlocks,
       rotationOriginIndex: 1,
       rotateClockwise: true,
@@ -17,8 +17,7 @@ class RotateTetrisBlocksCommand {
   }
 
   void undo() {
-    // TODO: implement undo
-    tetrisBlocks = TetrisBlockLogic().rotate(
+    tetrisBlocks = tetrisBlockLogic.rotate(
       tetrisBlocks: tetrisBlocks,
       rotationOriginIndex: 1,
       rotateClockwise: false,

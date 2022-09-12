@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:petris/logics/boardWidgetLogic.dart';
-import 'package:petris/models/singleBlockWidgetModel.dart';
+import 'package:petris/logics/board_widget_logic.dart';
+import 'package:petris/models/single_block_widget_model.dart';
 
 class SingleBlockWidget extends StatefulWidget {
   final SingleBlockWidgetModel singleBlockWidgetModel;

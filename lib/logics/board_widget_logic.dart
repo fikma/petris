@@ -1,11 +1,11 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:petris/models/tetrisBlockModel.dart';
-import 'package:petris/utils/boardConfig.dart';
-import 'package:petris/models/singleBlockWidgetModel.dart';
-import 'package:petris/pages/widget/singleBlockWidget.dart';
-import 'package:petris/utils/lineCheckResultWrapper.dart';
+import 'package:petris/models/tetris_block_model.dart';
+import 'package:petris/utils/board_config.dart';
+import 'package:petris/models/single_block_widget_model.dart';
+import 'package:petris/pages/widget/single_block_widget.dart';
+import 'package:petris/utils/line_check_result_wrapper.dart';
 
 class BoardWidgetLogic {
   //

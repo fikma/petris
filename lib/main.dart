@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:petris/pages/gamePage.dart';
+import 'package:petris/pages/game_page.dart';
 
 void main() {
   runApp(const MyApp());

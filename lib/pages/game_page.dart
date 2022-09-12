@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:petris/components/gamePageComponent.dart';
-import 'package:petris/logics/inputEventLogic.dart';
-import 'package:petris/models/boardWidgetModel.dart';
-import 'package:petris/models/countDownWidgetModel.dart';
-import 'package:petris/models/gamePageModel.dart';
-import 'package:petris/models/hudWidgetModel.dart';
-import 'package:petris/models/tetrisBlockModel.dart';
-import 'package:petris/pages/widget/CountDownWidget.dart';
-import 'package:petris/pages/widget/boardWidget.dart';
-import 'package:petris/pages/widget/hudWidget.dart';
+import 'package:petris/components/game_page_component.dart';
+import 'package:petris/logics/input_event_logic.dart';
+import 'package:petris/models/board_widget_model.dart';
+import 'package:petris/models/main_menu_widget_model.dart';
+import 'package:petris/models/game_page_model.dart';
+import 'package:petris/models/hud_widget_model.dart';
+import 'package:petris/models/tetris_block_model.dart';
+import 'package:petris/pages/widget/main_menu_widget.dart';
+import 'package:petris/pages/widget/board_widget.dart';
+import 'package:petris/pages/widget/hud_widget.dart';
 
 class GamePage extends StatelessWidget {
-  GamePage() {
+  GamePage({Key? key}) : super(key: key) {
     boardFocus = FocusNode();
     inputEventLogic = InputEventLogic(tetrisBlockModel, boardWidgetModel);
 
@@ -21,7 +21,7 @@ class GamePage extends StatelessWidget {
   final TetrisBlockModel tetrisBlockModel = TetrisBlockModel();
   final GamePageModel gamePageModel = GamePageModel();
   final BoardWidgetModel boardWidgetModel = BoardWidgetModel();
-  final CountDownWidgetModel countDownWidgetModel = CountDownWidgetModel();
+  final MainMenuModel countDownWidgetModel = MainMenuModel();
   late final HudWidgetModel hudWidgetModel;
 
   late final GamePageComponent gamePageComponent = GamePageComponent(
@@ -29,8 +29,8 @@ class GamePage extends StatelessWidget {
     boardWidgetModel: boardWidgetModel,
   );
 
-  late FocusNode boardFocus;
-  late InputEventLogic inputEventLogic;
+  late final FocusNode boardFocus;
+  late final InputEventLogic inputEventLogic;
 
   @override
   Widget build(BuildContext context) {
@@ -65,7 +65,7 @@ class GamePage extends StatelessWidget {
               ),
             ),
           ),
-          CountDownWidget(
+          MainMenuWidget(
             boardWidgetModel: boardWidgetModel,
             countDownWidgetModel: countDownWidgetModel,
             hudWidgetModel: hudWidgetModel,

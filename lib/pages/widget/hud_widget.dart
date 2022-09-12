@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
-import 'package:petris/logics/boardWidgetLogic.dart';
-import 'package:petris/models/hudWidgetModel.dart';
-import 'package:petris/utils/boardConfig.dart';
+import 'package:petris/logics/board_widget_logic.dart';
+import 'package:petris/models/hud_widget_model.dart';
+import 'package:petris/utils/board_config.dart';
 
 class HudWidget extends StatefulWidget {
   final HudWidgetModel hudWidgetModel;

@@ -1,26 +1,26 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:petris/components/boardWidgetComponent.dart';
-import 'package:petris/logics/boardWidgetLogic.dart';
-import 'package:petris/logics/tetrisBlockLogic.dart';
-import 'package:petris/models/boardWidgetModel.dart';
-import 'package:petris/models/countDownWidgetModel.dart';
-import 'package:petris/models/hudWidgetModel.dart';
-import 'package:petris/utils/boardConfig.dart';
+import 'package:petris/components/board_widget_component.dart';
+import 'package:petris/logics/board_widget_logic.dart';
+import 'package:petris/logics/tetris_block_logic.dart';
+import 'package:petris/models/board_widget_model.dart';
+import 'package:petris/models/main_menu_widget_model.dart';
+import 'package:petris/models/hud_widget_model.dart';
+import 'package:petris/utils/board_config.dart';
 
-import '../../components/TetrisBlocksComponent.dart';
-import '../../models/gamePageModel.dart';
-import '../../models/tetrisBlockModel.dart';
+import '../../components/tetris_blocks_component.dart';
+import '../../models/game_page_model.dart';
+import '../../models/tetris_block_model.dart';
 
 class BoardWidget extends StatefulWidget {
-  TetrisBlockModel tetrisBlockModel;
-  GamePageModel gamePageModel;
-  BoardWidgetModel boardWidgetModel;
-  CountDownWidgetModel countDownWidgetModel;
-  HudWidgetModel hudWidgetModel;
+  final TetrisBlockModel tetrisBlockModel;
+  final GamePageModel gamePageModel;
+  final BoardWidgetModel boardWidgetModel;
+  final MainMenuModel countDownWidgetModel;
+  final HudWidgetModel hudWidgetModel;
 
-  BoardWidgetLogic boardWidgetLogic = BoardWidgetLogic();
+  final BoardWidgetLogic boardWidgetLogic = BoardWidgetLogic();
 
   BoardWidget({
     Key? key,
