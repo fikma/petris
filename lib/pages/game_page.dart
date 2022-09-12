@@ -46,6 +46,7 @@ class GamePage extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
+                  Container(),
                   HudWidget(
                     hudWidgetModel: hudWidgetModel,
                   ), // todo: HUD
