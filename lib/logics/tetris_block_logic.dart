@@ -139,12 +139,7 @@ class TetrisBlockLogic {
       tetrisBlocks.isXFlipped = true;
     }
 
-    // tetrisBlocks = moveBlockMinTop(tetrisBlocks);
-
-    // tetrisBlocks = randomizeXPosition(
-    //   tetrisBlocks: tetrisBlocks,
-    //   random: random,
-    // );
+    tetrisBlocks.tetrisSize = getTetrisBlocksSize(tetrisBlocks: tetrisBlocks);
 
     tetrisBlocks = randomizeColor(
       tetrisBlocks: tetrisBlocks,
@@ -152,6 +147,18 @@ class TetrisBlockLogic {
     );
 
     return tetrisBlocks;
+  }
+
+  Point getTetrisBlocksSize({
+    required TetrisBlockList<SingleBlockWidgetModel> tetrisBlocks,
+  }) {
+    num x = 0, y = 0;
+    for (var block in tetrisBlocks) {
+      x = (block.position.x > x) ? block.position.x : x;
+      y = (block.position.y > y) ? block.position.y : y;
+    }
+    var result = Point(x, y);
+    return result;
   }
 
   TetrisBlockList<SingleBlockWidgetModel> randomizeColor({

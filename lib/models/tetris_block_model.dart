@@ -69,6 +69,7 @@ class TetrisBlockModel {
 }
 
 class TetrisBlockList<E> extends ListBase<E> {
+  late Point tetrisSize;
   late TetrisShape tetrisShape;
   bool isXFlipped = false;
 
