@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:petris/components/base_component.dart';
 
 class GamePageModel {
@@ -7,4 +8,5 @@ class GamePageModel {
 
   int tickTime = 0;
   Stopwatch stopwatch = Stopwatch();
+  final FocusNode boardFocus = FocusNode();
 }
