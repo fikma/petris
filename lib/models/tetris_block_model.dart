@@ -68,6 +68,8 @@ class TetrisBlockModel {
 
 class TetrisBlockList<E> extends ListBase<E> {
   late TetrisShape tetrisShape;
+  bool isXFlipped = false;
+
   List<E> l = [];
 
   @override

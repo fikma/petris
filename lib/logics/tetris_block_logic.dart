@@ -136,6 +136,7 @@ class TetrisBlockLogic {
 
     if (random.nextInt(5) >= 2) {
       tetrisBlocks = invertBlockTetris(tetrisBlocks);
+      tetrisBlocks.isXFlipped = true;
     }
 
     tetrisBlocks = moveBlockMinTop(tetrisBlocks);
