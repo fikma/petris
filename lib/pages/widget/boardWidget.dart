@@ -9,6 +9,7 @@ import 'package:petris/models/countDownWidgetModel.dart';
 import 'package:petris/models/hudWidgetModel.dart';
 import 'package:petris/utils/boardConfig.dart';
 
+import '../../components/TetrisBlocksComponent.dart';
 import '../../models/gamePageModel.dart';
 import '../../models/tetrisBlockModel.dart';
 
@@ -22,12 +23,13 @@ class BoardWidget extends StatefulWidget {
   BoardWidgetLogic boardWidgetLogic = BoardWidgetLogic();
 
   BoardWidget({
+    Key? key,
     required this.boardWidgetModel,
     required this.gamePageModel,
     required this.tetrisBlockModel,
     required this.countDownWidgetModel,
     required this.hudWidgetModel,
-  });
+  }) : super(key: key);
 
   @override
   State<BoardWidget> createState() => _BoardWidgetState();
@@ -65,6 +67,14 @@ class _BoardWidgetState extends State<BoardWidget> {
       gamePageModel: widget.gamePageModel,
       boardWidgetModel: widget.boardWidgetModel,
       tetrisBlockModel: widget.tetrisBlockModel,
+      countDownWidgetModel: widget.countDownWidgetModel,
+      hudWidgetModel: widget.hudWidgetModel,
+    );
+
+    TetrisBlocksComponent(
+      gamePageModel: widget.gamePageModel,
+      tetrisBlockModel: widget.tetrisBlockModel,
+      boardWidgetModel: widget.boardWidgetModel,
       countDownWidgetModel: widget.countDownWidgetModel,
       hudWidgetModel: widget.hudWidgetModel,
     );

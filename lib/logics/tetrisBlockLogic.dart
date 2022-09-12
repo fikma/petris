@@ -138,7 +138,7 @@ class TetrisBlockLogic {
       tetrisBlocks = invertBlockTetris(tetrisBlocks);
     }
 
-    // tetrisBlocks = moveBlockMinTop(tetrisBlocks);
+    tetrisBlocks = moveBlockMinTop(tetrisBlocks);
 
     // tetrisBlocks = randomizeXPosition(
     //   tetrisBlocks: tetrisBlocks,

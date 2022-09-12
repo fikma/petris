@@ -6,7 +6,7 @@ import 'package:petris/models/singleBlockWidgetModel.dart';
 class SingleBlockWidget extends StatefulWidget {
   final SingleBlockWidgetModel singleBlockWidgetModel;
 
-  SingleBlockWidget({
+  const SingleBlockWidget({
     Key? key,
     required this.singleBlockWidgetModel,
   }) : super(key: key);

@@ -24,8 +24,10 @@ class GamePage extends StatelessWidget {
   final CountDownWidgetModel countDownWidgetModel = CountDownWidgetModel();
   late final HudWidgetModel hudWidgetModel;
 
-  late final GamePageComponent gamePageComponent =
-      GamePageComponent(gamePageModel: gamePageModel);
+  late final GamePageComponent gamePageComponent = GamePageComponent(
+    gamePageModel: gamePageModel,
+    boardWidgetModel: boardWidgetModel,
+  );
 
   late FocusNode boardFocus;
   late InputEventLogic inputEventLogic;
@@ -64,6 +66,7 @@ class GamePage extends StatelessWidget {
             ),
           ),
           CountDownWidget(
+            boardWidgetModel: boardWidgetModel,
             countDownWidgetModel: countDownWidgetModel,
             hudWidgetModel: hudWidgetModel,
             gamePageModel: gamePageModel,

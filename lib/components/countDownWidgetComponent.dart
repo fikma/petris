@@ -1,5 +1,7 @@
 import 'package:petris/components/baseComponent.dart';
+import 'package:petris/logics/boardWidgetLogic.dart';
 import 'package:petris/logics/tetrisBlockLogic.dart';
+import 'package:petris/models/boardWidgetModel.dart';
 import 'package:petris/models/countDownWidgetModel.dart';
 import 'package:petris/models/hudWidgetModel.dart';
 import 'package:petris/utils/boardConfig.dart';
@@ -7,11 +9,13 @@ import 'package:petris/utils/boardConfig.dart';
 import '../models/gamePageModel.dart';
 
 class CountDownWidgetComponent extends BaseComponent {
+  BoardWidgetModel boardWidgetModel;
   GamePageModel gamePageModel;
   CountDownWidgetModel countDownWidgetModel;
   HudWidgetModel hudWidgetModel;
 
   CountDownWidgetComponent({
+    required this.boardWidgetModel,
     required this.gamePageModel,
     required this.countDownWidgetModel,
     required this.hudWidgetModel,
@@ -38,6 +42,10 @@ class CountDownWidgetComponent extends BaseComponent {
           TetrisBlockLogic().setTetrisBlockColorToBoard(
             tetrisBlocks: hudWidgetModel.tetrisBlocks,
             boardList: hudWidgetModel.boardList,
+          );
+
+          BoardWidgetLogic().resetBoard(
+            boardList: boardWidgetModel.boardList,
           );
 
           hudWidgetModel.updateCallback!();
