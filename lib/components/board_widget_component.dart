@@ -52,7 +52,7 @@ class BoardWidgetComponent extends BaseComponent {
 
     tetrisBlockLogic.setTetrisBlockColorToBoard(
       boardList: boardWidgetModel.boardList,
-      tetrisBlocks: tetrisBlockModel.blocks,
+      tetrisBlocks: tetrisBlockModel.currentBlocks,
     );
   }
 }

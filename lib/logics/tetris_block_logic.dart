@@ -139,7 +139,7 @@ class TetrisBlockLogic {
       tetrisBlocks.isXFlipped = true;
     }
 
-    tetrisBlocks = moveBlockMinTop(tetrisBlocks);
+    // tetrisBlocks = moveBlockMinTop(tetrisBlocks);
 
     // tetrisBlocks = randomizeXPosition(
     //   tetrisBlocks: tetrisBlocks,
@@ -257,8 +257,9 @@ class TetrisBlockLogic {
     return tetrisBlocks;
   }
 
-  TetrisBlockList<SingleBlockWidgetModel> moveBlockMinTop(
-      TetrisBlockList<SingleBlockWidgetModel> tetrisBlocks) {
+  TetrisBlockList<SingleBlockWidgetModel> moveBlockMinTop({
+    required TetrisBlockList<SingleBlockWidgetModel> tetrisBlocks,
+  }) {
     int lengthOfY = 0;
     for (var block in tetrisBlocks) {
       lengthOfY =

@@ -10,12 +10,12 @@ void main() {
   var tetrisBlockModel = TetrisBlockModel();
   var logic = TetrisBlockLogic();
   test("build tetrominos dengan random block yang dipilih", () {
-    tetrisBlockModel.blocks = logic.buildTetrominoes(
+    tetrisBlockModel.currentBlocks = logic.buildTetrominoes(
       tetrisShapeList: TetrisShapeList,
       blockSize: BoardConfig.blockSize,
     );
 
-    expect(tetrisBlockModel.blocks.length, 4);
+    expect(tetrisBlockModel.currentBlocks.length, 4);
   });
 
   test("build tetrominoes tertarget", () {
@@ -29,15 +29,15 @@ void main() {
       SingleBlockWidgetModel(
           position: const Point(1, 1), size: BoardConfig.blockSize),
     ];
-    tetrisBlockModel.blocks = logic.buildTetrominoesByType(
+    tetrisBlockModel.currentBlocks = logic.buildTetrominoesByType(
       tetrisShapeList: TetrisShapeList,
       tetrisShape: TetrisShape.o,
       blockSize: BoardConfig.blockSize,
     );
 
     for (var i = 0; i < expectedValueO.length; i++) {
-      var valueX = tetrisBlockModel.blocks[i].position.x;
-      var valueY = tetrisBlockModel.blocks[i].position.y;
+      var valueX = tetrisBlockModel.currentBlocks[i].position.x;
+      var valueY = tetrisBlockModel.currentBlocks[i].position.y;
       var expectedValueX = expectedValueO[i].position.x;
       var expectedValueY = expectedValueO[i].position.y;
 
@@ -58,11 +58,12 @@ void main() {
           position: const Point(0, 1), size: BoardConfig.blockSize),
     ];
 
-    tetrisBlockModel.blocks = logic.invertBlockTetris(tetrisBlockModel.blocks);
+    tetrisBlockModel.currentBlocks =
+        logic.invertBlockTetris(tetrisBlockModel.currentBlocks);
 
-    for (var i = 0; i < tetrisBlockModel.blocks.length; i++) {
-      var valueX = tetrisBlockModel.blocks[i].position.x;
-      var valueY = tetrisBlockModel.blocks[i].position.y;
+    for (var i = 0; i < tetrisBlockModel.currentBlocks.length; i++) {
+      var valueX = tetrisBlockModel.currentBlocks[i].position.x;
+      var valueY = tetrisBlockModel.currentBlocks[i].position.y;
       var expectedValueX = expectedValueO[i].position.x;
       var expectedValueY = expectedValueO[i].position.y;
 

@@ -62,8 +62,10 @@ class TetrisBlockModel {
   double? vectorRadianDirection;
   double? vectorLength;
 
-  TetrisBlockList<SingleBlockWidgetModel> blocks =
+  TetrisBlockList<SingleBlockWidgetModel> currentBlocks =
       TetrisBlockList<SingleBlockWidgetModel>();
+  ListQueue<TetrisBlockList<SingleBlockWidgetModel>> nextBlocks =
+      ListQueue<TetrisBlockList<SingleBlockWidgetModel>>(4);
 }
 
 class TetrisBlockList<E> extends ListBase<E> {

@@ -43,7 +43,7 @@ class TetrisBlocksComponent extends BaseComponent {
     if (tetrisBlockModel.moveBlocksToBottom) {
       TetrisBlockLogic().moveTetrisBlocksToBottom(
         boardList: boardWidgetModel.boardList,
-        tetrisBlocks: tetrisBlockModel.blocks,
+        tetrisBlocks: tetrisBlockModel.currentBlocks,
       );
     }
     // end move tetris block to bottom
@@ -51,17 +51,17 @@ class TetrisBlocksComponent extends BaseComponent {
     // start rotate logic
     if (tetrisBlockModel.rotate) {
       var rotateCommand = RotateTetrisBlocksCommand(
-        tetrisBlocks: tetrisBlockModel.blocks,
+        tetrisBlocks: tetrisBlockModel.currentBlocks,
       );
       rotateCommand.execute();
       if (TetrisBlockLogic().isBlockOutsideBoardWidth(
-        tetrisBlocks: tetrisBlockModel.blocks,
+        tetrisBlocks: tetrisBlockModel.currentBlocks,
       )) {
         rotateCommand.undo();
       }
 
       if (TetrisBlockLogic().isBlockCollideWithTetrominoe(
-        tetrisBlocks: tetrisBlockModel.blocks,
+        tetrisBlocks: tetrisBlockModel.currentBlocks,
         boardList: boardWidgetModel.boardList,
       )) {
         rotateCommand.undo();
@@ -70,20 +70,20 @@ class TetrisBlocksComponent extends BaseComponent {
     // end rotate
 
     var moveCommand = MoveTetrisBlocksCommand(
-      tetrisBlocks: tetrisBlockModel.blocks,
+      tetrisBlocks: tetrisBlockModel.currentBlocks,
     );
     if (gamePageModel.stopwatch.elapsedMilliseconds >= BoardConfig.tickTime) {
       moveCommand.execute(tetrisBlockModel.gravity);
 
       if (tetrisBlockLogic.isBlockCollideWithTetrominoe(
-        tetrisBlocks: tetrisBlockModel.blocks,
+        tetrisBlocks: tetrisBlockModel.currentBlocks,
         boardList: boardWidgetModel.boardList,
       )) {
         moveCommand.undo();
 
         // start Gameover logic
         if (tetrisBlockLogic.isBlockOutsideBoardHeight(
-          tetrisBlocks: tetrisBlockModel.blocks,
+          tetrisBlocks: tetrisBlockModel.currentBlocks,
           checkTop: true,
         )) {
           gamePageModel.gameStatePaused = true;
@@ -97,27 +97,36 @@ class TetrisBlocksComponent extends BaseComponent {
         // start logic ketika tetrisBlock collide dengan boardBlock, reset
         boardWidgetLogic.setTetrisBlockTypeToBoard(
           boardList: boardWidgetModel.boardList,
-          tetrisBlocks: tetrisBlockModel.blocks,
+          tetrisBlocks: tetrisBlockModel.currentBlocks,
         );
 
-        tetrisBlockModel.blocks = tetrisBlockLogic.reset(
-          tetrisBlocks: tetrisBlockModel.blocks,
+        tetrisBlockModel.currentBlocks =
+            tetrisBlockModel.nextBlocks.removeFirst();
+        tetrisBlockLogic.moveBlockMinTop(
+          tetrisBlocks: tetrisBlockModel.currentBlocks,
         );
+
+        tetrisBlockModel.nextBlocks.add(tetrisBlockLogic.reset(
+          tetrisBlocks: tetrisBlockModel.currentBlocks,
+        ));
       }
       // end logic ketika tetris block collide dengan boardBlock
 
       if (tetrisBlockLogic.isBlockOutsideBoardHeight(
-        tetrisBlocks: tetrisBlockModel.blocks,
+        tetrisBlocks: tetrisBlockModel.currentBlocks,
       )) {
         moveCommand.undo();
         boardWidgetLogic.setTetrisBlockTypeToBoard(
           boardList: boardWidgetModel.boardList,
-          tetrisBlocks: tetrisBlockModel.blocks,
+          tetrisBlocks: tetrisBlockModel.currentBlocks,
         );
 
-        tetrisBlockModel.blocks = tetrisBlockLogic.reset(
-          tetrisBlocks: tetrisBlockModel.blocks,
-        );
+        tetrisBlockModel.currentBlocks =
+            tetrisBlockModel.nextBlocks.removeFirst();
+
+        tetrisBlockModel.nextBlocks.add(tetrisBlockLogic.reset(
+          tetrisBlocks: tetrisBlockModel.currentBlocks,
+        ));
 
         return;
       }
@@ -126,22 +135,7 @@ class TetrisBlocksComponent extends BaseComponent {
         boardList: hudWidgetModel.boardList,
       );
 
-      hudWidgetModel.tetrisBlocks = TetrisBlockLogic().buildTetrominoesByType(
-        blockSize: HudConfig.tetrisBlockSize,
-        tetrisShape: tetrisBlockModel.blocks.tetrisShape,
-        tetrisShapeList: TetrisShapeList,
-      );
-
-      if (tetrisBlockModel.blocks.isXFlipped) {
-        hudWidgetModel.tetrisBlocks = TetrisBlockLogic().invertBlockTetris(
-          hudWidgetModel.tetrisBlocks,
-        );
-      }
-
-      hudWidgetModel.tetrisBlocks = TetrisBlockLogic().randomizeColor(
-        random: Random(),
-        tetrisBlocks: hudWidgetModel.tetrisBlocks,
-      );
+      hudWidgetModel.tetrisBlocks = tetrisBlockModel.nextBlocks.first;
       tetrisBlockLogic.setTetrisBlockColorToBoard(
         boardList: hudWidgetModel.boardList,
         tetrisBlocks: hudWidgetModel.tetrisBlocks,
@@ -153,10 +147,10 @@ class TetrisBlocksComponent extends BaseComponent {
     if (tetrisBlockModel.xDirection != const Point(0, 0)) {
       moveCommand.execute(tetrisBlockModel.xDirection);
       if (tetrisBlockLogic.isBlockOutsideBoardWidth(
-            tetrisBlocks: tetrisBlockModel.blocks,
+            tetrisBlocks: tetrisBlockModel.currentBlocks,
           ) ||
           tetrisBlockLogic.isBlockCollideWithTetrominoe(
-            tetrisBlocks: tetrisBlockModel.blocks,
+            tetrisBlocks: tetrisBlockModel.currentBlocks,
             boardList: boardWidgetModel.boardList,
           )) {
         moveCommand.undo();

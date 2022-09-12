@@ -21,7 +21,7 @@ class InputEventLogic {
       }
 
       if (event.logicalKey == LogicalKeyboardKey.arrowUp) {
-        if (tetrisBlockModel.blocks.tetrisShape != TetrisShape.o) {
+        if (tetrisBlockModel.currentBlocks.tetrisShape != TetrisShape.o) {
           tetrisBlockModel.rotate = true;
         }
       }
@@ -61,7 +61,7 @@ class InputEventLogic {
     if (tetrisBlockModel.vectorLength! >= 800) {
       // gestureUp
       if (isBetween(tetrisBlockModel.vectorRadianDirection!, -2.355, -0.785)) {
-        if (tetrisBlockModel.blocks.tetrisShape != TetrisShape.l) {
+        if (tetrisBlockModel.currentBlocks.tetrisShape != TetrisShape.l) {
           tetrisBlockModel.rotate = true;
 
           return;
