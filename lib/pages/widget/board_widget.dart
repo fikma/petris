@@ -1,11 +1,9 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:petris/components/board_widget_component.dart';
 import 'package:petris/logics/board_widget_logic.dart';
 import 'package:petris/logics/tetris_block_logic.dart';
 import 'package:petris/models/board_widget_model.dart';
-import 'package:petris/models/main_menu_widget_model.dart';
+import 'package:petris/models/count_down_widget_model.dart';
 import 'package:petris/models/hud_widget_model.dart';
 import 'package:petris/utils/board_config.dart';
 
@@ -17,7 +15,7 @@ class BoardWidget extends StatefulWidget {
   final TetrisBlockModel tetrisBlockModel;
   final GamePageModel gamePageModel;
   final BoardWidgetModel boardWidgetModel;
-  final MainMenuModel countDownWidgetModel;
+  final CountDownWidgetModel countDownWidgetModel;
   final HudWidgetModel hudWidgetModel;
 
   final BoardWidgetLogic boardWidgetLogic = BoardWidgetLogic();

@@ -56,6 +56,7 @@ class TetrisBlockModel {
   Point xDirection = const Point(0, 0);
   bool rotate = false;
   bool moveBlocksToBottom = false;
+  bool isTetrisBlocksReseted = false;
 
   Offset? gestureStartLocalLocation;
 

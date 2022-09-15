@@ -3,7 +3,7 @@ import 'dart:math';
 import 'package:petris/components/base_component.dart';
 import 'package:petris/logics/board_widget_logic.dart';
 import 'package:petris/models/board_widget_model.dart';
-import 'package:petris/models/main_menu_widget_model.dart';
+import 'package:petris/models/count_down_widget_model.dart';
 import 'package:petris/models/game_page_model.dart';
 import 'package:petris/models/hud_widget_model.dart';
 import 'package:petris/models/tetris_block_model.dart';
@@ -18,7 +18,7 @@ class TetrisBlocksComponent extends BaseComponent {
   HudWidgetModel hudWidgetModel;
   BoardWidgetModel boardWidgetModel;
   TetrisBlockModel tetrisBlockModel;
-  MainMenuModel countDownWidgetModel;
+  CountDownWidgetModel countDownWidgetModel;
 
   TetrisBlockLogic tetrisBlockLogic = TetrisBlockLogic();
   BoardWidgetLogic boardWidgetLogic = BoardWidgetLogic();
@@ -102,9 +102,8 @@ class TetrisBlocksComponent extends BaseComponent {
 
         tetrisBlockModel.currentBlocks =
             tetrisBlockModel.nextBlocks.removeFirst();
-        tetrisBlockLogic.moveBlockMinTop(
-          tetrisBlocks: tetrisBlockModel.currentBlocks,
-        );
+
+        tetrisBlockModel.isTetrisBlocksReseted = true;
 
         tetrisBlockModel.nextBlocks.add(tetrisBlockLogic.reset(
           tetrisBlocks: tetrisBlockModel.currentBlocks,
@@ -123,6 +122,8 @@ class TetrisBlocksComponent extends BaseComponent {
 
         tetrisBlockModel.currentBlocks =
             tetrisBlockModel.nextBlocks.removeFirst();
+
+        tetrisBlockModel.isTetrisBlocksReseted = true;
 
         tetrisBlockModel.nextBlocks.add(tetrisBlockLogic.reset(
           tetrisBlocks: tetrisBlockModel.currentBlocks,
@@ -156,10 +157,17 @@ class TetrisBlocksComponent extends BaseComponent {
     }
     // end move tetris block
 
+    if (tetrisBlockModel.isTetrisBlocksReseted) {
+      tetrisBlockLogic.moveBlockMinTop(
+        tetrisBlocks: tetrisBlockModel.currentBlocks,
+      );
+    }
+
     // start reset flag untuk xMove, rotate, moveBlockToBottom
     tetrisBlockModel.xDirection = const Point(0, 0);
     tetrisBlockModel.rotate = false;
     tetrisBlockModel.moveBlocksToBottom = false;
+    tetrisBlockModel.isTetrisBlocksReseted = false;
     // end reset
   }
 }

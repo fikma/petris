@@ -33,7 +33,7 @@ class BoardWidgetLogic {
   }
 
   // column yang berisi children kumpulan row
-  Center generateBoard({
+  SizedBox generateBoard({
     required List<List<SingleBlockWidgetModel>> boardList,
     required int xGridSize,
     required int yGridSize,
@@ -61,14 +61,12 @@ class BoardWidgetLogic {
       children: rowTetrisWidgetCollections,
     );
 
-    return Center(
-      child: Container(
-        width: blockSize * xGridSize * 1.0,
-        height: blockSize * yGridSize * 1.0,
-        // TODO: fix this!!!
-        color: BoardConfig.boardColor,
-        child: baris,
-      ),
+    return SizedBox(
+      width: blockSize * xGridSize * 1.0,
+      height: blockSize * yGridSize * 1.0,
+      // TODO: fix this!!!
+      // color: BoardConfig.boardColor,
+      child: baris,
     );
   }
 

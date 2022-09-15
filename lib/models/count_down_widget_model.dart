@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/widgets.dart';
 
-class MainMenuModel {
+class CountDownWidgetModel {
   late Timer? timer;
   bool visible = true;
   String text = "Start";

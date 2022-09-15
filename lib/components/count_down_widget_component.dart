@@ -2,7 +2,7 @@ import 'package:petris/components/base_component.dart';
 import 'package:petris/logics/board_widget_logic.dart';
 import 'package:petris/logics/tetris_block_logic.dart';
 import 'package:petris/models/board_widget_model.dart';
-import 'package:petris/models/main_menu_widget_model.dart';
+import 'package:petris/models/count_down_widget_model.dart';
 import 'package:petris/models/hud_widget_model.dart';
 import 'package:petris/utils/board_config.dart';
 
@@ -11,7 +11,7 @@ import '../models/game_page_model.dart';
 class CountDownWidgetComponent extends BaseComponent {
   BoardWidgetModel boardWidgetModel;
   GamePageModel gamePageModel;
-  MainMenuModel countDownWidgetModel;
+  CountDownWidgetModel countDownWidgetModel;
   HudWidgetModel hudWidgetModel;
 
   CountDownWidgetComponent({

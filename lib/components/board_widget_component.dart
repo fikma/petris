@@ -1,7 +1,7 @@
 import 'package:petris/components/base_component.dart';
 import 'package:petris/logics/board_widget_logic.dart';
 import 'package:petris/models/board_widget_model.dart';
-import 'package:petris/models/main_menu_widget_model.dart';
+import 'package:petris/models/count_down_widget_model.dart';
 import 'package:petris/models/game_page_model.dart';
 import 'package:petris/models/hud_widget_model.dart';
 import 'package:petris/models/tetris_block_model.dart';
@@ -12,7 +12,7 @@ class BoardWidgetComponent extends BaseComponent {
   GamePageModel gamePageModel;
   TetrisBlockModel tetrisBlockModel;
   BoardWidgetModel boardWidgetModel;
-  MainMenuModel countDownWidgetModel;
+  CountDownWidgetModel countDownWidgetModel;
   HudWidgetModel hudWidgetModel;
 
   TetrisBlockLogic tetrisBlockLogic = TetrisBlockLogic();

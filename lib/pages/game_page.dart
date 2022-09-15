@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:petris/components/game_page_component.dart';
 import 'package:petris/logics/input_event_logic.dart';
 import 'package:petris/models/board_widget_model.dart';
-import 'package:petris/models/main_menu_widget_model.dart';
+import 'package:petris/models/count_down_widget_model.dart';
 import 'package:petris/models/game_page_model.dart';
 import 'package:petris/models/hud_widget_model.dart';
 import 'package:petris/models/tetris_block_model.dart';
-import 'package:petris/pages/widget/main_menu_widget.dart';
+import 'package:petris/pages/widget/count_down_widget.dart';
 import 'package:petris/pages/widget/board_widget.dart';
 import 'package:petris/pages/widget/hud_widget.dart';
 
@@ -16,7 +16,7 @@ class GamePage extends StatelessWidget {
   final TetrisBlockModel tetrisBlockModel = TetrisBlockModel();
   final GamePageModel gamePageModel = GamePageModel();
   final BoardWidgetModel boardWidgetModel = BoardWidgetModel();
-  final MainMenuModel countDownWidgetModel = MainMenuModel();
+  final CountDownWidgetModel countDownWidgetModel = CountDownWidgetModel();
   final HudWidgetModel hudWidgetModel = HudWidgetModel();
 
   late final GamePageComponent gamePageComponent = GamePageComponent(
@@ -42,9 +42,8 @@ class GamePage extends StatelessWidget {
               onPointerUp: inputEventLogic.pointerUpHandle,
               onPointerMove: inputEventLogic.pointerMoveHandle,
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  Container(),
                   HudWidget(
                     hudWidgetModel: hudWidgetModel,
                   ), // todo: HUD
@@ -60,7 +59,7 @@ class GamePage extends StatelessWidget {
               ),
             ),
           ),
-          MainMenuWidget(
+          CountDownWidget(
             boardWidgetModel: boardWidgetModel,
             countDownWidgetModel: countDownWidgetModel,
             hudWidgetModel: hudWidgetModel,

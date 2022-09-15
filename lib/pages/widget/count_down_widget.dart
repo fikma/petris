@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:petris/components/count_down_widget_component.dart';
 import 'package:petris/models/board_widget_model.dart';
-import 'package:petris/models/main_menu_widget_model.dart';
+import 'package:petris/models/count_down_widget_model.dart';
 import 'package:petris/models/game_page_model.dart';
 import 'package:petris/models/hud_widget_model.dart';
 import 'package:petris/utils/board_config.dart';
 
-class MainMenuWidget extends StatefulWidget {
+class CountDownWidget extends StatefulWidget {
   final BoardWidgetModel boardWidgetModel;
-  final MainMenuModel countDownWidgetModel;
+  final CountDownWidgetModel countDownWidgetModel;
   final GamePageModel gamePageModel;
   final HudWidgetModel hudWidgetModel;
 
-  MainMenuWidget({
+  CountDownWidget({
     Key? key,
     required this.boardWidgetModel,
     required this.gamePageModel,
@@ -24,10 +24,10 @@ class MainMenuWidget extends StatefulWidget {
   }
 
   @override
-  State<MainMenuWidget> createState() => _MainMenuWidgetState();
+  State<CountDownWidget> createState() => _CountDownWidgetState();
 }
 
-class _MainMenuWidgetState extends State<MainMenuWidget> {
+class _CountDownWidgetState extends State<CountDownWidget> {
   @override
   void initState() {
     super.initState();
