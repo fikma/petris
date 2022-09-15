@@ -15,7 +15,7 @@ class BoardWidgetLogic {
     required int blockSize,
     required Color blockColor,
   }) {
-    List<List<SingleBlockWidgetModel>> data = [];
+    List<List<SingleBlockWidgetModel>> result = [];
     for (var xCount = 0; xCount < xSize; xCount++) {
       List<SingleBlockWidgetModel> temp = [];
       for (var yCount = 0; yCount < ySize; yCount++) {
@@ -26,10 +26,10 @@ class BoardWidgetLogic {
         );
         temp.add(model);
       }
-      data.add(temp);
+      result.add(temp);
     }
 
-    return data;
+    return result;
   }
 
   // column yang berisi children kumpulan row
@@ -63,9 +63,10 @@ class BoardWidgetLogic {
 
     return Center(
       child: Container(
-        width: (blockSize * xGridSize).toDouble(),
-        height: (blockSize * yGridSize).toDouble(),
-        color: Colors.blue,
+        width: blockSize * xGridSize * 1.0,
+        height: blockSize * yGridSize * 1.0,
+        // TODO: fix this!!!
+        color: BoardConfig.boardColor,
         child: baris,
       ),
     );

@@ -17,13 +17,11 @@ class GamePage extends StatelessWidget {
   final GamePageModel gamePageModel = GamePageModel();
   final BoardWidgetModel boardWidgetModel = BoardWidgetModel();
   final MainMenuModel countDownWidgetModel = MainMenuModel();
+  final HudWidgetModel hudWidgetModel = HudWidgetModel();
 
   late final GamePageComponent gamePageComponent = GamePageComponent(
     gamePageModel: gamePageModel,
     boardWidgetModel: boardWidgetModel,
-  );
-  late final HudWidgetModel hudWidgetModel = HudWidgetModel(
-    tetrisBlockModel: tetrisBlockModel,
   );
   late final InputEventLogic inputEventLogic =
       InputEventLogic(tetrisBlockModel, boardWidgetModel);

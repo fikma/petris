@@ -58,22 +58,7 @@ class _BoardWidgetState extends State<BoardWidget> {
         widget.tetrisBlockModel.nextBlocks.removeFirst();
 
     widget.hudWidgetModel.tetrisBlocks =
-        TetrisBlockLogic().buildTetrominoesByType(
-      blockSize: 20,
-      tetrisShape: widget.tetrisBlockModel.nextBlocks.first.tetrisShape,
-      tetrisShapeList: TetrisShapeList,
-    );
-
-    if (widget.tetrisBlockModel.nextBlocks.first.isXFlipped) {
-      widget.hudWidgetModel.tetrisBlocks = TetrisBlockLogic().invertBlockTetris(
-        widget.hudWidgetModel.tetrisBlocks,
-      );
-    }
-
-    widget.hudWidgetModel.tetrisBlocks = TetrisBlockLogic().randomizeColor(
-      random: Random(),
-      tetrisBlocks: widget.hudWidgetModel.tetrisBlocks,
-    );
+        widget.tetrisBlockModel.nextBlocks.first;
 
     BoardWidgetComponent(
       gamePageModel: widget.gamePageModel,

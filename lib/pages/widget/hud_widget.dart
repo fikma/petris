@@ -16,6 +16,7 @@ class HudWidget extends StatefulWidget {
 
 class _HudWidgetState extends State<HudWidget> {
   final BoardWidgetLogic boardWidgetLogic = BoardWidgetLogic();
+
   @override
   void initState() {
     super.initState();
@@ -24,7 +25,7 @@ class _HudWidgetState extends State<HudWidget> {
       setState(() {});
     };
 
-    widget.hudWidgetModel.boardList = BoardWidgetLogic().initBoardList(
+    widget.hudWidgetModel.boardList = boardWidgetLogic.initBoardList(
       blockSize: 10,
       blockColor: HudConfig.boardColor,
       xSize: 4,
@@ -34,12 +35,12 @@ class _HudWidgetState extends State<HudWidget> {
 
   @override
   Widget build(BuildContext context) {
-    var board = BoardWidgetLogic().generateBoard(
+    // TODO: xGridSize dan yGridSize harus berasal dari hudWidgetModel
+    var board = boardWidgetLogic.generateBoard(
       boardList: widget.hudWidgetModel.boardList,
       xGridSize: 4,
       yGridSize: 4,
     );
-
     var nextBlocks = Container(
       child: board,
     );
@@ -53,6 +54,7 @@ class _HudWidgetState extends State<HudWidget> {
               fontSize: widget.hudWidgetModel.fontSize,
             ),
           ),
+          Container(),
           nextBlocks,
         ],
       ),

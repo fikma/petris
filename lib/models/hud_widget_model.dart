@@ -7,9 +7,6 @@ class HudWidgetModel {
   Function? updateCallback;
   double singleBlockSize = 10;
 
-  final TetrisBlockModel tetrisBlockModel;
-  late final List<List<SingleBlockWidgetModel>> boardList;
+  List<List<SingleBlockWidgetModel>> boardList = [];
   late TetrisBlockList<SingleBlockWidgetModel> tetrisBlocks;
-
-  HudWidgetModel({required this.tetrisBlockModel});
 }
