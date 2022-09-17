@@ -5,6 +5,7 @@ import 'package:petris/logics/tetris_block_logic.dart';
 import 'package:petris/models/board_widget_model.dart';
 import 'package:petris/models/count_down_widget_model.dart';
 import 'package:petris/models/hud_widget_model.dart';
+import 'package:petris/models/main_menu_models.dart';
 import 'package:petris/utils/board_config.dart';
 
 import '../../components/tetris_blocks_component.dart';
@@ -12,22 +13,24 @@ import '../../models/game_page_model.dart';
 import '../../models/tetris_block_model.dart';
 
 class BoardWidget extends StatefulWidget {
-  final TetrisBlockModel tetrisBlockModel;
   final GamePageModel gamePageModel;
-  final BoardWidgetModel boardWidgetModel;
-  final CountDownWidgetModel countDownWidgetModel;
+  final MainMenuModel mainMenuModel;
   final HudWidgetModel hudWidgetModel;
+  final BoardWidgetModel boardWidgetModel;
+  final TetrisBlockModel tetrisBlockModel;
+  final CountDownWidgetModel countDownWidgetModel;
 
   final BoardWidgetLogic boardWidgetLogic = BoardWidgetLogic();
 
   BoardWidget({
-    Key? key,
-    required this.boardWidgetModel,
+    super.key,
+    required this.mainMenuModel,
     required this.gamePageModel,
-    required this.tetrisBlockModel,
-    required this.countDownWidgetModel,
     required this.hudWidgetModel,
-  }) : super(key: key);
+    required this.tetrisBlockModel,
+    required this.boardWidgetModel,
+    required this.countDownWidgetModel,
+  });
 
   @override
   State<BoardWidget> createState() => _BoardWidgetState();
@@ -39,9 +42,9 @@ class _BoardWidgetState extends State<BoardWidget> {
     super.initState();
 
     widget.boardWidgetModel.boardList = widget.boardWidgetLogic.initBoardList(
-      blockSize: BoardConfig.blockSize,
       xSize: BoardConfig.xSize,
       ySize: BoardConfig.ySize,
+      blockSize: BoardConfig.blockSize,
       blockColor: BoardConfig.boardColor,
     );
 
@@ -60,18 +63,19 @@ class _BoardWidgetState extends State<BoardWidget> {
 
     BoardWidgetComponent(
       gamePageModel: widget.gamePageModel,
+      hudWidgetModel: widget.hudWidgetModel,
       boardWidgetModel: widget.boardWidgetModel,
       tetrisBlockModel: widget.tetrisBlockModel,
       countDownWidgetModel: widget.countDownWidgetModel,
-      hudWidgetModel: widget.hudWidgetModel,
     );
 
     TetrisBlocksComponent(
       gamePageModel: widget.gamePageModel,
+      mainMenuModel: widget.mainMenuModel,
+      hudWidgetModel: widget.hudWidgetModel,
       tetrisBlockModel: widget.tetrisBlockModel,
       boardWidgetModel: widget.boardWidgetModel,
       countDownWidgetModel: widget.countDownWidgetModel,
-      hudWidgetModel: widget.hudWidgetModel,
     );
   }
 

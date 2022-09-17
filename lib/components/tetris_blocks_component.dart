@@ -6,6 +6,7 @@ import 'package:petris/models/board_widget_model.dart';
 import 'package:petris/models/count_down_widget_model.dart';
 import 'package:petris/models/game_page_model.dart';
 import 'package:petris/models/hud_widget_model.dart';
+import 'package:petris/models/main_menu_models.dart';
 import 'package:petris/models/tetris_block_model.dart';
 
 import '../commands/move_tetris_blocks_command.dart';
@@ -14,21 +15,23 @@ import '../logics/tetris_block_logic.dart';
 import '../utils/board_config.dart';
 
 class TetrisBlocksComponent extends BaseComponent {
-  GamePageModel gamePageModel;
-  HudWidgetModel hudWidgetModel;
-  BoardWidgetModel boardWidgetModel;
-  TetrisBlockModel tetrisBlockModel;
-  CountDownWidgetModel countDownWidgetModel;
+  final GamePageModel gamePageModel;
+  final MainMenuModel mainMenuModel;
+  final HudWidgetModel hudWidgetModel;
+  final BoardWidgetModel boardWidgetModel;
+  final TetrisBlockModel tetrisBlockModel;
+  final CountDownWidgetModel countDownWidgetModel;
 
   TetrisBlockLogic tetrisBlockLogic = TetrisBlockLogic();
   BoardWidgetLogic boardWidgetLogic = BoardWidgetLogic();
 
   TetrisBlocksComponent({
-    required this.boardWidgetModel,
-    required this.countDownWidgetModel,
     required this.gamePageModel,
+    required this.mainMenuModel,
     required this.hudWidgetModel,
+    required this.boardWidgetModel,
     required this.tetrisBlockModel,
+    required this.countDownWidgetModel,
   }) {
     gamePageModel.components.add(this);
   }
@@ -88,9 +91,11 @@ class TetrisBlocksComponent extends BaseComponent {
         )) {
           gamePageModel.gameStatePaused = true;
 
-          countDownWidgetModel.visible = true;
-          countDownWidgetModel.text = "gameOver";
-          countDownWidgetModel.updateCallback!();
+          // countDownWidgetModel.visible = true;
+          // countDownWidgetModel.text = "gameOver";
+          // countDownWidgetModel.updateCallback!();
+          mainMenuModel.visible = true;
+          mainMenuModel.updateCallback();
         }
         // end gameover
 
