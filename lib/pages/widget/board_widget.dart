@@ -81,10 +81,18 @@ class _BoardWidgetState extends State<BoardWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return widget.boardWidgetLogic.generateBoard(
-      boardList: widget.boardWidgetModel.boardList,
-      xGridSize: BoardConfig.xSize,
-      yGridSize: BoardConfig.ySize,
+    return Container(
+      decoration: BoxDecoration(
+          border: Border.all(
+            width: 4.0,
+            color: Colors.red,
+          ),
+          borderRadius: BorderRadius.all(Radius.circular(5.0))),
+      child: widget.boardWidgetLogic.generateBoard(
+        boardList: widget.boardWidgetModel.boardList,
+        xGridSize: BoardConfig.xSize,
+        yGridSize: BoardConfig.ySize,
+      ),
     );
   }
 }

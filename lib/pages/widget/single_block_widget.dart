@@ -30,9 +30,12 @@ class _SingleBlockWidgetState extends State<SingleBlockWidget> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: (widget.singleBlockWidgetModel.size).toDouble(),
-      height: (widget.singleBlockWidgetModel.size).toDouble(),
-      color: widget.singleBlockWidgetModel.color,
+      width: widget.singleBlockWidgetModel.size * 1.0,
+      height: widget.singleBlockWidgetModel.size * 1.0,
+      decoration: BoxDecoration(
+        border: Border.all(width: .5),
+        color: widget.singleBlockWidgetModel.color,
+      ),
       child: Center(
         child: (kDebugMode)
             ? Text(
