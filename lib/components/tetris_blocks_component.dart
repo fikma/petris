@@ -101,6 +101,7 @@ class TetrisBlocksComponent extends BaseComponent {
 
         // start logic ketika tetrisBlock collide dengan boardBlock, reset
         boardWidgetLogic.setTetrisBlockTypeToBoard(
+          isMonochrome: boardWidgetModel.isBlockMonochrome,
           boardList: boardWidgetModel.boardList,
           tetrisBlocks: tetrisBlockModel.currentBlocks,
         );
@@ -121,6 +122,7 @@ class TetrisBlocksComponent extends BaseComponent {
       )) {
         moveCommand.undo();
         boardWidgetLogic.setTetrisBlockTypeToBoard(
+          isMonochrome: boardWidgetModel.isBlockMonochrome,
           boardList: boardWidgetModel.boardList,
           tetrisBlocks: tetrisBlockModel.currentBlocks,
         );
@@ -141,6 +143,7 @@ class TetrisBlocksComponent extends BaseComponent {
 
       hudWidgetModel.tetrisBlocks = tetrisBlockModel.nextBlocks.first;
       tetrisBlockLogic.setTetrisBlockColorToBoard(
+        isMonochrome: boardWidgetModel.isBlockMonochrome,
         boardList: hudWidgetModel.boardList,
         tetrisBlocks: hudWidgetModel.tetrisBlocks,
       );

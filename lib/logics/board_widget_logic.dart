@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:petris/models/board_widget_model.dart';
 import 'package:petris/models/tetris_block_model.dart';
 import 'package:petris/utils/board_config.dart';
 import 'package:petris/models/single_block_widget_model.dart';
@@ -37,6 +38,7 @@ class BoardWidgetLogic {
     required List<List<SingleBlockWidgetModel>> boardList,
     required int xGridSize,
     required int yGridSize,
+    required BoardWidgetModel boardWidgetModel,
   }) {
     List<Column> rowTetrisWidgetCollections = [];
     var blockSize = 0;
@@ -47,6 +49,7 @@ class BoardWidgetLogic {
       for (var x in y) {
         singleBlockWidgetList.add(SingleBlockWidget(
           singleBlockWidgetModel: x,
+          boardWidgetModel: boardWidgetModel,
         ));
 
         blockSize = x.size;
@@ -71,6 +74,7 @@ class BoardWidgetLogic {
   }
 
   void setTetrisBlockTypeToBoard({
+    required bool isMonochrome,
     required List<List<SingleBlockWidgetModel>> boardList,
     required TetrisBlockList<SingleBlockWidgetModel> tetrisBlocks,
   }) {
@@ -78,8 +82,10 @@ class BoardWidgetLogic {
       if (block.position.y < 0) continue;
       boardList[block.position.x.toInt()][block.position.y.toInt()].type =
           block.type;
+
+      Color color = (isMonochrome) ? block.monoColor : block.color;
       boardList[block.position.x.toInt()][block.position.y.toInt()].color =
-          block.color;
+          color;
     }
   }
 
@@ -121,7 +127,7 @@ class BoardWidgetLogic {
           boardList[x][y].color = before.color;
           boardList[x][y].type = before.type;
 
-          boardList[x][y].updateCallback("update");
+          boardList[x][y].updateCallback();
         }
       }
     }
@@ -143,7 +149,7 @@ class BoardWidgetLogic {
       for (var two in one) {
         if (two.type == BlockType.board) {
           two.color = BoardConfig.boardColor;
-          two.updateCallback("rerender");
+          two.updateCallback();
         }
       }
     }

@@ -33,43 +33,48 @@ class GamePage extends StatelessWidget {
     gamePageComponent.update();
 
     return Scaffold(
-      body: Stack(
-        children: [
-          Focus(
-            autofocus: true,
-            focusNode: boardWidgetModel.boardFocus,
-            onKeyEvent: inputEventLogic.keyBoardInputHandle,
-            child: Listener(
-              onPointerUp: inputEventLogic.pointerUpHandle,
-              onPointerDown: inputEventLogic.pointerDownHandle,
-              onPointerMove: inputEventLogic.pointerMoveHandle,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  HudWidget(
-                    hudWidgetModel: hudWidgetModel,
-                  ), // todo: HUD
-                  BoardWidget(
-                    mainMenuModel: mainMenuModel,
-                    gamePageModel: gamePageModel,
-                    hudWidgetModel: hudWidgetModel,
-                    boardWidgetModel: boardWidgetModel,
-                    tetrisBlockModel: tetrisBlockModel,
-                    countDownWidgetModel: countDownWidgetModel,
-                  ),
-                  Container(),
-                ],
+      body: Container(
+        // TODO: pindahkan ke model
+        color: Colors.grey[900],
+        child: Stack(
+          children: [
+            Focus(
+              autofocus: true,
+              focusNode: boardWidgetModel.boardFocus,
+              onKeyEvent: inputEventLogic.keyBoardInputHandle,
+              child: Listener(
+                onPointerUp: inputEventLogic.pointerUpHandle,
+                onPointerDown: inputEventLogic.pointerDownHandle,
+                onPointerMove: inputEventLogic.pointerMoveHandle,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    HudWidget(
+                      hudWidgetModel: hudWidgetModel,
+                      boardWidgetModel: boardWidgetModel,
+                    ),
+                    BoardWidget(
+                      mainMenuModel: mainMenuModel,
+                      gamePageModel: gamePageModel,
+                      hudWidgetModel: hudWidgetModel,
+                      boardWidgetModel: boardWidgetModel,
+                      tetrisBlockModel: tetrisBlockModel,
+                      countDownWidgetModel: countDownWidgetModel,
+                    ),
+                    Container(),
+                  ],
+                ),
               ),
             ),
-          ),
-          MainMenuWidget(
-            mainMenuModel: mainMenuModel,
-            gamePageModel: gamePageModel,
-            hudWidgetModel: hudWidgetModel,
-            boardWidgetModel: boardWidgetModel,
-            countDownWidgetModel: countDownWidgetModel,
-          ),
-        ],
+            MainMenuWidget(
+              mainMenuModel: mainMenuModel,
+              gamePageModel: gamePageModel,
+              hudWidgetModel: hudWidgetModel,
+              boardWidgetModel: boardWidgetModel,
+              countDownWidgetModel: countDownWidgetModel,
+            ),
+          ],
+        ),
       ),
     );
   }

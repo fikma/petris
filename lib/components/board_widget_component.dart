@@ -51,6 +51,7 @@ class BoardWidgetComponent extends BaseComponent {
     }
 
     tetrisBlockLogic.setTetrisBlockColorToBoard(
+      isMonochrome: boardWidgetModel.isBlockMonochrome,
       boardList: boardWidgetModel.boardList,
       tetrisBlocks: tetrisBlockModel.currentBlocks,
     );

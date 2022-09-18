@@ -85,13 +85,16 @@ class _BoardWidgetState extends State<BoardWidget> {
       decoration: BoxDecoration(
           border: Border.all(
             width: 4.0,
-            color: Colors.red,
+            // TODO: pindahkan ke model
+            color: Colors.black54,
           ),
+          // TODO: pindahkan ke model
           borderRadius: BorderRadius.all(Radius.circular(5.0))),
       child: widget.boardWidgetLogic.generateBoard(
         boardList: widget.boardWidgetModel.boardList,
         xGridSize: BoardConfig.xSize,
         yGridSize: BoardConfig.ySize,
+        boardWidgetModel: widget.boardWidgetModel,
       ),
     );
   }

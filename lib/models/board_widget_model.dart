@@ -5,4 +5,6 @@ class BoardWidgetModel {
   int rowCount = 20, columnCount = 10;
   late final List<List<SingleBlockWidgetModel>> boardList;
   final FocusNode boardFocus = FocusNode();
+
+  bool isBlockMonochrome = false;
 }

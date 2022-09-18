@@ -64,10 +64,16 @@ class _MainMenuWidgetState extends State<MainMenuWidget> {
       ],
     );
 
-    var monochromeButton =
-        ElevatedButton(onPressed: () {}, child: const Text("Monochrome"));
-    var randomColor =
-        ElevatedButton(onPressed: () {}, child: const Text("Random Color"));
+    var monochromeButton = ElevatedButton(
+        onPressed: () {
+          widget.boardWidgetModel.isBlockMonochrome = true;
+        },
+        child: const Text("Monochrome"));
+    var randomColor = ElevatedButton(
+        onPressed: () {
+          widget.boardWidgetModel.isBlockMonochrome = false;
+        },
+        child: const Text("Random Color"));
     row2 = Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [

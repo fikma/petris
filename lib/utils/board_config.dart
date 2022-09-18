@@ -5,7 +5,7 @@ class BoardConfig {
   static int ySize = 20;
 
   static int blockSize = 30;
-  static Duration loopDuration = const Duration(milliseconds: 100);
+  static Duration loopDuration = const Duration(milliseconds: 150);
   static int tickTime = 700;
 
   static Color boardColor = Color(Colors.grey[900]!.value);

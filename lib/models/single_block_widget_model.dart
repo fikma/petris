@@ -14,9 +14,10 @@ enum BlockType {
 class SingleBlockWidgetModel {
   Point position;
 
-  late final Function(String) updateCallback;
+  late final Function updateCallback;
   final int size;
   Color color;
+  Color monoColor = Color(Colors.grey[800]!.value);
 
   BlockType type;
 

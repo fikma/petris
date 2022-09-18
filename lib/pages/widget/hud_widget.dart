@@ -1,14 +1,18 @@
 import 'package:flutter/cupertino.dart';
 import 'package:petris/logics/board_widget_logic.dart';
+import 'package:petris/models/board_widget_model.dart';
 import 'package:petris/models/hud_widget_model.dart';
 import 'package:petris/utils/board_config.dart';
 
 class HudWidget extends StatefulWidget {
   final HudWidgetModel hudWidgetModel;
+  final BoardWidgetModel boardWidgetModel;
+
   const HudWidget({
+    super.key,
     required this.hudWidgetModel,
-    Key? key,
-  }) : super(key: key);
+    required this.boardWidgetModel,
+  });
 
   @override
   State<HudWidget> createState() => _HudWidgetState();
@@ -40,6 +44,7 @@ class _HudWidgetState extends State<HudWidget> {
       boardList: widget.hudWidgetModel.boardList,
       xGridSize: 4,
       yGridSize: 4,
+      boardWidgetModel: widget.boardWidgetModel,
     );
     var nextBlocks = Container(
       child: board,
