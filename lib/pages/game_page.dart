@@ -52,6 +52,11 @@ class GamePage extends StatelessWidget {
                     HudWidget(
                       hudWidgetModel: hudWidgetModel,
                       boardWidgetModel: boardWidgetModel,
+                      tetrisBlockModel: tetrisBlockModel,
+                    ),
+                    const Divider(
+                      // height: 5.0,
+                      color: Colors.black54,
                     ),
                     BoardWidget(
                       mainMenuModel: mainMenuModel,

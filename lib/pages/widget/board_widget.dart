@@ -48,19 +48,6 @@ class _BoardWidgetState extends State<BoardWidget> {
       blockColor: BoardConfig.boardColor,
     );
 
-    widget.tetrisBlockModel.nextBlocks.add(TetrisBlockLogic().reset(
-      tetrisBlocks: widget.tetrisBlockModel.currentBlocks,
-    ));
-    widget.tetrisBlockModel.nextBlocks.add(TetrisBlockLogic().reset(
-      tetrisBlocks: widget.tetrisBlockModel.currentBlocks,
-    ));
-
-    widget.tetrisBlockModel.currentBlocks =
-        widget.tetrisBlockModel.nextBlocks.removeFirst();
-
-    widget.hudWidgetModel.tetrisBlocks =
-        widget.tetrisBlockModel.nextBlocks.first;
-
     BoardWidgetComponent(
       gamePageModel: widget.gamePageModel,
       hudWidgetModel: widget.hudWidgetModel,

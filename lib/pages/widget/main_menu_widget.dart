@@ -1,7 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:petris/logics/board_widget_logic.dart';
+import 'package:petris/logics/main_menu_logic.dart';
 import 'package:petris/models/board_widget_model.dart';
 import 'package:petris/models/count_down_widget_model.dart';
 import 'package:petris/models/game_page_model.dart';
@@ -33,6 +33,11 @@ class MainMenuWidget extends StatefulWidget {
 
 class _MainMenuWidgetState extends State<MainMenuWidget> {
   late Row row1, row2;
+  late final MainMenuLogic mainMenuLogic = MainMenuLogic(
+    mainMenuModel: widget.mainMenuModel,
+    boardWidgetModel: widget.boardWidgetModel,
+    gamePageModel: widget.gamePageModel,
+  );
 
   @override
   void initState() {
@@ -48,13 +53,7 @@ class _MainMenuWidgetState extends State<MainMenuWidget> {
 
     var resumeButton = ElevatedButton(
         onPressed: () {
-          setState(() {
-            widget.mainMenuModel.visible = false;
-            widget.gamePageModel.gameStatePaused = false;
-            BoardWidgetLogic().resetBoard(
-              boardList: widget.boardWidgetModel.boardList,
-            );
-          });
+          setState(mainMenuLogic.resumeButtonCallback);
         },
         child: const Text("resume"));
     row1 = Row(

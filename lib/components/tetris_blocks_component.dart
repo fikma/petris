@@ -91,9 +91,6 @@ class TetrisBlocksComponent extends BaseComponent {
         )) {
           gamePageModel.gameStatePaused = true;
 
-          // countDownWidgetModel.visible = true;
-          // countDownWidgetModel.text = "gameOver";
-          // countDownWidgetModel.updateCallback!();
           mainMenuModel.visible = true;
           mainMenuModel.updateCallback();
         }
@@ -137,11 +134,14 @@ class TetrisBlocksComponent extends BaseComponent {
         ));
       }
 
-      boardWidgetLogic.clear(
-        boardList: hudWidgetModel.boardList,
-      );
-
       hudWidgetModel.tetrisBlocks = tetrisBlockModel.nextBlocks.first;
+      hudWidgetModel.boardList.clear();
+      hudWidgetModel.boardList.addAll(boardWidgetLogic.initBoardList(
+        blockSize: 10,
+        blockColor: HudConfig.boardColor,
+        xSize: hudWidgetModel.tetrisBlocks.tetrisSize.x.toInt(),
+        ySize: hudWidgetModel.tetrisBlocks.tetrisSize.y.toInt(),
+      ));
       tetrisBlockLogic.setTetrisBlockColorToBoard(
         isMonochrome: boardWidgetModel.isBlockMonochrome,
         boardList: hudWidgetModel.boardList,

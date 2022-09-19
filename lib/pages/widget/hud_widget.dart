@@ -1,17 +1,21 @@
 import 'package:flutter/cupertino.dart';
 import 'package:petris/logics/board_widget_logic.dart';
+import 'package:petris/logics/tetris_block_logic.dart';
 import 'package:petris/models/board_widget_model.dart';
 import 'package:petris/models/hud_widget_model.dart';
+import 'package:petris/models/tetris_block_model.dart';
 import 'package:petris/utils/board_config.dart';
 
 class HudWidget extends StatefulWidget {
   final HudWidgetModel hudWidgetModel;
   final BoardWidgetModel boardWidgetModel;
+  final TetrisBlockModel tetrisBlockModel;
 
   const HudWidget({
     super.key,
     required this.hudWidgetModel,
     required this.boardWidgetModel,
+    required this.tetrisBlockModel,
   });
 
   @override
@@ -29,28 +33,31 @@ class _HudWidgetState extends State<HudWidget> {
       setState(() {});
     };
 
-    widget.hudWidgetModel.boardList = boardWidgetLogic.initBoardList(
-      blockSize: 10,
-      blockColor: HudConfig.boardColor,
-      xSize: 4,
-      ySize: 4,
-    );
+    widget.tetrisBlockModel.nextBlocks.add(TetrisBlockLogic().reset(
+      tetrisBlocks: widget.tetrisBlockModel.currentBlocks,
+    ));
+    widget.tetrisBlockModel.nextBlocks.add(TetrisBlockLogic().reset(
+      tetrisBlocks: widget.tetrisBlockModel.currentBlocks,
+    ));
+
+    widget.tetrisBlockModel.currentBlocks =
+        widget.tetrisBlockModel.nextBlocks.removeFirst();
+
+    widget.hudWidgetModel.tetrisBlocks =
+        widget.tetrisBlockModel.nextBlocks.first;
   }
 
   @override
   Widget build(BuildContext context) {
-    // TODO: xGridSize dan yGridSize harus berasal dari hudWidgetModel
-    var board = boardWidgetLogic.generateBoard(
+    var nextBlocks = boardWidgetLogic.generateBoard(
       boardList: widget.hudWidgetModel.boardList,
-      xGridSize: 4,
-      yGridSize: 4,
+      xGridSize: widget.hudWidgetModel.tetrisBlocks.tetrisSize.x.toInt(),
+      yGridSize: widget.hudWidgetModel.tetrisBlocks.tetrisSize.y.toInt(),
       boardWidgetModel: widget.boardWidgetModel,
     );
-    var nextBlocks = Container(
-      child: board,
-    );
+
     var container = SizedBox(
-      width: (BoardConfig.xSize * BoardConfig.blockSize).toDouble(),
+      width: BoardConfig.xSize * BoardConfig.blockSize * 1.0,
       child: Row(
         children: [
           Text(

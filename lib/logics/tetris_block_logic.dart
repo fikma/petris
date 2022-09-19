@@ -59,8 +59,8 @@ class TetrisBlockLogic {
 
   void setTetrisBlockColorToBoard({
     required bool isMonochrome,
-    required TetrisBlockList<SingleBlockWidgetModel> tetrisBlocks,
     required List<List<SingleBlockWidgetModel>> boardList,
+    required TetrisBlockList<SingleBlockWidgetModel> tetrisBlocks,
   }) {
     for (var item in tetrisBlocks) {
       if (item.position.y >= 0 && item.position.y <= BoardConfig.ySize - 1) {
@@ -154,7 +154,7 @@ class TetrisBlockLogic {
       x = (block.position.x > x) ? block.position.x : x;
       y = (block.position.y > y) ? block.position.y : y;
     }
-    var result = Point(x, y);
+    var result = Point(x + 1, y + 1);
     return result;
   }
 
