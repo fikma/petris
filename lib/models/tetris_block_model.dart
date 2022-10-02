@@ -101,14 +101,9 @@ class TetrisBlockList<E> extends ListBase<E> {
 
   @override
   void addAll(Iterable<E> iterable) {
-    l.addAll(iterable);
+    // l.addAll(iterable);
+    for (var element in iterable) {
+      l.add(element);
+    }
   }
-
-  // TetrisBlockList<SingleBlockWidgetModel> toTetrisBlockList() {
-  //   TetrisBlockList<SingleBlockWidgetModel> result = TetrisBlockList();
-  //   for (var element in l) {
-  //     result.add(element);
-  //   }
-  //   return result;
-  // }
 }

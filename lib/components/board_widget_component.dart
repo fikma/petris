@@ -7,6 +7,7 @@ import 'package:petris/models/hud_widget_model.dart';
 import 'package:petris/models/tetris_block_model.dart';
 
 import '../logics/tetris_block_logic.dart';
+import '../utils/board_config.dart';
 
 class BoardWidgetComponent extends BaseComponent {
   GamePageModel gamePageModel;
@@ -37,19 +38,23 @@ class BoardWidgetComponent extends BaseComponent {
     if (!boardWidgetModel.boardFocus.hasFocus) {
       boardWidgetModel.boardFocus.requestFocus();
     }
-    var checkLineResult = BoardWidgetLogic().checkLine(
-      boardList: boardWidgetModel.boardList,
-    );
-    if (checkLineResult.isLine) {
-      boardWidgetLogic.clear(
+
+    if (gamePageModel.stopwatch.elapsedMilliseconds >= BoardConfig.tickTime) {
+      var checkLineResult = BoardWidgetLogic().checkLine(
         boardList: boardWidgetModel.boardList,
       );
-      boardWidgetLogic.moveLineDown(
-        boardList: boardWidgetModel.boardList,
-        yPositions: checkLineResult.lineResults,
-      );
+      if (checkLineResult.isLine) {
+        boardWidgetLogic.clear(
+          boardList: boardWidgetModel.boardList,
+        );
+        boardWidgetLogic.moveLineDown(
+          boardList: boardWidgetModel.boardList,
+          yPositions: checkLineResult.lineResults,
+        );
+      }
     }
 
+    // Todo: hanya block yang berubah warna yang harusnya berubah.
     tetrisBlockLogic.setTetrisBlockColorToBoard(
       isMonochrome: boardWidgetModel.isBlockMonochrome,
       boardList: boardWidgetModel.boardList,
