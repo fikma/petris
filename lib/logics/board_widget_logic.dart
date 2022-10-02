@@ -67,14 +67,11 @@ class BoardWidgetLogic {
     return SizedBox(
       width: blockSize * xGridSize * 1.0,
       height: blockSize * yGridSize * 1.0,
-      // TODO: fix this!!!
-      // color: BoardConfig.boardColor,
       child: baris,
     );
   }
 
   void setTetrisBlockTypeToBoard({
-    required bool isMonochrome,
     required List<List<SingleBlockWidgetModel>> boardList,
     required TetrisBlockList<SingleBlockWidgetModel> tetrisBlocks,
   }) {
@@ -83,9 +80,10 @@ class BoardWidgetLogic {
       boardList[block.position.x.toInt()][block.position.y.toInt()].type =
           block.type;
 
-      Color color = (isMonochrome) ? block.monoColor : block.color;
       boardList[block.position.x.toInt()][block.position.y.toInt()].color =
-          color;
+          block.color;
+      boardList[block.position.x.toInt()][block.position.y.toInt()]
+          .isPartOfTetrisBlocks = true;
     }
   }
 
@@ -149,6 +147,7 @@ class BoardWidgetLogic {
       for (var two in one) {
         if (two.type == BlockType.board) {
           two.color = BoardConfig.boardColor;
+          two.isPartOfTetrisBlocks = false;
           two.updateCallback();
         }
       }

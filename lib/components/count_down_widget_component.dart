@@ -40,7 +40,6 @@ class CountDownWidgetComponent extends BaseComponent {
           countDownWidgetModel.nextFocus.requestFocus();
 
           TetrisBlockLogic().setTetrisBlockColorToBoard(
-            isMonochrome: boardWidgetModel.isBlockMonochrome,
             tetrisBlocks: hudWidgetModel.tetrisBlocks,
             boardList: hudWidgetModel.boardList,
           );

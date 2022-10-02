@@ -1,9 +1,9 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:petris/logics/input_event_logic.dart';
 import 'package:petris/utils/board_config.dart';
 import 'package:petris/models/game_page_model.dart';
-import 'package:petris/logics/main_menu_logic.dart';
 import 'package:petris/models/hud_widget_model.dart';
 import 'package:petris/models/board_widget_model.dart';
 import 'package:petris/models/count_down_widget_model.dart';
@@ -17,6 +17,8 @@ class MainMenuWidget extends StatefulWidget {
   final BoardWidgetModel boardWidgetModel;
   final HudWidgetModel hudWidgetModel;
 
+  final InputEventLogic inputEventLogic;
+
   const MainMenuWidget({
     super.key,
     required this.mainMenuModel,
@@ -24,6 +26,7 @@ class MainMenuWidget extends StatefulWidget {
     required this.countDownWidgetModel,
     required this.boardWidgetModel,
     required this.hudWidgetModel,
+    required this.inputEventLogic,
   });
 
   @override
@@ -32,11 +35,6 @@ class MainMenuWidget extends StatefulWidget {
 
 class _MainMenuWidgetState extends State<MainMenuWidget> {
   late Row row1, row2;
-  late final MainMenuLogic mainMenuLogic = MainMenuLogic(
-    mainMenuModel: widget.mainMenuModel,
-    boardWidgetModel: widget.boardWidgetModel,
-    gamePageModel: widget.gamePageModel,
-  );
 
   @override
   void initState() {
@@ -52,7 +50,7 @@ class _MainMenuWidgetState extends State<MainMenuWidget> {
 
     var resumeButton = ElevatedButton(
         onPressed: () {
-          setState(mainMenuLogic.resumeButtonCallback);
+          setState(widget.inputEventLogic.resumeButtonCallback);
         },
         child: const Text("resume"));
     row1 = Row(
@@ -63,20 +61,17 @@ class _MainMenuWidgetState extends State<MainMenuWidget> {
     );
 
     var monochromeButton = ElevatedButton(
-        onPressed: () {
-          widget.boardWidgetModel.isBlockMonochrome = true;
-        },
+        onPressed: widget.inputEventLogic.monochromeButtonHandle,
         child: const Text("Monochrome"));
-    var randomColor = ElevatedButton(
-        onPressed: () {
-          widget.boardWidgetModel.isBlockMonochrome = false;
-        },
+
+    var randomColorButton = ElevatedButton(
+        onPressed: widget.inputEventLogic.randomColorButtonHandle,
         child: const Text("Random Color"));
     row2 = Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
         monochromeButton,
-        randomColor,
+        randomColorButton,
       ],
     );
   }

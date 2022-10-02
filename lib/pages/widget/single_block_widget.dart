@@ -32,21 +32,26 @@ class _SingleBlockWidgetState extends State<SingleBlockWidget> {
 
   @override
   Widget build(BuildContext context) {
+    var blockColor = (widget.boardWidgetModel.isBlockMonochrome &&
+            widget.singleBlockWidgetModel.isPartOfTetrisBlocks)
+        ? widget.singleBlockWidgetModel.monoColor
+        : widget.singleBlockWidgetModel.color;
+
     return Container(
       width: widget.singleBlockWidgetModel.size * 1.0,
       height: widget.singleBlockWidgetModel.size * 1.0,
       decoration: BoxDecoration(
         border: Border.all(width: .8),
-        color: widget.singleBlockWidgetModel.color,
+        color: blockColor,
         borderRadius: const BorderRadius.all(Radius.circular(6)),
       ),
       child: Center(
-        child: (!kDebugMode)
+        child: (kDebugMode)
             ? Text(
-                '${widget.singleBlockWidgetModel.position.x}:${widget.singleBlockWidgetModel.position.y}',
+                '${widget.singleBlockWidgetModel.position.x}:${widget.singleBlockWidgetModel.position.y}\n${widget.singleBlockWidgetModel.type.index}',
                 style: const TextStyle(
                   fontSize: 10.0,
-                  color: Colors.red,
+                  color: Colors.white,
                 ),
               )
             : Container(),

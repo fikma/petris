@@ -89,6 +89,7 @@ class TetrisBlocksComponent extends BaseComponent {
           tetrisBlocks: tetrisBlockModel.currentBlocks,
           checkTop: true,
         )) {
+          gamePageModel.isGameOver = true;
           gamePageModel.gameStatePaused = true;
 
           mainMenuModel.visible = true;
@@ -98,7 +99,6 @@ class TetrisBlocksComponent extends BaseComponent {
 
         // start logic ketika tetrisBlock collide dengan boardBlock, reset
         boardWidgetLogic.setTetrisBlockTypeToBoard(
-          isMonochrome: boardWidgetModel.isBlockMonochrome,
           boardList: boardWidgetModel.boardList,
           tetrisBlocks: tetrisBlockModel.currentBlocks,
         );
@@ -119,7 +119,6 @@ class TetrisBlocksComponent extends BaseComponent {
       )) {
         moveCommand.undo();
         boardWidgetLogic.setTetrisBlockTypeToBoard(
-          isMonochrome: boardWidgetModel.isBlockMonochrome,
           boardList: boardWidgetModel.boardList,
           tetrisBlocks: tetrisBlockModel.currentBlocks,
         );
@@ -143,7 +142,6 @@ class TetrisBlocksComponent extends BaseComponent {
         ySize: hudWidgetModel.tetrisBlocks.tetrisSize.y.toInt(),
       ));
       tetrisBlockLogic.setTetrisBlockColorToBoard(
-        isMonochrome: boardWidgetModel.isBlockMonochrome,
         boardList: hudWidgetModel.boardList,
         tetrisBlocks: hudWidgetModel.tetrisBlocks,
       );

@@ -81,6 +81,7 @@ class GamePage extends StatelessWidget {
               hudWidgetModel: hudWidgetModel,
               boardWidgetModel: boardWidgetModel,
               countDownWidgetModel: countDownWidgetModel,
+              inputEventLogic: inputEventLogic,
             ),
           ],
         ),

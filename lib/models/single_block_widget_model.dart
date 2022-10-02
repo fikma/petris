@@ -17,9 +17,11 @@ class SingleBlockWidgetModel {
   late final Function updateCallback;
   final int size;
   Color color;
-  Color monoColor = Color(Colors.grey[800]!.value);
+  Color monoColor = Color(Colors.grey[700]!.value);
 
   BlockType type;
+
+  bool isPartOfTetrisBlocks = false;
 
   SingleBlockWidgetModel({
     required this.position,

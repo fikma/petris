@@ -58,16 +58,15 @@ class TetrisBlockLogic {
   }
 
   void setTetrisBlockColorToBoard({
-    required bool isMonochrome,
     required List<List<SingleBlockWidgetModel>> boardList,
     required TetrisBlockList<SingleBlockWidgetModel> tetrisBlocks,
   }) {
-    for (var item in tetrisBlocks) {
-      if (item.position.y >= 0 && item.position.y <= BoardConfig.ySize - 1) {
-        Color color = (isMonochrome) ? item.monoColor : item.color;
-
-        boardList[item.position.x.toInt()][item.position.y.toInt()].color =
-            color;
+    for (var block in tetrisBlocks) {
+      if (block.position.y >= 0 && block.position.y <= BoardConfig.ySize - 1) {
+        boardList[block.position.x.toInt()][block.position.y.toInt()].color =
+            block.color;
+        boardList[block.position.x.toInt()][block.position.y.toInt()]
+            .isPartOfTetrisBlocks = true;
       }
     }
   }

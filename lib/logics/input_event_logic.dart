@@ -5,7 +5,10 @@ import 'package:flutter/widgets.dart';
 import 'package:petris/models/board_widget_model.dart';
 import 'package:petris/models/game_page_model.dart';
 import 'package:petris/models/main_menu_models.dart';
+import 'package:petris/models/single_block_widget_model.dart';
 import 'package:petris/models/tetris_block_model.dart';
+
+import 'board_widget_logic.dart';
 
 class InputEventLogic {
   final MainMenuModel mainMenuModel;
@@ -66,6 +69,38 @@ class InputEventLogic {
     gamePageModel.gameStatePaused = true;
     mainMenuModel.visible = true;
     mainMenuModel.updateCallback();
+  }
+
+  void monochromeButtonHandle() {
+    boardWidgetModel.isBlockMonochrome = true;
+
+    for (var x in boardWidgetModel.boardList) {
+      for (var y in x) {
+        if (y.type != BlockType.board) y.updateCallback();
+      }
+    }
+  }
+
+  void randomColorButtonHandle() {
+    boardWidgetModel.isBlockMonochrome = false;
+
+    for (var x in boardWidgetModel.boardList) {
+      for (var y in x) {
+        if (y.type != BlockType.board) y.updateCallback();
+      }
+    }
+  }
+
+  void resumeButtonCallback() {
+    mainMenuModel.visible = false;
+    gamePageModel.gameStatePaused = false;
+
+    if (gamePageModel.isGameOver) {
+      gamePageModel.isGameOver = false;
+      BoardWidgetLogic().resetBoard(
+        boardList: boardWidgetModel.boardList,
+      );
+    }
   }
 
   int clamp(int value, int min, int max) {

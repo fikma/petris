@@ -50,7 +50,6 @@ class GamePageComponent implements BaseComponent {
 
       // Todo: hanya block yang berubah warna yang harusnya berubah.
       tetrisBlockLogic.setTetrisBlockColorToBoard(
-        isMonochrome: boardWidgetModel.isBlockMonochrome,
         boardList: boardWidgetModel.boardList,
         tetrisBlocks: tetrisBlockModel.currentBlocks,
       );
