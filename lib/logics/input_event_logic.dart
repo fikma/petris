@@ -3,14 +3,22 @@ import 'dart:math';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:petris/models/board_widget_model.dart';
+import 'package:petris/models/game_page_model.dart';
+import 'package:petris/models/main_menu_models.dart';
 import 'package:petris/models/tetris_block_model.dart';
-import 'package:petris/utils/board_config.dart';
 
 class InputEventLogic {
-  TetrisBlockModel tetrisBlockModel;
-  BoardWidgetModel boardWidgetModel;
+  final MainMenuModel mainMenuModel;
+  final GamePageModel gamePageModel;
+  final BoardWidgetModel boardWidgetModel;
+  final TetrisBlockModel tetrisBlockModel;
 
-  InputEventLogic(this.tetrisBlockModel, this.boardWidgetModel);
+  InputEventLogic({
+    required this.mainMenuModel,
+    required this.gamePageModel,
+    required this.boardWidgetModel,
+    required this.tetrisBlockModel,
+  });
 
   KeyEventResult keyBoardInputHandle(FocusNode node, KeyEvent event) {
     if (event is KeyUpEvent) {
@@ -52,23 +60,12 @@ class InputEventLogic {
     tetrisBlockModel.vectorLength = temp.distanceSquared;
   }
 
-  void pointerUpHandle(PointerUpEvent details) {
-    BoardConfig.tickTime = 700;
+  void pauseButtonHandle() {
+    if (mainMenuModel.visible) return;
 
-    var temp =
-        details.localPosition - tetrisBlockModel.gestureStartLocalLocation!;
-    tetrisBlockModel.vectorRadianDirection = temp.direction;
-
-    if (tetrisBlockModel.vectorLength! >= 800) {
-      // gestureUp
-      if (isBetween(tetrisBlockModel.vectorRadianDirection!, -2.355, -0.785)) {
-        if (tetrisBlockModel.currentBlocks.tetrisShape != TetrisShape.l) {
-          tetrisBlockModel.rotate = true;
-
-          return;
-        }
-      }
-    }
+    gamePageModel.gameStatePaused = true;
+    mainMenuModel.visible = true;
+    mainMenuModel.updateCallback();
   }
 
   int clamp(int value, int min, int max) {
@@ -76,11 +73,5 @@ class InputEventLogic {
     if (value < min) return min;
 
     return value;
-  }
-
-  bool isBetween(num value, num min, num max) {
-    bool result = false;
-    if (value > min && value < max) result = true;
-    return result;
   }
 }

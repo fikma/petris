@@ -1,13 +1,12 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:petris/utils/board_config.dart';
+import 'package:petris/models/game_page_model.dart';
 import 'package:petris/logics/main_menu_logic.dart';
+import 'package:petris/models/hud_widget_model.dart';
 import 'package:petris/models/board_widget_model.dart';
 import 'package:petris/models/count_down_widget_model.dart';
-import 'package:petris/models/game_page_model.dart';
-import 'package:petris/models/hud_widget_model.dart';
-import 'package:petris/pages/widget/count_down_widget.dart';
-import 'package:petris/utils/board_config.dart';
 
 import '../../models/main_menu_models.dart';
 
@@ -102,19 +101,9 @@ class _MainMenuWidgetState extends State<MainMenuWidget> {
       ),
     );
 
-    var countDownWidget = CountDownWidget(
-      gamePageModel: widget.gamePageModel,
-      hudWidgetModel: widget.hudWidgetModel,
-      boardWidgetModel: widget.boardWidgetModel,
-      nextFocus: widget.boardWidgetModel.boardFocus,
-      countDownWidgetModel: widget.countDownWidgetModel,
-    );
-
-    var mainWidget =
-        (widget.mainMenuModel.isCountDown) ? countDownWidget : mainMenuWidget;
     return Visibility(
       visible: widget.mainMenuModel.visible,
-      child: mainWidget,
+      child: mainMenuWidget,
     );
   }
 }

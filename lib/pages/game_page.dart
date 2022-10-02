@@ -24,9 +24,14 @@ class GamePage extends StatelessWidget {
   late final GamePageComponent gamePageComponent = GamePageComponent(
     gamePageModel: gamePageModel,
     boardWidgetModel: boardWidgetModel,
+    tetrisBlockModel: tetrisBlockModel,
   );
-  late final InputEventLogic inputEventLogic =
-      InputEventLogic(tetrisBlockModel, boardWidgetModel);
+  late final InputEventLogic inputEventLogic = InputEventLogic(
+    boardWidgetModel: boardWidgetModel,
+    gamePageModel: gamePageModel,
+    mainMenuModel: mainMenuModel,
+    tetrisBlockModel: tetrisBlockModel,
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +48,6 @@ class GamePage extends StatelessWidget {
               focusNode: boardWidgetModel.boardFocus,
               onKeyEvent: inputEventLogic.keyBoardInputHandle,
               child: Listener(
-                onPointerUp: inputEventLogic.pointerUpHandle,
                 onPointerDown: inputEventLogic.pointerDownHandle,
                 onPointerMove: inputEventLogic.pointerMoveHandle,
                 child: Column(
@@ -65,6 +69,7 @@ class GamePage extends StatelessWidget {
                       hudWidgetModel: hudWidgetModel,
                       boardWidgetModel: boardWidgetModel,
                       tetrisBlockModel: tetrisBlockModel,
+                      inputEventLogic: inputEventLogic,
                     ),
                   ],
                 ),

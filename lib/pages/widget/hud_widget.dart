@@ -1,5 +1,6 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:petris/logics/board_widget_logic.dart';
+import 'package:petris/logics/input_event_logic.dart';
 import 'package:petris/logics/tetris_block_logic.dart';
 import 'package:petris/models/board_widget_model.dart';
 import 'package:petris/models/hud_widget_model.dart';
@@ -11,11 +12,14 @@ class HudWidget extends StatefulWidget {
   final BoardWidgetModel boardWidgetModel;
   final TetrisBlockModel tetrisBlockModel;
 
+  final InputEventLogic inputEventLogic;
+
   const HudWidget({
     super.key,
     required this.hudWidgetModel,
     required this.boardWidgetModel,
     required this.tetrisBlockModel,
+    required this.inputEventLogic,
   });
 
   @override
@@ -57,17 +61,23 @@ class _HudWidgetState extends State<HudWidget> {
     );
 
     var container = SizedBox(
+      // Todo: fix magic numbers
       width: BoardConfig.xSize * BoardConfig.blockSize * 1.0,
+      height: BoardConfig.ySize * 2.0,
       child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(
-            "next",
+            "Next :",
             style: TextStyle(
               fontSize: widget.hudWidgetModel.fontSize,
+              color: widget.hudWidgetModel.fontColor,
             ),
           ),
-          Container(),
           nextBlocks,
+          ElevatedButton(
+              onPressed: widget.inputEventLogic.pauseButtonHandle,
+              child: const Text("Pause"))
         ],
       ),
     );
