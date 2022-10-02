@@ -49,15 +49,6 @@ class GamePage extends StatelessWidget {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    HudWidget(
-                      hudWidgetModel: hudWidgetModel,
-                      boardWidgetModel: boardWidgetModel,
-                      tetrisBlockModel: tetrisBlockModel,
-                    ),
-                    const Divider(
-                      // height: 5.0,
-                      color: Colors.black54,
-                    ),
                     BoardWidget(
                       mainMenuModel: mainMenuModel,
                       gamePageModel: gamePageModel,
@@ -66,7 +57,15 @@ class GamePage extends StatelessWidget {
                       tetrisBlockModel: tetrisBlockModel,
                       countDownWidgetModel: countDownWidgetModel,
                     ),
-                    Container(),
+                    const Divider(
+                      // height: 5.0,
+                      color: Colors.black54,
+                    ),
+                    HudWidget(
+                      hudWidgetModel: hudWidgetModel,
+                      boardWidgetModel: boardWidgetModel,
+                      tetrisBlockModel: tetrisBlockModel,
+                    ),
                   ],
                 ),
               ),
