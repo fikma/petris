@@ -35,20 +35,21 @@ class InputEventLogic {
   }
 
   void pointerDownHandle(PointerDownEvent details) {
-    tetrisBlockModel.gestureStartLocalLocation = details.localPosition;
+    tetrisBlockModel.gestureStartLocalLocation = Offset.zero;
   }
 
+  int temporary = 0;
+
   void pointerMoveHandle(PointerMoveEvent details) {
+    temporary += clamp(details.delta.dx.toInt(), -1, 1);
+    // Todo: fix this magic number
+    if (temporary > 20 || temporary < -20) {
+      tetrisBlockModel.xDirection = Point(clamp(temporary, -1, 1), 0);
+      temporary = 0;
+    }
     var temp =
         details.localPosition - tetrisBlockModel.gestureStartLocalLocation!;
     tetrisBlockModel.vectorLength = temp.distanceSquared;
-
-    if (tetrisBlockModel.vectorLength! >= 800) {
-      // gestureDown
-      if (isBetween(tetrisBlockModel.vectorRadianDirection!, 0.785, 2.355)) {
-        BoardConfig.tickTime = 100;
-      }
-    }
   }
 
   void pointerUpHandle(PointerUpEvent details) {
@@ -67,19 +68,14 @@ class InputEventLogic {
           return;
         }
       }
-
-      // gestureLeftRight
-      if (isBetween(
-        tetrisBlockModel.vectorRadianDirection!,
-        -0.785,
-        0.785,
-      )) {
-        tetrisBlockModel.xDirection = const Point(1, 0);
-      } else if ((tetrisBlockModel.vectorRadianDirection! >= 2.355) ||
-          (tetrisBlockModel.vectorRadianDirection! <= -2.355)) {
-        tetrisBlockModel.xDirection = const Point(-1, 0);
-      }
     }
+  }
+
+  int clamp(int value, int min, int max) {
+    if (value > max) return max;
+    if (value < min) return min;
+
+    return value;
   }
 
   bool isBetween(num value, num min, num max) {
