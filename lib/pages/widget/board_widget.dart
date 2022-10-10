@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:petris/components/board_widget_component.dart';
 import 'package:petris/logics/board_widget_logic.dart';
-import 'package:petris/logics/tetris_block_logic.dart';
 import 'package:petris/models/board_widget_model.dart';
 import 'package:petris/models/count_down_widget_model.dart';
 import 'package:petris/models/hud_widget_model.dart';
@@ -71,12 +70,12 @@ class _BoardWidgetState extends State<BoardWidget> {
     return Container(
       decoration: BoxDecoration(
           border: Border.all(
-            width: 4.0,
+            width: 3.0,
             // TODO: pindahkan ke model
             color: Colors.black54,
           ),
           // TODO: pindahkan ke model
-          borderRadius: BorderRadius.all(Radius.circular(5.0))),
+          borderRadius: const BorderRadius.all(Radius.circular(5.0))),
       child: widget.boardWidgetLogic.generateBoard(
         boardList: widget.boardWidgetModel.boardList,
         xGridSize: BoardConfig.xSize,

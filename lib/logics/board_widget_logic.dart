@@ -9,7 +9,6 @@ import 'package:petris/pages/widget/single_block_widget.dart';
 import 'package:petris/utils/line_check_result_wrapper.dart';
 
 class BoardWidgetLogic {
-  //
   List<List<SingleBlockWidgetModel>> initBoardList({
     required int xSize,
     required int ySize,
@@ -131,7 +130,9 @@ class BoardWidgetLogic {
     }
   }
 
-  void resetBoard({required List<List<SingleBlockWidgetModel>> boardList}) {
+  void resetBoard({
+    required List<List<SingleBlockWidgetModel>> boardList,
+  }) {
     for (int x = 0; x < BoardConfig.xSize; x++) {
       for (int y = 0; y < BoardConfig.ySize; y++) {
         boardList[x][y].type = BlockType.board;

@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:petris/models/board_widget_model.dart';
@@ -8,6 +9,7 @@ import 'package:petris/models/main_menu_models.dart';
 import 'package:petris/models/single_block_widget_model.dart';
 import 'package:petris/models/tetris_block_model.dart';
 
+import '../utils/utils.dart';
 import 'board_widget_logic.dart';
 
 class InputEventLogic {
@@ -15,6 +17,8 @@ class InputEventLogic {
   final GamePageModel gamePageModel;
   final BoardWidgetModel boardWidgetModel;
   final TetrisBlockModel tetrisBlockModel;
+
+  int xTemp = 0, yTemp = 0, threshold = -15;
 
   InputEventLogic({
     required this.mainMenuModel,
@@ -24,7 +28,7 @@ class InputEventLogic {
   });
 
   KeyEventResult keyBoardInputHandle(FocusNode node, KeyEvent event) {
-    if (event is KeyUpEvent) {
+    if (event is KeyUpEvent && !gamePageModel.gameStatePaused) {
       if (event.logicalKey == LogicalKeyboardKey.arrowRight) {
         tetrisBlockModel.xDirection = const Point(1, 0);
       } else if (event.logicalKey == LogicalKeyboardKey.arrowLeft) {
@@ -45,22 +49,23 @@ class InputEventLogic {
     return KeyEventResult.handled;
   }
 
-  void pointerDownHandle(PointerDownEvent details) {
-    tetrisBlockModel.gestureStartLocalLocation = Offset.zero;
-  }
-
-  int temporary = 0;
-
   void pointerMoveHandle(PointerMoveEvent details) {
-    temporary += clamp(details.delta.dx.toInt(), -1, 1);
+    if (gamePageModel.gameStatePaused) return;
+
+    xTemp += Utils.clamp(details.delta.dx.toInt(), -1, 1);
     // Todo: fix this magic number
-    if (temporary > 20 || temporary < -20) {
-      tetrisBlockModel.xDirection = Point(clamp(temporary, -1, 1), 0);
-      temporary = 0;
+    if (xTemp > Utils.abs(threshold) || xTemp < threshold) {
+      tetrisBlockModel.xDirection = Point(Utils.clamp(xTemp, -1, 1), 0);
+      xTemp = 0;
     }
-    var temp =
-        details.localPosition - tetrisBlockModel.gestureStartLocalLocation!;
-    tetrisBlockModel.vectorLength = temp.distanceSquared;
+
+    yTemp += Utils.clamp(details.delta.dy.toInt(), -1, 1);
+
+    if (yTemp < threshold) {
+      tetrisBlockModel.rotate = true;
+      yTemp = 0;
+    }
+    if (kDebugMode) print('$xTemp $yTemp');
   }
 
   void pauseButtonHandle() {
@@ -101,12 +106,5 @@ class InputEventLogic {
         boardList: boardWidgetModel.boardList,
       );
     }
-  }
-
-  int clamp(int value, int min, int max) {
-    if (value > max) return max;
-    if (value < min) return min;
-
-    return value;
   }
 }

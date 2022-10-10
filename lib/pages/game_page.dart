@@ -39,8 +39,7 @@ class GamePage extends StatelessWidget {
 
     return Scaffold(
       body: Container(
-        // TODO: pindahkan ke model
-        color: Colors.grey[900],
+        color: gamePageModel.bodyBackgroundColor,
         child: Stack(
           children: [
             Focus(
@@ -48,7 +47,6 @@ class GamePage extends StatelessWidget {
               focusNode: boardWidgetModel.boardFocus,
               onKeyEvent: inputEventLogic.keyBoardInputHandle,
               child: Listener(
-                onPointerDown: inputEventLogic.pointerDownHandle,
                 onPointerMove: inputEventLogic.pointerMoveHandle,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,

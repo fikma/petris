@@ -58,11 +58,6 @@ class TetrisBlockModel {
   bool moveBlocksToBottom = false;
   bool isTetrisBlocksReseted = false;
 
-  Offset? gestureStartLocalLocation;
-
-  double? vectorRadianDirection;
-  double? vectorLength;
-
   TetrisBlockList<SingleBlockWidgetModel> currentBlocks =
       TetrisBlockList<SingleBlockWidgetModel>();
   ListQueue<TetrisBlockList<SingleBlockWidgetModel>> nextBlocks =
