@@ -68,7 +68,7 @@ class _HudWidgetState extends State<HudWidget> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(
-            "Next :",
+            "Next:",
             style: TextStyle(
               fontSize: widget.hudWidgetModel.fontSize,
               color: widget.hudWidgetModel.fontColor,
@@ -76,8 +76,10 @@ class _HudWidgetState extends State<HudWidget> {
           ),
           nextBlocks,
           ElevatedButton(
-              onPressed: widget.inputEventLogic.pauseButtonHandle,
-              child: const Text("Pause"))
+            onPressed: widget.inputEventLogic.pauseButtonHandle,
+            // child: const Text("Pause"))
+            child: const Icon(Icons.pause, size: 10.0),
+          )
         ],
       ),
     );
