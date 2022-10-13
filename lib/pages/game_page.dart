@@ -48,6 +48,7 @@ class GamePage extends StatelessWidget {
               onKeyEvent: inputEventLogic.keyBoardInputHandle,
               child: Listener(
                 onPointerMove: inputEventLogic.pointerMoveHandle,
+                onPointerUp: inputEventLogic.pointerUpHandle,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [

@@ -5,9 +5,9 @@ class GamePageModel {
   List<BaseComponent> components = [];
   bool gameStatePaused = true;
   bool isGameOver = true;
+  bool isGestureEnabled = false;
 
   Color bodyBackgroundColor = Color(Colors.grey[900]!.value);
 
-  int tickTime = 0;
   Stopwatch stopwatch = Stopwatch();
 }

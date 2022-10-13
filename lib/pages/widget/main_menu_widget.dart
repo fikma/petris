@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:petris/logics/input_event_logic.dart';
+import 'package:petris/pages/widget/check_box_widget.dart';
 import 'package:petris/utils/board_config.dart';
 import 'package:petris/models/game_page_model.dart';
 import 'package:petris/models/hud_widget_model.dart';
@@ -34,7 +35,7 @@ class MainMenuWidget extends StatefulWidget {
 }
 
 class _MainMenuWidgetState extends State<MainMenuWidget> {
-  late Row row1, row2;
+  late Row row1, row2, row3;
 
   @override
   void initState() {
@@ -48,11 +49,18 @@ class _MainMenuWidgetState extends State<MainMenuWidget> {
     int y = 4 * BoardConfig.blockSize;
     widget.mainMenuModel.size = Point(x, y);
 
+    // IconButton(onPressed: onPressed, );
+
     var resumeButton = ElevatedButton(
-        onPressed: () {
-          setState(widget.inputEventLogic.resumeButtonCallback);
-        },
-        child: const Text("resume"));
+      onPressed: () {
+        setState(widget.inputEventLogic.resumeButtonCallback);
+      },
+      style: IconButton.styleFrom(
+        shadowColor: Colors.black,
+        elevation: 5.0,
+      ),
+      child: const Icon(Icons.play_arrow),
+    );
     row1 = Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
@@ -74,6 +82,17 @@ class _MainMenuWidgetState extends State<MainMenuWidget> {
         randomColorButton,
       ],
     );
+
+    row3 = Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: [
+        const Text(
+          "Enable experimental gesture : ",
+          style: TextStyle(color: Colors.white),
+        ),
+        CheckBoxWidget(inputEventLogic: widget.inputEventLogic),
+      ],
+    );
   }
 
   @override
@@ -81,16 +100,20 @@ class _MainMenuWidgetState extends State<MainMenuWidget> {
     var mainMenuWidget = Center(
       child: Container(
         width: widget.mainMenuModel.size.x * 1.0,
-        height: widget.mainMenuModel.size.y * 1.0,
+        height: widget.mainMenuModel.size.y * 1.5,
         color: widget.mainMenuModel.bgColor,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             row1,
             const Center(
-              child: Text("Warna tetris block."),
+              child: Text(
+                "Warna tetris block.",
+                style: TextStyle(color: Colors.white),
+              ),
             ),
             row2,
+            row3,
           ],
         ),
       ),

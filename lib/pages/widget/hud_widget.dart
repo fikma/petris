@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:petris/logics/board_widget_logic.dart';
 import 'package:petris/logics/input_event_logic.dart';
@@ -5,6 +6,7 @@ import 'package:petris/logics/tetris_block_logic.dart';
 import 'package:petris/models/board_widget_model.dart';
 import 'package:petris/models/hud_widget_model.dart';
 import 'package:petris/models/tetris_block_model.dart';
+import 'package:petris/pages/widget/control_buttons.dart';
 import 'package:petris/utils/board_config.dart';
 
 class HudWidget extends StatefulWidget {
@@ -60,10 +62,11 @@ class _HudWidgetState extends State<HudWidget> {
       boardWidgetModel: widget.boardWidgetModel,
     );
 
-    var container = SizedBox(
+    var container = Container(
       // Todo: fix magic numbers
       width: BoardConfig.xSize * BoardConfig.blockSize * 1.0,
-      height: BoardConfig.ySize * 2.0,
+      // height: BoardConfig.ySize * 5.0,
+      color: (kDebugMode) ? Colors.amber : null,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -75,11 +78,18 @@ class _HudWidgetState extends State<HudWidget> {
             ),
           ),
           nextBlocks,
-          ElevatedButton(
-            onPressed: widget.inputEventLogic.pauseButtonHandle,
-            // child: const Text("Pause"))
-            child: const Icon(Icons.pause, size: 10.0),
-          )
+          SizedBox(
+            width: 40,
+            height: 30,
+            child: ElevatedButton(
+              onPressed: widget.inputEventLogic.pauseButtonHandle,
+              // child: const Text("Pause"))
+              child: const Icon(Icons.pause, size: 10.0),
+            ),
+          ),
+          ControlButtons(
+            inputEventLogic: widget.inputEventLogic,
+          ),
         ],
       ),
     );
