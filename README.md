@@ -21,6 +21,13 @@ Tetris clone sederhana dibuat dengan Flutter.
 
 <code>&#8595;</code> Pindahkan tetris ke paling bawah
 
+# Gesture Control (Experimental)
+<code>Usap &#8592;</code> Geser tetris ke kiri
+
+<code>Usap &#8594;</code> Geser tetris ke kanan
+
+<code>Usap &#8593;</code> Putar tetris
+
 # Dependency
 * Flutter sdk 3.0+
 
@@ -32,7 +39,7 @@ foo@bar:~$ cd petris
 foo@bar:~/petris$ flutter run --release -d chrome
 ```
 
-# Run command web
+# Run command android
 Pastikan android device terdeteksi di command flutter devices.
 ```console
 foo@bar:~$ git clone https://github.com/fikma/petris.git
