@@ -36,6 +36,7 @@ class MainMenuWidget extends StatefulWidget {
 
 class _MainMenuWidgetState extends State<MainMenuWidget> {
   late Row row1, row2, row3;
+  late Container row4;
 
   @override
   void initState() {
@@ -93,6 +94,20 @@ class _MainMenuWidgetState extends State<MainMenuWidget> {
         CheckBoxWidget(inputEventLogic: widget.inputEventLogic),
       ],
     );
+
+    row4 = Container(
+      child: Theme(
+        data: ThemeData(
+          textSelectionTheme: TextSelectionThemeData(
+            selectionColor: Colors.blueAccent[100],
+          ),
+        ),
+        child: const SelectableText(
+          "https://github.com/fikma/petris",
+          style: TextStyle(color: Colors.white),
+        ),
+      ),
+    );
   }
 
   @override
@@ -100,12 +115,15 @@ class _MainMenuWidgetState extends State<MainMenuWidget> {
     var mainMenuWidget = Center(
       child: Container(
         width: widget.mainMenuModel.size.x * 1.0,
-        height: widget.mainMenuModel.size.y * 1.5,
+        height: widget.mainMenuModel.size.y * 2.5,
         color: widget.mainMenuModel.bgColor,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             row1,
+            const Divider(
+              thickness: 3.0,
+            ),
             const Center(
               child: Text(
                 "Warna tetris block.",
@@ -114,6 +132,7 @@ class _MainMenuWidgetState extends State<MainMenuWidget> {
             ),
             row2,
             row3,
+            row4,
           ],
         ),
       ),

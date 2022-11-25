@@ -130,12 +130,12 @@ class TetrisBlockLogic {
       blockSize: BoardConfig.blockSize,
     );
 
+    tetrisBlocks.tetrisSize = getTetrisBlocksSize(tetrisBlocks: tetrisBlocks);
+
     if (random.nextInt(5) >= 2) {
       tetrisBlocks = invertBlockTetris(tetrisBlocks);
       tetrisBlocks.isXFlipped = true;
     }
-
-    tetrisBlocks.tetrisSize = getTetrisBlocksSize(tetrisBlocks: tetrisBlocks);
 
     tetrisBlocks = randomizeColor(
       tetrisBlocks: tetrisBlocks,

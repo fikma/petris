@@ -145,6 +145,7 @@ class TetrisBlocksComponent extends BaseComponent {
         boardList: hudWidgetModel.boardList,
         tetrisBlocks: hudWidgetModel.tetrisBlocks,
       );
+
       hudWidgetModel.updateCallback!();
     }
 
@@ -166,6 +167,11 @@ class TetrisBlocksComponent extends BaseComponent {
     if (tetrisBlockModel.isTetrisBlocksReseted) {
       tetrisBlockLogic.moveBlockMinTop(
         tetrisBlocks: tetrisBlockModel.currentBlocks,
+      );
+
+      tetrisBlockLogic.randomizeXPosition(
+        tetrisBlocks: tetrisBlockModel.currentBlocks,
+        random: Random(),
       );
     }
 

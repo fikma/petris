@@ -1,16 +1,41 @@
 # petris
+Tetris clone sederhana dibuat dengan Flutter.
 
-A new Flutter project.
+# Button Control
+<code>&#8592;</code> Geser tetris ke kiri
 
-## Getting Started
+<code>&#8594;</code> Geser tetris ke kanan
 
-This project is a starting point for a Flutter application.
+<code>&#8593;</code> Putar tetris
 
-A few resources to get you started if this is your first Flutter project:
+<code>&#8595;</code> Percepat tetris turun
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+<code>o</code> Pindahkan tetris ke paling bawah
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+# Keyboard Control
+<code>&#8592;</code> Geser tetris ke kiri
+
+<code>&#8594;</code> Geser tetris ke kanan
+
+<code>&#8593;</code> Putar tetris
+
+<code>&#8595;</code> Pindahkan tetris ke paling bawah
+
+# Dependency
+* Flutter sdk 3.0+
+
+# Run command web
+Pastikan chrome/edge terdeteksi di command flutter devices.
+```console
+foo@bar:~$ git clone https://github.com/fikma/petris.git
+foo@bar:~$ cd petris
+foo@bar:~/petris$ flutter run --release -d chrome
+```
+
+# Run command web
+Pastikan android device terdeteksi di command flutter devices.
+```console
+foo@bar:~$ git clone https://github.com/fikma/petris.git
+foo@bar:~$ cd petris
+foo@bar:~/petris$ flutter run --release -d xxxxxxxxxxx
+```
